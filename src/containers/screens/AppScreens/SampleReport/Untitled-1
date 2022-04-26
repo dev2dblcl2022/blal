@@ -1,0 +1,134 @@
+import React, {PureComponent} from 'react';
+import {processColor} from 'react-native';
+import {LineChart} from 'react-native-charts-wrapper';
+import colors from '../../../constants/colors';
+
+// styles
+import styles from './style';
+
+// types
+interface Statistics {
+  netWorth: number;
+  data: {value: number; label: string}[];
+}
+
+type Props = {
+  statistics: Statistics;
+  nav: any;
+};
+
+class LineGraph extends PureComponent<Props> {
+  constructor(props: Props) {
+    super(props);
+
+    const {statistics} = props;
+    const {netWorth, data} = statistics;
+    console.log('statistics', statistics);
+
+    const valueSet: {y: number}[] = [];
+    const labelSet: string[] = [];
+
+    data.forEach(item => {
+      valueSet.push({y: item.value});
+      labelSet.push(item.label);
+    });
+
+    const dataPiaGraphSet = data.map(item => ({
+      ...item,
+      value: (item.value / netWorth) * 100,
+    }));
+
+    this.state = {
+      legend: {
+        enabled: true,
+        textSize: 14,
+        form: 'SQUARE',
+        formSize: 14,
+        xEntrySpace: 10,
+        yEntrySpace: 5,
+        formToTextSpace: 5,
+        wordWrapEnabled: true,
+        maxSizePercent: 0.5,
+      },
+      dataPiaGraphSet: dataPiaGraphSet,
+      data: {
+        dataSets: [
+          {
+            values: valueSet,
+            label: 'Reports',
+            config: {
+              mode: 'CUBIC_BEZIER',
+              drawValues: false,
+              lineWidth: 2,
+              drawCircles: true,
+              circleColor: processColor(colors.app_theme_light_green),
+              drawCircleHole: false,
+              circleRadius: 5,
+              highlightColor: processColor(colors.app_theme_light_green),
+              color: processColor(colors.app_theme_light_green),
+              drawFilled: true,
+            },
+          },
+        ],
+        config: {
+          barWidth: 0.7,
+        },
+      },
+      highlights: [{x: 0}],
+      xAxis: {
+        valueFormatter: labelSet,
+        granularityEnabled: true,
+        granularity: 1,
+      },
+    };
+  }
+
+  handleSelect = (event: any) => {
+    const entry = event.nativeEvent;
+
+    if (entry) {
+      // do something with entry
+      this.state.dataPiaGraphSet.forEach((element: any) => {
+        if (Number(element.info.netWorth) === Number(entry.y)) {
+          this.props.nav?.navigate('AssetDetail', {
+            info: element,
+            isFrom: this.props.isFrom,
+          });
+        }
+      });
+    }
+  };
+
+  render() {
+    return (
+      <LineChart
+        style={styles.chart}
+        data={this.state.data}
+        xAxis={this.state.xAxis}
+        legend={this.state.legend}
+        highlights={this.state.highlights}
+        chartDescription={{text: ''}}
+        pinchZoom={false}
+        doubleTapToZoomEnabled={false}
+        animation={{
+          durationX: 0,
+          durationY: 1500,
+          easingY: 'EaseInOutQuart',
+        }}
+        gridBackgroundColor={processColor('#ffffff')}
+        visibleRange={{x: {min: 3, max: 5}}}
+        marker={{
+          enabled: true,
+          markerColor: processColor(colors.app_theme_light_green),
+          textColor: processColor(colors.white),
+        }}
+        // onSelect={this.handleSelect}
+        onChange={event => {
+          console.log('onChange:', event.nativeEvent);
+        }}
+      />
+    );
+  }
+}
+
+export default LineGraph;
