@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, createContext} from 'react';
 import {
   View,
   Text,
@@ -56,6 +56,7 @@ import NetworkRequestBlal, {
 } from '../../../../services/NetworkRequestBlal';
 import moment from 'moment';
 import Geolocation from 'react-native-geolocation-service';
+import {UserrContext} from '../../../../../context/context';
 const FirstRoute = () => <Morning />;
 
 const SecondRoute = () => <Afternoon />;
@@ -352,9 +353,9 @@ const index = ({navigation, props}) => {
 
     if (response) {
       const {success} = response;
+
       if (success) {
         setAddress(response.data);
-
         let orderSummaryDate = await AsyncStorage.getItem('cartBookingDate');
         if (orderSummaryDate) {
           let orderSummaryAddressStorage = await AsyncStorage.getItem(
@@ -363,7 +364,7 @@ const index = ({navigation, props}) => {
           let orderSummaryAddress = JSON.parse(orderSummaryAddressStorage);
           let data = response.data;
           data = data.map((itn, index) => {
-            if (itn.id == orderSummaryAddress.id) {
+            if (itn.id === orderSummaryAddress.id) {
               itn.selected = !itn.selected;
             } else {
               itn.selected = false;
@@ -671,15 +672,17 @@ const index = ({navigation, props}) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <DefaultHeader
-        onBack={() => navigation.goBack()}
-        title={'Booking Details'}
-      />
-      <View style={styles.mainContainer}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          <View style={styles.selfSection}>
-            {/* <View style={styles.rowHeader}>
+    <UserrContext.Provider value={address}>
+      <SafeAreaView style={styles.safeArea}>
+        <DefaultHeader
+          onBack={() => navigation.goBack()}
+          title={'Booking Details'}
+        />
+
+        <View style={styles.mainContainer}>
+          <ScrollView contentContainerStyle={{flexGrow: 1}}>
+            <View style={styles.selfSection}>
+              {/* <View style={styles.rowHeader}>
               <View style={styles.headerNameSection}>
                 <BoldText
                   style={styles.bookingHeading}
@@ -699,7 +702,7 @@ const index = ({navigation, props}) => {
                 </View>
               </View>
             </View> */}
-            {/* <View>
+              {/* <View>
               <RegularText
                 style={styles.sampleDescription}
                 title={
@@ -707,242 +710,242 @@ const index = ({navigation, props}) => {
                 }
               />
             </View> */}
-            <View style={styles.selectTypeHeading}>
-              <BoldText
-                style={styles.bookingHeading}
-                title={'Mode of Sample Collection'}
-              />
-            </View>
-            <View style={styles.sampleSection}>
-              {radioBookingType.map((data, index) => {
-                return (
-                  <View key={index} style={styles.sampleSection}>
-                    <TouchableOpacity
-                      key={index}
-                      onPress={() =>
-                        bookForLab
-                          ? radioItemSelected(data)
-                          : Toast('This test is available for lab only')
-                      }>
-                      <View style={styles.typeUnSelect}>
-                        {selectedType == data.id ? (
-                          <View style={styles.typeSelect} />
-                        ) : null}
-                      </View>
-                    </TouchableOpacity>
-                    <View style={styles.profilePicView}>
-                      <Image style={styles.profilePic} source={data.source} />
-                    </View>
-                    <BoldText
-                      style={[styles.bookingHeading, {marginTop: 5}]}
-                      title={data.type}
-                    />
-                  </View>
-                );
-              })}
-            </View>
-
-            {selectedType ? (
-              //Lab Listing section
-              <View>
-                <View style={styles.LabListingSection}>
-                  <BoldText
-                    style={styles.bookingHeading}
-                    title={'Lab Listing'}
-                  />
-                  <RegularText
-                    style={styles.labSelectNearBy}
-                    title={'Select the nearby Lab which is near to you.'}
-                  />
-                </View>
-                <View style={{flex: 1, marginTop: hp('2%')}}>
-                  <View style={[styles.textInputView]}>
-                    <TextInput
-                      placeholderTextColor={colors.purplishGrey}
-                      style={[styles.textInput, {flex: 0.9}]}
-                      value={labSearchValue}
-                      onChangeText={val => onSearchLabs(val)}
-                      placeholder={'Search Labs'}
-                    />
-                    <TouchableOpacity
-                      hitSlop={{left: 20, right: 20, top: 20, bottom: 20}}
-                      onPress={() => onSearchLabs('0')}
-                      style={{
-                        flex: 0.1,
-
-                        alignItems: 'center',
-                      }}>
-                      <Image
-                        style={{height: 20, width: 20}}
-                        source={imagesConstants.search}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <View style={styles.dataSection}>
-                  <View style={styles.searchingListSection}>
-                    <FlatList
-                      data={labs}
-                      showsVerticalScrollIndicator={false}
-                      extraData={labs}
-                      renderItem={({item}) => renderLabCard(item)}
-                    />
-                  </View>
-                </View>
+              <View style={styles.selectTypeHeading}>
+                <BoldText
+                  style={styles.bookingHeading}
+                  title={'Mode of Sample Collection'}
+                />
               </View>
-            ) : (
-              //Home Section
-              <View style={styles.homeSection}>
-                <View style={[styles.youCanAddSection]}>
-                  <View style={styles.listHeading}>
-                    <BoldText
-                      title={'Sample Collection Address'}
-                      style={styles.headingText}
-                    />
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate('AddNewAddress', {
-                          lat: latitude,
-                          long: longitude,
-                          screen: 'BookingDetail',
-                        })
-                      }
-                      style={{
-                        backgroundColor: colors.app_theme_dark_green,
-                        paddingVertical: 5,
-                        paddingHorizontal: 10,
-                        borderRadius: 10,
-                        // width: '20%',
-                      }}>
+              <View style={styles.sampleSection}>
+                {radioBookingType.map((data, index) => {
+                  return (
+                    <View key={index} style={styles.sampleSection}>
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() =>
+                          bookForLab
+                            ? radioItemSelected(data)
+                            : Toast('This test is available for lab only')
+                        }>
+                        <View style={styles.typeUnSelect}>
+                          {selectedType == data.id ? (
+                            <View style={styles.typeSelect} />
+                          ) : null}
+                        </View>
+                      </TouchableOpacity>
+                      <View style={styles.profilePicView}>
+                        <Image style={styles.profilePic} source={data.source} />
+                      </View>
                       <BoldText
-                        title={'+ Add Address'}
-                        style={styles.addAddress}
+                        style={[styles.bookingHeading, {marginTop: 5}]}
+                        title={data.type}
+                      />
+                    </View>
+                  );
+                })}
+              </View>
+
+              {selectedType ? (
+                //Lab Listing section
+                <View>
+                  <View style={styles.LabListingSection}>
+                    <BoldText
+                      style={styles.bookingHeading}
+                      title={'Lab Listing'}
+                    />
+                    <RegularText
+                      style={styles.labSelectNearBy}
+                      title={'Select the nearby Lab which is near to you.'}
+                    />
+                  </View>
+                  <View style={{flex: 1, marginTop: hp('2%')}}>
+                    <View style={[styles.textInputView]}>
+                      <TextInput
+                        placeholderTextColor={colors.purplishGrey}
+                        style={[styles.textInput, {flex: 0.9}]}
+                        value={labSearchValue}
+                        onChangeText={val => onSearchLabs(val)}
+                        placeholder={'Search Labs'}
+                      />
+                      <TouchableOpacity
+                        hitSlop={{left: 20, right: 20, top: 20, bottom: 20}}
+                        onPress={() => onSearchLabs('0')}
+                        style={{
+                          flex: 0.1,
+
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          style={{height: 20, width: 20}}
+                          source={imagesConstants.search}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  <View style={styles.dataSection}>
+                    <View style={styles.searchingListSection}>
+                      <FlatList
+                        data={labs}
+                        showsVerticalScrollIndicator={false}
+                        extraData={labs}
+                        renderItem={({item}) => renderLabCard(item)}
+                      />
+                    </View>
+                  </View>
+                </View>
+              ) : (
+                //Home Section
+                <View style={styles.homeSection}>
+                  <View style={[styles.youCanAddSection]}>
+                    <View style={styles.listHeading}>
+                      <BoldText
+                        title={'Sample Collection Address'}
+                        style={styles.headingText}
+                      />
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate('AddNewAddress', {
+                            lat: latitude,
+                            long: longitude,
+                            screen: 'BookingDetail',
+                          })
+                        }
+                        style={{
+                          backgroundColor: colors.app_theme_dark_green,
+                          paddingVertical: 5,
+                          paddingHorizontal: 10,
+                          borderRadius: 10,
+                          // width: '20%',
+                        }}>
+                        <BoldText
+                          title={'+ Add Address'}
+                          style={styles.addAddress}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.alsoAddListSection}>
+                      <FlatList
+                        data={address}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal={true}
+                        showsVerticalScrollIndicator={false}
+                        extraData={address}
+                        ListEmptyComponent={() => {
+                          return (
+                            <View
+                              style={{
+                                height: hp('20%'),
+
+                                width: hp('50%'),
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                              }}>
+                              <RegularText
+                                style={{color: colors.app_theme_dark_green}}
+                                title={'No Address Found'}
+                              />
+                            </View>
+                          );
+                        }}
+                        renderItem={({item}) => renderAlsoAddCard(item)}
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.selectDateSection}>
+                    <View style={styles.listHeading}>
+                      <BoldText
+                        title={'Appointment Date'}
+                        style={styles.headingText}
+                      />
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => setDatePicker(true)}
+                      style={styles.calendarView}>
+                      <RegularText style={styles.dateText} title={labelDate} />
+                      <Image
+                        style={styles.calendarIcon}
+                        source={imagesConstants.calendar}
                       />
                     </TouchableOpacity>
                   </View>
-                  <View style={styles.alsoAddListSection}>
-                    <FlatList
-                      data={address}
-                      showsHorizontalScrollIndicator={false}
-                      horizontal={true}
-                      showsVerticalScrollIndicator={false}
-                      extraData={address}
-                      ListEmptyComponent={() => {
-                        return (
-                          <View
-                            style={{
-                              height: hp('20%'),
+                  {fullDate ? (
+                    // <View style={[styles.tabsContainer, {height: hp('28%')}]}>
+                    //   <TabView
+                    //     navigationState={{index, routes}}
+                    //     renderScene={renderScene}
+                    //     onIndexChange={setIndex}
+                    //     // renderTabBar={_renderTabBar}
+                    //     initialLayout={{width: layout.width}}
+                    //   />
 
-                              width: hp('50%'),
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <RegularText
-                              style={{color: colors.app_theme_dark_green}}
-                              title={'No Address Found'}
-                            />
-                          </View>
-                        );
-                      }}
-                      renderItem={({item}) => renderAlsoAddCard(item)}
-                    />
-                  </View>
-                </View>
-                <View style={styles.selectDateSection}>
-                  <View style={styles.listHeading}>
-                    <BoldText
-                      title={'Appointment Date'}
-                      style={styles.headingText}
-                    />
-                  </View>
-                  <TouchableOpacity
-                    onPress={() => setDatePicker(true)}
-                    style={styles.calendarView}>
-                    <RegularText style={styles.dateText} title={labelDate} />
-                    <Image
-                      style={styles.calendarIcon}
-                      source={imagesConstants.calendar}
-                    />
-                  </TouchableOpacity>
-                </View>
-                {fullDate ? (
-                  // <View style={[styles.tabsContainer, {height: hp('28%')}]}>
-                  //   <TabView
-                  //     navigationState={{index, routes}}
-                  //     renderScene={renderScene}
-                  //     onIndexChange={setIndex}
-                  //     // renderTabBar={_renderTabBar}
-                  //     initialLayout={{width: layout.width}}
-                  //   />
-
-                  // </View>
-                  <View style={[styles.tabsContainer, {height: hp('30%')}]}>
-                    {/* <TabView
+                    // </View>
+                    <View style={[styles.tabsContainer, {height: hp('30%')}]}>
+                      {/* <TabView
                      navigationState={{index, routes}}
                      renderScene={renderScene}
                      onIndexChange={setIndex}
                      // renderTabBar={_renderTabBar}
                      initialLayout={{width: layout.width}}
                    /> */}
-                    <View style={{marginTop: hp('2%')}}>
-                      <View style={styles.listHeading}>
-                        <BoldText
-                          title={'Appointment Time'}
-                          style={styles.headingText}
+                      <View style={{marginTop: hp('2%')}}>
+                        <View style={styles.listHeading}>
+                          <BoldText
+                            title={'Appointment Time'}
+                            style={styles.headingText}
+                          />
+                        </View>
+                        <FlatList
+                          numColumns={3}
+                          data={bookingSlotsTime}
+                          extraData={bookingSlotsTime}
+                          renderItem={({item}) => {
+                            return (
+                              <TouchableOpacity
+                                disabled={item.selected ? true : false}
+                                onPress={() => onSelect(item)}
+                                style={{
+                                  backgroundColor: colors.app_theme_light_green,
+                                  margin: hp('1%'),
+                                  width: '28%',
+                                  shadowColor: '#000',
+                                  shadowOffset: {
+                                    width: 0,
+                                    height: 2,
+                                  },
+                                  borderRadius: 5,
+                                  shadowOpacity: 0.1,
+                                  shadowRadius: 2,
+
+                                  elevation: 5,
+                                }}>
+                                <View
+                                  style={{
+                                    backgroundColor: item.selected
+                                      ? colors.app_theme_light_green
+                                      : colors.white,
+                                    paddingHorizontal: 20,
+                                    paddingVertical: 10,
+                                    marginBottom: hp('0.2%'),
+                                    borderRadius: 5,
+                                  }}>
+                                  <RegularText
+                                    style={{
+                                      fontSize: hp('1.5%'),
+                                      color: item.selected
+                                        ? colors.white
+                                        : colors.app_theme_light_green,
+                                    }}
+                                    title={item.time}
+                                  />
+                                </View>
+                              </TouchableOpacity>
+                            );
+                          }}
                         />
                       </View>
-                      <FlatList
-                        numColumns={3}
-                        data={bookingSlotsTime}
-                        extraData={bookingSlotsTime}
-                        renderItem={({item}) => {
-                          return (
-                            <TouchableOpacity
-                              disabled={item.selected ? true : false}
-                              onPress={() => onSelect(item)}
-                              style={{
-                                backgroundColor: colors.app_theme_light_green,
-                                margin: hp('1%'),
-                                width: '28%',
-                                shadowColor: '#000',
-                                shadowOffset: {
-                                  width: 0,
-                                  height: 2,
-                                },
-                                borderRadius: 5,
-                                shadowOpacity: 0.1,
-                                shadowRadius: 2,
-
-                                elevation: 5,
-                              }}>
-                              <View
-                                style={{
-                                  backgroundColor: item.selected
-                                    ? colors.app_theme_light_green
-                                    : colors.white,
-                                  paddingHorizontal: 20,
-                                  paddingVertical: 10,
-                                  marginBottom: hp('0.2%'),
-                                  borderRadius: 5,
-                                }}>
-                                <RegularText
-                                  style={{
-                                    fontSize: hp('1.5%'),
-                                    color: item.selected
-                                      ? colors.white
-                                      : colors.app_theme_light_green,
-                                  }}
-                                  title={item.time}
-                                />
-                              </View>
-                            </TouchableOpacity>
-                          );
-                        }}
-                      />
                     </View>
-                  </View>
-                ) : null}
-                {/* 
+                  ) : null}
+                  {/* 
                 <View style={[styles.specialInstructionSection]}>
                   <View>
                     <BoldText
@@ -959,33 +962,34 @@ const index = ({navigation, props}) => {
                     />
                   </View>
                 </View> */}
-              </View>
-            )}
-          </View>
-        </ScrollView>
-        {!selectedType ? (
-          <View style={{padding: hp('2%')}}>
-            <SubmitButton
-              onPress={onPreviewBooking}
-              title={'Preview Booking'}
+                </View>
+              )}
+            </View>
+          </ScrollView>
+          {!selectedType ? (
+            <View style={{padding: hp('2%')}}>
+              <SubmitButton
+                onPress={onPreviewBooking}
+                title={'Preview Booking'}
+              />
+            </View>
+          ) : null}
+          {datePicker ? (
+            <DateTimePickerModal
+              date={selectedDate}
+              isVisible={datePicker}
+              mode="date"
+              display={'spinner'}
+              minimumDate={new Date()}
+              maximumDate={maximumDate}
+              onConfirm={handleDatePickerConfirm}
+              onCancel={handleDatePickerCancel}
             />
-          </View>
-        ) : null}
-        {datePicker ? (
-          <DateTimePickerModal
-            date={selectedDate}
-            isVisible={datePicker}
-            mode="date"
-            display={'spinner'}
-            minimumDate={new Date()}
-            maximumDate={maximumDate}
-            onConfirm={handleDatePickerConfirm}
-            onCancel={handleDatePickerCancel}
-          />
-        ) : null}
-        <Loader display={loader} />
-      </View>
-    </SafeAreaView>
+          ) : null}
+          <Loader display={loader} />
+        </View>
+      </SafeAreaView>
+    </UserrContext.Provider>
   );
 };
 

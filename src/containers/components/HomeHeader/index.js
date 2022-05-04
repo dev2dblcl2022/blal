@@ -1,9 +1,10 @@
 import {DrawerActions} from '@react-navigation/routers';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, View, TouchableOpacity, TextInput, Alert} from 'react-native';
 import colors from '../../../constants/colors';
 import imagesConstants from '../../../constants/imagesConstants';
 import {BoldText, RegularText} from '../Common';
+import {useContext} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -13,7 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AuthContext} from '../../../../context/context';
 
 export default (props, navigation) => {
-  const {signOut} = React.useContext(AuthContext);
+  const {signOut} = useContext(AuthContext);
 
   const onNext = async val => {
     let user = await AsyncStorage.getItem('userToken');

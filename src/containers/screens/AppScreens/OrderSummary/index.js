@@ -891,6 +891,16 @@ const index = ({navigation, route}) => {
                       onChangeText={val => setCouponCode(val)}
                       placeholder={'Enter the Coupon Code'}
                     />
+                    <TouchableOpacity onPress={() => setCouponCode('')}>
+                      <View style={styles.arrowSection}>
+                        <View style={styles.arrowCircle}>
+                          <Image
+                            style={{marginLeft: 80, marginTop: 10}}
+                            source={imagesConstants.cancelRed}
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
                   </View>
                   <View style={styles.applyBtnSection}>
                     <TouchableOpacity

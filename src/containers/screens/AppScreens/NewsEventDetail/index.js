@@ -16,10 +16,11 @@ import {MainContainer, PackageCard} from '../../../components';
 import {BoldText, RegularText} from '../../../components/Common';
 import HTMLView from 'react-native-htmlview';
 import imagesConstants from '../../../../constants/imagesConstants';
+import moment from 'moment';
 export default function index({route, navigation}) {
   const {data} = route.params;
 
-  let date = data.created_at.split(' ');
+  let date = moment(`${data.created_at}`).fromNow();
 
   return (
     <SafeAreaView style={{flexGrow: 1}}>
@@ -52,7 +53,7 @@ export default function index({route, navigation}) {
                     justifyContent: 'center',
                   }}>
                   {/* <TouchableOpacity style={styles.buyNowBtn}> */}
-                  <BoldText style={styles.buyNowText} title={date[0]} />
+                  <BoldText style={styles.buyNowText} title={date} />
                   {/* </TouchableOpacity> */}
                 </View>
               </View>

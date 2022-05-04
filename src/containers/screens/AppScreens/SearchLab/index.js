@@ -535,7 +535,6 @@ const index = ({navigation, route}) => {
   };
 
   const renderSearchCard = item => {
-    console.log('dellt', item);
     let testPackageData = {
       id: item.Id,
       type: item.TestType,

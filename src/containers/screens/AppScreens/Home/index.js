@@ -1356,6 +1356,7 @@ const index = ({navigation}) => {
         <HomeSelectAddressModal
           enterPinCode={onOpenPinCodeModal}
           onPressAddAddress={() => onNavigateSetLocation(1)}
+          onDone={() => setHomeSelectAddress(false)}
           onPressUseCurrentLocation={() => onNavigateSetLocation(0)}
           onPressDone={(cityId, panelId) =>
             onCloseHomeSelectModal(cityId, panelId)

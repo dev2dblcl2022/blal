@@ -1,5 +1,5 @@
-export const Api_Local_Url = 'http://192.168.1.115:7000/';
-export const Api_Live_Url = 'http://13.234.131.213:3007/';
+export const Api_Local_Url = 'http://192.168.0.200:7000/';
+export const Api_Live_Url = 'http://192.168.0.200:7000/';
 export const ABOUT_DR_BLAL_LINK = 'https://www.blallab.com/company-profile/';
 export const TermsAndConditionUrl =
   'http://drblal-dev.tk/content/app/terms_and_conditions';

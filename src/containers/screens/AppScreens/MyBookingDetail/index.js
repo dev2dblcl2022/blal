@@ -67,7 +67,7 @@ const index = ({navigation, route}) => {
   //   uri: 'http://www.africau.edu/images/default/sample.pdf',
   //   cache: true,
   // };
-  console.log('bookingDetailData', bookingDetailData);
+
   const [labAddress, setLabAddress] = useState('');
   const [labName, setLabName] = useState('');
   useEffect(() => {
@@ -511,7 +511,11 @@ const index = ({navigation, route}) => {
                       <View style={styles.section1}>
                         <LightText
                           style={styles.bookingConfirmedText}
-                          title={'Booking Confirmed'}
+                          title={
+                            bookingDetailData.status === 'Cancelled'
+                              ? 'Booking Cancelled'
+                              : 'Booking Confirmed'
+                          }
                         />
                       </View>
                       <View style={styles.section2}>
@@ -821,6 +825,7 @@ const index = ({navigation, route}) => {
                                   />
                                 </View>
                               </View>
+
                               <View
                                 style={{
                                   flex: 0.6,
@@ -904,6 +909,7 @@ const index = ({navigation, route}) => {
                               <View style={{flex: 0.1}}>
                                 <Image source={imagesConstants.timer} />
                               </View>
+
                               <View
                                 style={{flex: 0.7, justifyContent: 'center'}}>
                                 <LightText
@@ -1089,7 +1095,11 @@ const index = ({navigation, route}) => {
                         />
                         <RegularText
                           style={styles.paidText}
-                          title={`Paid (${bookingDetailData.payment_mode})`}
+                          title={
+                            bookingDetailData.payment_mode === 'Online'
+                              ? `Paid (${bookingDetailData.payment_mode})`
+                              : 'You need to pay'
+                          }
                         />
                       </View>
                       <View style={styles.testPriceSection}>

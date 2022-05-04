@@ -14,7 +14,6 @@ export default props => {
       <TouchableOpacity onPress={props.onPress} style={styles.profilePicView}>
         <Image style={styles.profilePic} source={{uri: file}} />
       </TouchableOpacity>
-
       <TouchableOpacity onPress={props.onPress} style={styles.dataSection}>
         <View style={{flex: 0.7}}>
           <BoldText style={styles.nameText} title={title} />

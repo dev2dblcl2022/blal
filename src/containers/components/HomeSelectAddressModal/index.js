@@ -1,6 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import Geocoder from 'react-native-geocoding';
 import {LinkUhidCard, Toast} from '..';
 import {AuthContext} from '../../../../context/context';
@@ -22,6 +29,56 @@ export default props => {
   const [addresses, setAddresses] = useState([]);
   const [location, setLoacation] = useState('');
   const [pinCode, setPinCode] = useState('');
+  const [cartAddress, setCartAddress] = useState([]);
+  const [loader, setLoader] = useState(true);
+  const [cityId, setCityId] = useState('');
+  const [panelId, setPanelId] = useState('');
+  const [testType, setTestType] = useState('');
+  const [cartTestPackageIds, setCartTestPackageIds] = useState([]);
+  const [cartDataBookings, setCartDataBookings] = useState([]);
+  const [familyMembersData, setFamilyMembersData] = useState([]);
+  const [cartData, setCartData] = useState({});
+  const fetchddress = async () => {
+    let data = {
+      collection_type: 'Home',
+    };
+    const requestConfig = {
+      method: method.get,
+      url: `${servicesPoints.userServices.get_User_Address}?collection_type=${data.collection_type}`,
+    };
+    const response = await NetworkRequest(requestConfig);
+    if (response) {
+      const {success} = response;
+      if (success) {
+        setCartAddress(response.data);
+        let orderSummaryDate = await AsyncStorage.getItem('cartBookingDate');
+        if (orderSummaryDate) {
+          let orderSummaryAddressStorage = await AsyncStorage.getItem(
+            'cartBookingAddress',
+          );
+          let orderSummaryAddress = JSON.parse(orderSummaryAddressStorage);
+          let data = response.data;
+          data = data.map((itn, index) => {
+            if (itn.id === orderSummaryAddress.id) {
+              itn.selected = !itn.selected;
+            } else {
+              itn.selected = false;
+            }
+            return itn;
+          });
+          setCartAddress(data);
+
+          // setLoader(false);
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    fetchddress();
+  }, []);
+  const cartCityAddress = cartAddress.map(add => {
+    return add.city;
+  });
   useEffect(() => {
     // const unsubscribe = navigation.addListener('focus', () => {
     getAddresses();
@@ -48,7 +105,7 @@ export default props => {
   function onSelectAddress(item) {
     let data = addresses;
     data = data.map((itn, index) => {
-      if (itn.id == item.id) {
+      if (itn.id === item.id) {
         itn.selected = !itn.selected;
       } else {
         itn.selected = false;
@@ -57,7 +114,123 @@ export default props => {
     });
     setAddresses(data);
   }
+  const getMyCartData = async (cit, pan) => {
+    try {
+      const requestConfig = {
+        method: method.get,
+        url: servicesPoints.bookingServices.myCart,
+      };
+      const response = await NetworkRequest(requestConfig);
 
+      if (response) {
+        const {success} = response;
+        if (success) {
+          let arr = [];
+          arr = response?.data?.bookings;
+
+          const _arr = [];
+
+          arr.forEach(item => {
+            _arr.push(...item.booking_member_tests);
+          });
+          // console.log('cit iss', cit, pan);
+          // getLastSearched(cit, pan);
+          setLoader(false);
+          setCartTestPackageIds(_arr);
+          setCartData(response.data);
+          setCartDataBookings(response?.data?.bookings);
+          // setBookingMembersTests(response.data.booking_member_tests);
+          setFamilyMembersData(response.data?.family_members);
+          setCityId(
+            response.data?.family_members[0]?.booking_member_tests[0]?.city_id,
+          );
+          setPanelId(
+            response.data?.family_members[0]?.booking_member_tests[0]?.panel_id,
+          );
+          setTestType(
+            response.data?.family_members[0]?.booking_member_tests[0]
+              ?.test_type,
+          );
+
+          setLoader(false);
+        } else {
+          if (response === 'Network Error') {
+            Toast('Network Error', 0);
+
+            setLoader(false);
+          } else {
+            null;
+          }
+          setLoader(false);
+        }
+      }
+    } catch (err) {
+      setLoader(false);
+    }
+  };
+  const onClearCart = async () => {
+    try {
+      setLoader(true);
+
+      const requestConfig = {
+        method: method.get,
+
+        url: servicesPoints.bookingServices.clear_my_cart,
+      };
+      const response = await NetworkRequest(requestConfig);
+
+      if (response) {
+        const {success} = response;
+        if (success) {
+          getMyCartData();
+          props.onDone();
+          onDone();
+        } else {
+          if (response === 'Network Error') {
+            Toast('Network Error', 0);
+            setLoader(false);
+          } else {
+            null;
+          }
+          setLoader(false);
+        }
+      }
+    } catch (err) {
+      setLoader(false);
+    }
+  };
+  console.log('cartCityAddress', cartCityAddress.toString());
+  function onDone1() {
+    let data = addresses;
+    data.map((city1, index) => {
+      if (city1.selected) {
+        if (city1.city) {
+          if (cartCityAddress.toString() !== city1.city) {
+            Alert.alert(
+              'Cart will be discard if you change city before the checkout cart',
+              ``,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => props.onDone(),
+                  style: 'cancel',
+                },
+                {
+                  text: 'Ok',
+                  onPress: () => onClearCart(),
+                },
+              ],
+              {cancelable: false},
+            );
+          } else {
+            onDone();
+          }
+        } else {
+          onDone();
+        }
+      }
+    });
+  }
   function onDone() {
     // console.log('I am calles1');
     let addressData = [];
@@ -120,7 +293,6 @@ export default props => {
           }
         }
 
-        console.log('selectedCity is', selectedCity);
         checkPincode(selectedCity, pincode, address);
       })
       .catch(error => {
@@ -211,7 +383,7 @@ export default props => {
       closeModal={props.onRequestClose}>
       <View style={styles.modalContainer}>
         <View style={[styles.circleContainer]}>
-          <TouchableOpacity onPress={onDone}>
+          <TouchableOpacity onPress={onDone1}>
             <BoldText style={styles.doneText} title={'Done'} />
           </TouchableOpacity>
           {/**current location pincode */}

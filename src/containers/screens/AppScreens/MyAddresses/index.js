@@ -65,9 +65,9 @@ const index = ({navigation, props, route}) => {
       url: servicesPoints.userServices.get_User_Address,
     };
     const response = await NetworkRequest(requestConfig);
+
     if (response) {
       const {success} = response;
-
       if (success) {
         setAddresses(response.data);
         setLoader(false);
@@ -400,11 +400,10 @@ const index = ({navigation, props, route}) => {
         </View> */}
         <View style={styles.dataSection}>
           <View style={styles.listSection}>
-            {console.log('addresses', addresses)}
             <FlatList
               data={addresses}
               showsVerticalScrollIndicator={false}
-              // extraData={addresses}
+              extraData={addresses}
               ListEmptyComponent={() => {
                 return (
                   <BoldText

@@ -8,6 +8,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import colors from '../../../constants/colors';
+import moment from 'moment';
 
 export default props => {
   let {data, deActiveView, selection, emailIdShown} = props;
@@ -15,7 +16,9 @@ export default props => {
   let uhid = props?.uhid;
 
   let selectView = props?.selectView;
-
+  const startDate = moment(data.dob, 'YYYY-MM-DD');
+  const endDate = moment(new Date(), 'YYYY-MM-DD');
+  const finalAge = moment.duration(endDate.diff(startDate));
   return (
     <View
       style={[
@@ -38,7 +41,14 @@ export default props => {
           {emailIdShown ? (
             <RegularText style={styles.emailText} title={data?.email} />
           ) : null}
-          <RegularText style={styles.ageText} title={`${data?.age}`} />
+          <RegularText
+            style={styles.ageText}
+            title={`${
+              finalAge.years() > 0 ? finalAge.years() + ' ' + 'Years' : ''
+            } ${
+              finalAge.months() > 0 ? finalAge.months() + ' ' + 'Months' : ''
+            } ${finalAge.days() > 0 ? finalAge.days() + ' ' + 'Days' : ''}`}
+          />
         </View>
         <View style={styles.relationSection}>
           <RegularText style={styles.relationText} title={data?.relation} />

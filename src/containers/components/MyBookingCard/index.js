@@ -55,7 +55,14 @@ export default props => {
         </View>
 
         <View style={{flex: 1}}>
-          <View style={styles.btnView}>
+          <View
+            style={
+              status === 'Successful'
+                ? styles.btnView
+                : status === 'Cancelled'
+                ? styles.grayBtnView
+                : styles.btnView
+            }>
             <RegularText style={styles.btnViewText} title={status} />
           </View>
         </View>

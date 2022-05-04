@@ -396,6 +396,8 @@ const index = ({navigation, route}) => {
             pinCodeError: '',
             phoneNumber: '',
             phoneNumberError: '',
+            plotNumber: '',
+            plotNumberError: '',
           });
         }
 
@@ -419,6 +421,8 @@ const index = ({navigation, route}) => {
               pinCodeError: '',
               phoneNumber: '',
               phoneNumberError: '',
+              plotNumber: '',
+              plotNumberError: '',
             });
           }
         }, 100);
@@ -429,7 +433,6 @@ const index = ({navigation, route}) => {
             'administrative_area_level_1'
           ) {
             var add_state = data.address_components[i].long_name;
-
             await setValidateForm({
               streetNameOne: '',
               streetNameOneError: '',
@@ -443,6 +446,8 @@ const index = ({navigation, route}) => {
               pinCodeError: '',
               phoneNumber: '',
               phoneNumberError: '',
+              plotNumber: '',
+              plotNumberError: '',
             });
             setLoader(false);
           }
@@ -450,7 +455,7 @@ const index = ({navigation, route}) => {
       }
     }
   };
-
+  console.log('validateForm', validateForm);
   return (
     <SafeAreaView style={styles.safeArea}>
       <DefaultHeader
@@ -491,7 +496,8 @@ const index = ({navigation, route}) => {
 
                   latitudeDelta: 0.0922,
                   longitudeDelta: 0.0421,
-                }}></MapView>
+                }}
+              />
               <View
                 style={{
                   position: 'absolute',
@@ -607,7 +613,7 @@ const index = ({navigation, route}) => {
                           key={index}
                           onPress={() => radioItemSelected(data)}>
                           <View style={styles.typeUnSelect}>
-                            {selectedAddressType == data.id ? (
+                            {selectedAddressType === data.id ? (
                               <View style={styles.typeSelect} />
                             ) : null}
                           </View>

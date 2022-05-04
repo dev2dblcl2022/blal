@@ -313,7 +313,7 @@ const index = ({navigation}) => {
     await AsyncStorage.removeItem('Code');
     navigation.navigate('BookingDetails');
   };
-
+  console.log('cartData', cartData);
   const renderSelfTextCard = (item, index) => {
     let length = cartData.bookings.length - 1;
 

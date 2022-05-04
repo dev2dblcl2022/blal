@@ -27,7 +27,7 @@ export default props => {
             onPress: () => props.onDelete(),
           },
         ],
-        {cancelable: false},
+        {cancelable: true},
       );
     }
   };

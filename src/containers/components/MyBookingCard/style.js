@@ -45,7 +45,13 @@ export default StyleSheet.create({
   },
   cancelBookingText: {
     color: colors.red,
-    fontSize: hp('2%'),
+    height: hp('4%'),
+    borderRadius: 30,
+    borderColor: colors.purplishGrey,
+    borderWidth: 1,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   btnView: {
     borderRadius: 30,
@@ -53,6 +59,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.app_theme_dark_green,
+  },
+  grayBtnView: {
+    borderRadius: 30,
+    height: hp('4%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.gray,
   },
   btnViewText: {
     fontSize: hp('1.5%'),
