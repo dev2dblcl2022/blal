@@ -279,12 +279,10 @@ const index = ({navigation, route}) => {
       }
     } catch (err) {
       setLoader(false);
-      console.log('err', err);
     }
   };
 
   const calculateDateDifference = date => {
-    // console.log('timevalue', timeValues);
     if (timeValues === '1') {
       const TODAY_START_Date = moment(currentDate).format('YYYY-MM-DD');
       const TODAY_End_Date = moment(TODAY_START_Date)
@@ -292,32 +290,23 @@ const index = ({navigation, route}) => {
         .format('YYYY-MM-DD');
       setApiStartDate(TODAY_START_Date);
       setApiEndDate(TODAY_End_Date);
-      // console.log('WEEk Date Start Date', TODAY_START_Date);
-      // console.log('WEEk Date end Date', TODAY_End_Date);
       // getMyReports(3);
     } else if (timeValues === '2') {
       const WEEK_START = moment().subtract(1, 'week').format(Date_Format);
       setApiStartDate(WEEK_START);
       setApiEndDate(currentDate);
-      // console.log('WEEk Date Start Date', WEEK_START);
-      // console.log('WEEk Date End Date', currentDate);
       // getMyReports(3);
     } else if (timeValues === '3') {
       const MONTH_START = moment().subtract(1, 'month').format(Date_Format);
       setApiStartDate(MONTH_START);
       setApiEndDate(currentDate);
-      // console.log('WEEk Date Start Date', MONTH_START);
-      // console.log('WEEk Date End Date', currentDate);
       // getMyReports(3);
     } else if (timeValues === '4') {
       const YEAR_START = moment().subtract(1, 'year').format(Date_Format);
       setApiStartDate(YEAR_START);
       setApiEndDate(currentDate);
-      // console.log('WEEk Date Start Date', YEAR_START);
-      // console.log('WEEk Date End Date', currentDate);
       // getMyReports(3);
     } else if (timeValues === '5') {
-      // console.log('date 1', startDateLabel, endDateLabel);
       // setApiStartDate(startDateLabel);
       // setApiEndDate(endDateLabel);
     } else {
@@ -326,17 +315,11 @@ const index = ({navigation, route}) => {
   };
 
   const startHandleDatePickerConfirm = async date => {
-    // console.log('date 1', startDateLabel, endDateLabel);
     let newDate = moment(date).format(Date_Format);
-    // console.log('date 2', startDateLabel, endDateLabel);
     setStartDateLabel(newDate);
-    // console.log('date 3', startDateLabel, endDateLabel);
 
     setApiStartDate(newDate);
-    // console.log('date 4', startDateLabel, endDateLabel);
     setStartDatePicker(false);
-
-    // console.log('date 5', startDateLabel, endDateLabel);
   };
 
   const startHandleDatePickerCancel = () => {
@@ -474,13 +457,6 @@ const index = ({navigation, route}) => {
                   placeholder="Test"
                   value={patientTestValues}
                   style={{borderColor: colors.purplishGrey, borderWidth: 1}}
-                  onChangeValue={(value, index) => {
-                    // console.log('selected value', value);
-                    // console.log('selected Index', index);
-                    if (value) {
-                      onCheck(value);
-                    }
-                  }}
                   dropDownContainerStyle={styles.dropDownContainer}
                   items={membersTest}
                   setOpen={setPatientTestOpens}
@@ -497,10 +473,6 @@ const index = ({navigation, route}) => {
                   placeholder="Observation"
                   value={patientSubTestValues}
                   style={{borderColor: colors.purplishGrey, borderWidth: 1}}
-                  onChangeValue={(value, index) => {
-                    // console.log('selected value', value);
-                    // console.log('selected Index', index);
-                  }}
                   dropDownContainerStyle={styles.dropDownContainer}
                   items={membersSubTest}
                   setOpen={setPatientSubTestOpens}

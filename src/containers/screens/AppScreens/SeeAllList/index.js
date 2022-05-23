@@ -49,9 +49,7 @@ const index = ({navigation, route}) => {
 
         url: `${servicesPoints.commonServices.news_events_list}`,
       };
-      // console.log('rq', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      // console.log('rs of newsEvent', response);
       if (response) {
         const {success} = response;
         if (success) {

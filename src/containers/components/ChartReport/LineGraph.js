@@ -8,7 +8,6 @@ import styles from './style';
 
 function LineGraph(props) {
   const {statistics} = props;
-  console.log('-------statistics data form parent', statistics);
   const {netWorth, data} = statistics;
   // const [valueSet, setValueSet] = useState([]);
   // const [labelSet, setLabelSet] = useState([]);
@@ -16,7 +15,6 @@ function LineGraph(props) {
   let labelSet: string[] = [];
 
   // useEffect(() => {
-  //   console.log('I am call', data);
   // }, [data]);
 
   // setLabelSet(labelSet);
@@ -126,7 +124,6 @@ function LineGraph(props) {
       },
     });
   }, [props]);
-  // console.log('dtaobj final', dataObj);
   return (
     <>
       {/* <TouchableOpacity onPress={onChnage}>
@@ -157,7 +154,6 @@ function LineGraph(props) {
         // onSelect={this.handleSelect}
         onChange={event => {
           console.log('onChange:', event.nativeEvent);
-          console.log('dataObj : 2 inner', dataObj);
         }}
       />
     </>

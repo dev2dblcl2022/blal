@@ -6,7 +6,6 @@ import {Loader, WebView} from '../../../components';
 const index = ({navigation, route, props}) => {
   let url = route.params.url;
   // let url = props?.url;
-  // console.log('url is = ', url, props);
 
   let [loader, setLoader] = useState(false);
   return (

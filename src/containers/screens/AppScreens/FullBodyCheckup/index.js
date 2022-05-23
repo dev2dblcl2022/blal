@@ -236,7 +236,6 @@ export default function index({navigation, route, props}) {
         method: method.post,
         url: servicesPoints.bookingServices.add,
       };
-
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
@@ -262,7 +261,6 @@ export default function index({navigation, route, props}) {
         }
       }
     } catch (err) {
-      console.log(err);
       setLoader(false);
     }
   };

@@ -43,11 +43,22 @@ export default props => {
           ) : null}
           <RegularText
             style={styles.ageText}
+            // title={`${
+            //   finalAge.years() > 0 ? finalAge.years() + ' ' + 'Years' : ''
+            // } ${
+            //   finalAge.months() > 0 ? finalAge.months() + ' ' + 'Months' : ''
+            // } ${finalAge.days() > 0 ? finalAge.days() + ' ' + 'Days' : ''}`}
             title={`${
-              finalAge.years() > 0 ? finalAge.years() + ' ' + 'Years' : ''
-            } ${
-              finalAge.months() > 0 ? finalAge.months() + ' ' + 'Months' : ''
-            } ${finalAge.days() > 0 ? finalAge.days() + ' ' + 'Days' : ''}`}
+              finalAge.years()
+                ? finalAge.years() + ' ' + 'Years'
+                : finalAge.months()
+                ? finalAge.months() + ' ' + 'Months'
+                : finalAge.days()
+                ? finalAge.days() +
+                  ' ' +
+                  `${finalAge.days() > 1 ? 'Days' : 'Day'}`
+                : ''
+            }`}
           />
         </View>
         <View style={styles.relationSection}>

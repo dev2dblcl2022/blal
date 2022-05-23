@@ -56,7 +56,6 @@ export default function App() {
   }, []);
 
   const handlePNRegister = async config => {
-    // console.log('config==>', config);
     // try {
     //   await AsyncStorage.setItem('fcmToken', config.token);
     // } catch (error) {
@@ -69,27 +68,22 @@ export default function App() {
       if (!fcmToken) {
         // fcmToken = await firebase.messaging().getToken();
         // await AsyncStorage.setItem('fcmToken', fcmToken);
-        // console.log('user has a device token' + fcmToken);
         // global.fcmToken = fcmToken;
       } else {
-        console.log('user has a device token' + fcmToken);
         await AsyncStorage.setItem('fcmToken', fcmToken);
         global.fcmToken = fcmToken;
       }
-      console.log('FCM TOKE ' + fcmToken);
     });
   };
 
   const handlePushNotification = notification => {
     const {foreground, userInteraction, id, data} = notification;
-    console.log('notification==>', notification);
     DeviceEventEmitter.emit('notificationCome', true);
     // for firing local notification
     if (foreground) {
       PNService.localNotification(notification);
     }
 
-    console.log('noti data', data);
     // for handling notification opened app
     if (userInteraction) {
       // if (foreground) {
@@ -128,10 +122,8 @@ export default function App() {
   //   handlePNRegister,
   //   handlePushNotification,
   // );
-  // console.log('PnServices', PNService);
 
   // const handlePNRegister = async token => {
-  //   console.log('token', token);
   //   try {
   //     await AsyncStorage.setItem('fcmToken', token.token);
   //   } catch (error) {
@@ -140,21 +132,15 @@ export default function App() {
   // };
   // const handlePushNotification = notification => {
   //   const {foreground, userInteraction} = notification;
-  //   console.log('Debug Test notification', notification);
   //   // for firing local notification
   //   if (foreground) {
-  //     console.log('foreground Notification', notification);
   //     PNService.localNotification(notification);
   //   }
   //   // for handling notification opened app
   //   if (userInteraction) {
   //     if (foreground) {
-  //       console.log('foreground');
-  //       console.log('Notification--', notification);
   //       // for foreground state
   //     } else {
-  //       console.log('background');
-  //       console.log('Notification', notification);
   //       // for background and quit state
   //     }
   //   }
@@ -184,7 +170,7 @@ export default function App() {
         case 'HomeAddressLabel':
           return {
             ...prevState,
-            label: '',
+            label: action.label ? action.label : '',
           };
         case 'CurrentLocation':
           return {
@@ -219,7 +205,6 @@ export default function App() {
         let userData = await AsyncStorage.getItem('userData');
         location = await AsyncStorage.getItem('location');
         intro = await AsyncStorage.getItem('Intro');
-        console.log('userData', userData);
       } catch (e) {
         // Restoring token failed
       }
@@ -240,7 +225,6 @@ export default function App() {
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
       // await dispatch({ type: 'RESTORE_TOKEN', token: userToken });
-      // console.log('intro useef', intro);
       await dispatch({type: 'CHECK_INTRO', token: intro});
       await dispatch({type: 'RESTORE_TOKEN', token: userToken});
       await dispatch({type: 'CurrentLocation', location: location});
@@ -304,7 +288,6 @@ export default function App() {
   const authContext = useMemo(
     () => ({
       signIn: async (data, temp) => {
-        // console.log('login', data);
         //  data.image_path=temp,
         await AsyncStorage.setItem('userToken', temp);
         await AsyncStorage.setItem('userData', JSON.stringify(data));
@@ -341,7 +324,6 @@ export default function App() {
   }
 
   const onChoose = () => {
-    console.log('satte is ', state);
     if (!state.userToken && !state.intro) {
       return <AppIntroStack />;
     } else if (!state.userToken && state.intro) {

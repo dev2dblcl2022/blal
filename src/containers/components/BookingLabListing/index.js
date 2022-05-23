@@ -73,7 +73,6 @@ export default props => {
     var result = someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
     let maximumDate = new Date(result);
     setMaximumDate(maximumDate);
-    // console.log('date i sdate', maximumDate);
   };
   useEffect(() => {
     getMaximumDate();
@@ -120,7 +119,6 @@ export default props => {
 
   const clickPreviewButton = () => {
     if (date === 'Select Date') {
-      // console.log('date is', date);
       Toast('Please select Date');
     } else {
       let labAddress = `${Address} ${Address2}`;

@@ -214,8 +214,6 @@ const index = ({navigation, route}) => {
         url: servicesPoints.paymentServices.initiate_transaction,
       };
 
-      console.log('reqqqq', requestConfig);
-
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
@@ -256,7 +254,7 @@ const index = ({navigation, route}) => {
         `${Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderId}`,
         false,
         false,
-        // 'paytmDRBLAL59967132476138',
+        `${'paytm'}${merchantId}`,
       )
         .then(res => {
           paymentSuccess(res);
@@ -276,6 +274,7 @@ const index = ({navigation, route}) => {
         `${Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderId}`,
         false,
         false,
+        `${'paytm'}${merchantId}`,
       )
         .then(res => {
           // alert('Done');
@@ -336,7 +335,6 @@ const index = ({navigation, route}) => {
       //   url: url,
       //   data: data,
       // };
-      // console.log('Card ', requestConfig);
 
       var config = {
         method: 'post',
@@ -366,16 +364,13 @@ const index = ({navigation, route}) => {
       // if (response) {
       //   const {status_Code} = response;
       //   if (status_Code === 200) {
-      //     console.log('Card Created Succesuly', response);
       //     setLoader(false);
       //     navigation.pop(2);
       //   } else {
       //     setLoader(false);
-      //     console.log('Card Created failure', response);
       //   }
       // }
     } catch (error) {
-      console.log(error.message);
       setLoader(false);
     }
   };

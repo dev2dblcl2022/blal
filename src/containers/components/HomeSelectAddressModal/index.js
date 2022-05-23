@@ -75,10 +75,11 @@ export default props => {
   };
   useEffect(() => {
     fetchddress();
-  }, []);
+  }, [props.visible]);
   const cartCityAddress = cartAddress.map(add => {
     return add.city;
   });
+
   useEffect(() => {
     // const unsubscribe = navigation.addListener('focus', () => {
     getAddresses();
@@ -86,6 +87,9 @@ export default props => {
     // return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    getAddresses();
+  }, [props.visible]);
   const getAddresses = async () => {
     const requestConfig = {
       method: method.get,
@@ -133,7 +137,6 @@ export default props => {
           arr.forEach(item => {
             _arr.push(...item.booking_member_tests);
           });
-          // console.log('cit iss', cit, pan);
           // getLastSearched(cit, pan);
           setLoader(false);
           setCartTestPackageIds(_arr);
@@ -156,7 +159,6 @@ export default props => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
-
             setLoader(false);
           } else {
             null;
@@ -199,12 +201,12 @@ export default props => {
       setLoader(false);
     }
   };
-  console.log('cartCityAddress', cartCityAddress.toString());
+
   function onDone1() {
     let data = addresses;
     data.map((city1, index) => {
       if (city1.selected) {
-        if (city1.city) {
+        if (cartCityAddress && cartCityAddress.toString()) {
           if (cartCityAddress.toString() !== city1.city) {
             Alert.alert(
               'Cart will be discard if you change city before the checkout cart',
@@ -232,7 +234,6 @@ export default props => {
     });
   }
   function onDone() {
-    // console.log('I am calles1');
     let addressData = [];
     let data = addresses;
     data.map((itn, index) => {
@@ -241,9 +242,7 @@ export default props => {
         return itn;
       }
     });
-
     if (addressData.length > 0) {
-      // console.log('I am calles2', addressData);
       // props.onPressDone(address.length > 0 ? '1' : '0', address);
       getLocationName(
         addressData[0].latitude,
@@ -264,10 +263,6 @@ export default props => {
 
         var selectedCity = '';
 
-        console.log(
-          'response1.results[0].address_components',
-          response1.results[0].address_components,
-        );
         for (
           let i = 0;
           i < response1.results[0].address_components.length;
@@ -303,7 +298,6 @@ export default props => {
   };
 
   function getLocationName(lat, long, address) {
-    console.log('I am calles2', address);
     Geocoder.init('AIzaSyBvrwNiJMMmne5aMGkQUMCpb-rafOYdT4g');
 
     Geocoder.from(lat, long)
@@ -348,7 +342,6 @@ export default props => {
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
-        console.log('res', response);
         const {success} = response;
         if (success) {
           let {data} = response;
@@ -359,10 +352,15 @@ export default props => {
               ' ' +
               address[0].pincode,
           );
-
+          props.setAddressLabel(
+            address[0].area1 +
+              ' ' +
+              address[0].area2 +
+              ' ' +
+              address[0].pincode,
+          );
           await AsyncStorage.setItem('cityId', data.CityId.toString());
           await AsyncStorage.setItem('panelId', data.Panel_ID.toString());
-
           props.onPressDone(data.CityId.toString(), data.Panel_ID.toString());
         } else {
           props.onPressDone();

@@ -125,7 +125,6 @@ export default class CameraController {
       }),
     ).then(result => {
       if (result === 'granted') {
-        // console.log('already allow the camera');
         this.selectImage(cb, isCrop, launchType);
         return;
       } /* limited condition is only work on ios (Select Photos time) */ else if (
@@ -153,15 +152,12 @@ export default class CameraController {
         }),
       ).then(status => {
         if (status === 'granted') {
-          // console.log('You can use the camera');
           this.selectImage(cb, isCrop, launchType);
         } /* limited condition is only work on ios (Select Photos time) */ else if (
           status === 'limited'
         ) {
           this.selectImage(cb, isCrop, launchType);
           return;
-        } else {
-          console.log('camera permission denied');
         }
       });
     });
@@ -183,7 +179,6 @@ export default class CameraController {
             cb(response);
           })
           .catch(e => {
-            console.log('catch image==>', e.message);
             if (e.message === 'User cancelled image selection') {
               Toast('Please select a valid file.', 0);
             }
@@ -217,7 +212,6 @@ export default class CameraController {
             cb(response);
           })
           .catch(e => {
-            console.log('catch image==>', e.message);
             if (e.message === 'User cancelled image selection') {
               Toast('Please select a valid file.', 0);
             }
@@ -231,7 +225,6 @@ export default class CameraController {
             cb(response);
           })
           .catch(e => {
-            console.log('catch image==>', e.message);
             if (e.message === 'User cancelled image selection') {
               Toast('Please select a valid file.', 0);
             }

@@ -16,7 +16,6 @@ export default props => {
   // useEffect(() => {
   //   setVisible(props.currentLocVisible);
   // }, [props]);
-  // console.log('ccc', props);
 
   // function btnConfirmLocation() {
   //   props.navigation.replace('AddNewAddress');

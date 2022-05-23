@@ -7,8 +7,6 @@ class NotificationHandler {
   }
 
   onNotification(notification) {
-    console.log('NotificationHandler:', notification);
-
     if (typeof this._onNotification === 'function') {
       this._onNotification(notification);
     }
@@ -71,7 +69,6 @@ class NotificationHandler {
   }
 
   async onRegister(token) {
-    console.log('NotificationHandler:', token);
     await AsyncStorage.setItem('fcmToken', token.token);
     if (typeof this._onRegister === 'function') {
       this._onRegister(token);
@@ -79,10 +76,6 @@ class NotificationHandler {
   }
 
   onAction(notification) {
-    // console.log('Notification action received:');
-    // console.log(notification.action);
-    // console.log(notification);
-
     if (notification.action === 'Yes') {
       PushNotification.invokeApp(notification);
     }

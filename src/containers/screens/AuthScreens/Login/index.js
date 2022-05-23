@@ -6,6 +6,7 @@ import {
   ImageBackground,
   Image,
   ScrollView,
+  Keyboard,
 } from 'react-native';
 import {AuthContext} from '../../../../../context/context';
 import {useForm, Controller} from 'react-hook-form';
@@ -21,12 +22,14 @@ import NetworkRequest, {
   servicesPoints,
   method,
 } from '../../../../services/NetworkRequest';
-
+import RNOtpVerify from 'react-native-otp-verify';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const index = ({navigation}) => {
   const myref = useRef();
   const {signOut, signIn} = React.useContext(AuthContext);
   const [loader, setLoader] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [hashCode, setHashcoe] = useState('');
   const [validateForm, setValidateForm] = useState({
     phoneNumber: '',
     phoneNumberError: '',
@@ -43,6 +46,13 @@ const index = ({navigation}) => {
       ...{[key]: val, [`${key}Error`]: validate(key, val)},
     });
   };
+  React.useEffect(() => {
+    RNOtpVerify.getHash()
+      .then(hash => {
+        setHashcoe(hash);
+      })
+      .catch(console.log);
+  }, []);
 
   const onSubmit = async () => {
     let phoneNumberError = validate('phoneNumber', validateForm.phoneNumber);
@@ -61,6 +71,7 @@ const index = ({navigation}) => {
   const onApiLogin = async () => {
     let data = {
       phone_number: validateForm.phoneNumber,
+      hashCode: hashCode,
     };
     try {
       setLoader(true);
@@ -71,11 +82,9 @@ const index = ({navigation}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-
       if (response) {
         const {success} = response;
         if (success) {
-          console.log('res s', response);
           setLoader(false);
           navigation.navigate('Otp', {
             phoneNumber: validateForm.phoneNumber,
@@ -84,8 +93,6 @@ const index = ({navigation}) => {
           // Toast(response.message + ' ' + response.data.otp, 1);
           Toast(response.message, 1);
         } else {
-          // console.log('res failure', response);
-
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
@@ -99,7 +106,6 @@ const index = ({navigation}) => {
         }
       }
     } catch (error) {
-      console.log(error.message);
       setLoader(false);
     }
   };

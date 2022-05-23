@@ -114,7 +114,6 @@ const index = ({navigation, route}) => {
         setLinkedUhid(linkedUhid ? true : false);
         setLoader(false);
       } else {
-        console.log('res failure', response);
         if (response === 'Network Error') {
           Toast('Network Error', 0);
         }
@@ -151,7 +150,6 @@ const index = ({navigation, route}) => {
           navigation.pop(1);
         } else {
           Toast(response.message, 0);
-          console.log('res failure', response);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
             setLoader(false);
@@ -265,7 +263,6 @@ const index = ({navigation, route}) => {
     //     return itn;
     //   }
     // });
-    // console.log('dat as', data);
     // setAllMembersData(data);
 
     setLinkUHIDselection(true);

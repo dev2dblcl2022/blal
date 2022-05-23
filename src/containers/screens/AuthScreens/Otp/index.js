@@ -44,44 +44,7 @@ const index = ({navigation, route, props}) => {
     otp: '',
     otpError: '',
   });
-  const [timer, setTimer] = useState(120);
-
-  // React.useEffect(() => {
-
-  //   RNOtpVerify.getOtp()
-  //     .then(
-  //       p => console.log('p', p),
-  //       RNOtpVerify.addListener(message => {
-  //         console.log('msj', message);
-  //         try {
-  //           const messageArray = message.split('\n');
-  //           console.log(messageArray);
-  //           if (messageArray[2]) {
-  //             const otp = messageArray[2].split(' ')[0];
-  //             console.log(otp);
-  //             if (otp.length === 6) {
-  //               setOtp(otp.split(''));
-  //             }
-  //           }
-  //         } catch (err) {
-  //           console.log(err);
-  //         }
-  //       }),
-  //     )
-  //     .catch(err => {
-  //       console.log('catch err', err);
-  //     });
-  //   return () => RNOtpVerify.removeListener();
-  // }, []);
-
-  // const otpHandler = (message: string) => {
-  //   console.log('coming Otp', message);
-  //   const otp = /(\d{4})/g.exec(message)[1];
-  //   console.log('coming Otp', otp);
-  //   setOtp(otp);
-  //   RNOtpVerify.removeListener();
-  //   Keyboard.dismiss();
-  // };
+  const [timer, setTimer] = useState(60);
 
   // const onSubmit = () => {
   //   signIn('dfd', 'dd');
@@ -92,9 +55,20 @@ const index = ({navigation, route, props}) => {
   //   formState: {errors, isValid},
   // } = useForm({mode: 'onChange'});
   // const onSubmit = data => {
-  //   console.log('ss', data);
   // };
-
+  // useEffect(() => {
+  //   RNOtpVerify.getOtp().then(p => RNOtpVerify.addListener(otpHandler));
+  //   return () => {
+  //     RNOtpVerify.removeListener();
+  //   };
+  // }, []);
+  // const otpHandler = message => {
+  //   console.log('message', message);
+  //   const lOtp = /(\d{6})/g.exec(message)[1];
+  //   setOtp(lOtp);
+  //   RNOtpVerify.removeListener();
+  //   Keyboard.dismiss();
+  // };
   function useInterval(callback, delay) {
     const savedCallback = useRef();
     useEffect(() => {
@@ -137,8 +111,10 @@ const index = ({navigation, route, props}) => {
     let data = {
       phone_number: phone_number,
       otp: validateForm.otp,
+      hashCode: validateForm.hashCode,
       device_token: await AsyncStorage.getItem('fcmToken'),
     };
+
     try {
       setLoader(true);
       const requestConfig = {
@@ -146,12 +122,11 @@ const index = ({navigation, route, props}) => {
         url: servicesPoints.userServices.verifyOtp,
         data: data,
       };
-      // console.log('reqqqqq login', requestConfig);
       const response = await NetworkRequest(requestConfig);
+
       if (response) {
         const {success} = response;
         if (success) {
-          console.log('res success', response);
           setLoader(false);
 
           if (response.data?.new_user) {
@@ -170,8 +145,6 @@ const index = ({navigation, route, props}) => {
           // props.onJoinevent(response.response.id);
           // props.onRequestClose;
         } else {
-          // console.log('res failure', response);
-
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
@@ -185,7 +158,6 @@ const index = ({navigation, route, props}) => {
         }
       }
     } catch (error) {
-      console.log(error.message);
       setLoader(false);
     }
   };
@@ -206,15 +178,12 @@ const index = ({navigation, route, props}) => {
       if (response) {
         const {success} = response;
         if (success) {
-          // console.log('res success', response);
           setLoader(false);
           setOtpText(response.data.otp);
           Toast(response.message, 1);
           // Toast(response.message + ' ' + response.data.otp, 1);
-          setTimer(120);
+          setTimer(60);
         } else {
-          // console.log('res failure', response);
-
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
@@ -228,7 +197,6 @@ const index = ({navigation, route, props}) => {
         }
       }
     } catch (error) {
-      console.log(error.message);
       setLoader(false);
     }
   };
@@ -272,16 +240,13 @@ const index = ({navigation, route, props}) => {
             style={styles.otpInputView}
             pinCount={6}
             keyboardType={'number-pad'}
+            // code={otp}
             // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
             onCodeChanged={text => onChangeText('otp', text, 'required')}
-            autoFocusOnLoad
+            autoFocusOnLoad={true}
             codeInputFieldStyle={styles.underlineStyleBase}
             codeInputHighlightStyle={styles.underlineStyleHighLighted}
-            onCodeFilled={code => {
-              console.log(`Code is ${code}, you are good to go!`);
-            }}
           />
-
           {validateForm.otpError ? (
             <ErrorText style={styles.errorText} title={validateForm.otpError} />
           ) : null}

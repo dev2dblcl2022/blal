@@ -205,7 +205,6 @@ const index = ({navigation, route}) => {
         url: servicesPoints.userServices.add_address,
         data: data,
       };
-
       const response = await NetworkRequest(requestConfig);
       if (response) {
         const {success} = response;
@@ -251,7 +250,6 @@ const index = ({navigation, route}) => {
         }
       }
     } catch (error) {
-      console.log(error.message);
       setLoader(false);
     }
   };
@@ -263,6 +261,7 @@ const index = ({navigation, route}) => {
         pincode: validateForm.pinCode,
         CityName: validateForm.city,
       };
+
       const requestConfig = {
         method: method.post,
         data: data,
@@ -346,10 +345,6 @@ const index = ({navigation, route}) => {
 
             getLocationName(position, 0);
           },
-          error => {
-            // See error code charts below.
-            console.log(error.code, error.message);
-          },
           {enableHighAccuracy: true, timeout: 10000, maximumAge: 10000},
         );
       } else {
@@ -358,7 +353,7 @@ const index = ({navigation, route}) => {
     });
   };
 
-  const getLocationName = (data, val) => {
+  const getLocationName = async (data, val) => {
     Geocoder.init('AIzaSyBvrwNiJMMmne5aMGkQUMCpb-rafOYdT4g');
     Geocoder.from(
       val === 0 ? data.latitude : data.latitude,
@@ -372,90 +367,66 @@ const index = ({navigation, route}) => {
         var addressComponent = json.results[0].formatted_address;
 
         setAddressComponent(addressComponent);
+        setLoader(false);
       })
-
-      .catch(error => console.warn(error));
   };
   const getZipCode = async details => {
     let data = details.results[0] || [];
-    for (let i = 0; i < data.address_components.length; i++) {
-      for (let j = 0; j < data.address_components[i].types.length; j++) {
-        if (data.address_components[i].types[j] === 'postal_code') {
-          var add_zipCode = data.address_components[i].long_name;
-
-          await setValidateForm({
-            streetNameOne: '',
-            streetNameOneError: '',
-            streetNameTwo: '',
-            streetNameTwoError: '',
-            state: '',
-            stateError: '',
-            city: '',
-            cityError: '',
-            pinCode: add_zipCode,
-            pinCodeError: '',
-            phoneNumber: '',
-            phoneNumberError: '',
-            plotNumber: '',
-            plotNumberError: '',
-          });
-        }
-
-        setTimeout(async () => {
-          if (
-            data.address_components[i].types[j] ===
-            'administrative_area_level_2'
-          ) {
-            var add_city = data.address_components[i].long_name;
-            dummyCity = data.address_components[i].long_name;
-            await setValidateForm({
-              streetNameOne: '',
-              streetNameOneError: '',
-              streetNameTwo: '',
-              streetNameTwoError: '',
-              state: '',
-              stateError: '',
-              city: add_city,
-              cityError: '',
-              pinCode: add_zipCode,
-              pinCodeError: '',
-              phoneNumber: '',
-              phoneNumberError: '',
-              plotNumber: '',
-              plotNumberError: '',
-            });
-          }
-        }, 100);
-
-        setTimeout(async () => {
-          if (
-            data.address_components[i].types[j] ===
-            'administrative_area_level_1'
-          ) {
-            var add_state = data.address_components[i].long_name;
-            await setValidateForm({
-              streetNameOne: '',
-              streetNameOneError: '',
-              streetNameTwo: '',
-              streetNameTwoError: '',
-              state: add_state,
-              stateError: '',
-              city: dummyCity,
-              cityError: '',
-              pinCode: add_zipCode,
-              pinCodeError: '',
-              phoneNumber: '',
-              phoneNumberError: '',
-              plotNumber: '',
-              plotNumberError: '',
-            });
-            setLoader(false);
-          }
-        }, 200);
+    let addressString = '';
+    let addressObject = {
+      streetNameOne: '',
+      streetNameOneError: '',
+      streetNameTwo: '',
+      streetNameTwoError: '',
+      state: '',
+      stateError: '',
+      city: '',
+      cityError: '',
+      pinCode: '',
+      pinCodeError: '',
+      phoneNumber: '',
+      phoneNumberError: '',
+      plotNumber: '',
+      plotNumberError: '',
+    };
+    data.address_components.map(_data => {
+      if (_data.types.includes('premise')) {
+        addressString = addressString + `${_data.long_name}`;
+        addressObject.plotNumber = _data.long_name;
+      } else if (_data.types.includes('street_number')) {
+        addressString = addressString + ` ${_data.long_name}`;
+        addressObject.streetNameOne = _data.long_name;
+      } else if (_data.types.includes('sublocality_level_2')) {
+        addressString = addressString + ` ${_data.long_name}`;
+        addressObject.streetNameOne =
+          addressObject.streetNameOne + ` ${_data.long_name}`;
+      } else if (_data.types.includes('route')) {
+        addressString = addressString + ` ${_data.long_name}`;
+        addressObject.streetNameTwo = _data.long_name;
+      } else if (_data.types.includes('sublocality_level_1')) {
+        addressString = addressString + ` ${_data.long_name}`;
+        addressObject.streetNameTwo =
+          addressObject.streetNameTwo + ` ${_data.long_name}`;
+      } else if (_data.types.includes('locality')) {
+        addressString = addressString + ` ${_data.long_name}`;
+        addressObject.streetNameTwo =
+          addressObject.streetNameTwo + ` ${_data.long_name}`;
+      } else if (_data.types.includes('administrative_area_level_2')) {
+        addressString = addressString + ` ${_data.long_name}`;
+        addressObject.city = _data.long_name;
+      } else if (_data.types.includes('administrative_area_level_1')) {
+        addressString = addressString + ` ${_data.long_name}`;
+        addressObject.state = _data.long_name;
+      } else if (_data.types.includes('country')) {
+        addressString = addressString + ` ${_data.long_name}`;
+        addressObject.country = _data.long_name;
+      } else if (_data.types.includes('postal_code')) {
+        addressString = addressString + ` ${_data.long_name}`;
+        addressObject.pinCode = _data.long_name;
       }
-    }
+    });
+    setValidateForm(addressObject);
   };
-  console.log('validateForm', validateForm);
   return (
     <SafeAreaView style={styles.safeArea}>
       <DefaultHeader
@@ -511,6 +482,19 @@ const index = ({navigation, route}) => {
             <View style={styles.inputFieldsContainer}>
               <View style={styles.mobileNumberInput}>
                 <InputField
+                  value={validateForm.plotNumber}
+                  error={validateForm.plotNumberError}
+                  returnKeyType={'next'}
+                  blurOnSubmit={false}
+                  onChangeText={text =>
+                    onChangeText('plotNumber', text, 'plotNumber')
+                  }
+                  style={styles.input}
+                  placeholder={'Plot Number'}
+                />
+              </View>
+              <View style={styles.mobileNumberInput}>
+                <InputField
                   value={validateForm.streetNameOne}
                   error={validateForm.streetNameOneError}
                   returnKeyType={'next'}
@@ -535,17 +519,16 @@ const index = ({navigation, route}) => {
                   placeholder={'Street Name 2'}
                 />
               </View>
+
               <View style={styles.mobileNumberInput}>
                 <InputField
-                  value={validateForm.plotNumber}
-                  error={validateForm.plotNumberError}
+                  value={validateForm.city}
+                  error={validateForm.cityError}
                   returnKeyType={'next'}
                   blurOnSubmit={false}
-                  onChangeText={text =>
-                    onChangeText('plotNumber', text, 'plotNumber')
-                  }
+                  onChangeText={text => onChangeText('city', text, 'city')}
                   style={styles.input}
-                  placeholder={'Plot Number'}
+                  placeholder={'City'}
                 />
               </View>
               <View style={styles.mobileNumberInput}>
@@ -559,17 +542,7 @@ const index = ({navigation, route}) => {
                   placeholder={'State'}
                 />
               </View>
-              <View style={styles.mobileNumberInput}>
-                <InputField
-                  value={validateForm.city}
-                  error={validateForm.cityError}
-                  returnKeyType={'next'}
-                  blurOnSubmit={false}
-                  onChangeText={text => onChangeText('city', text, 'city')}
-                  style={styles.input}
-                  placeholder={'City'}
-                />
-              </View>
+
               <View style={styles.mobileNumberInput}>
                 <InputField
                   value={validateForm.pinCode}

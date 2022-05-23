@@ -42,7 +42,6 @@ import {GoogleMapApiKey} from '../../../../config/Setting';
 <Image style={styles.profilePic} source={imagesConstants.flask} />;
 const index = ({navigation, route}) => {
   const type = route.params.type;
-
   const {addressLabel, location, signOut} = React.useContext(AuthContext);
 
   const mapRef = useRef(null);
@@ -79,13 +78,11 @@ const index = ({navigation, route}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-
       if (response) {
         const {success} = response;
         if (success) {
           setLoader(false);
           await AsyncStorage.setItem('LocationStatus', '1');
-
           if (type === '1') {
             addressLabel(locationLabel);
 
@@ -232,10 +229,6 @@ const index = ({navigation, route}) => {
 
             getLocationName(position, 0);
           },
-          error => {
-            // See error code charts below.
-            console.log(error.code, error.message);
-          },
           {enableHighAccuracy: true, timeout: 10000, maximumAge: 10000},
         );
       }
@@ -264,10 +257,6 @@ const index = ({navigation, route}) => {
             });
 
             getLocationName(position, 0);
-          },
-          error => {
-            // See error code charts below.
-            console.log(error.code, error.message);
           },
           {enableHighAccuracy: true, timeout: 10000, maximumAge: 10000},
         );

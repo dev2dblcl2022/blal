@@ -102,10 +102,6 @@ const index = ({navigation}) => {
 
             //getLocationName(position);
           },
-          error => {
-            // See error code charts below.
-            console.log(error.code, error.message);
-          },
           {enableHighAccuracy: true, timeout: 10000, maximumAge: 10000},
         );
       }

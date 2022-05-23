@@ -106,6 +106,7 @@ const index = ({navigation}) => {
     {name: 'Pregnacny'},
     {name: 'Thyroid'},
   ]);
+  const [update, setUpdate] = useState(true);
   const [testByCondition, setTestByCondition] = useState([]);
   const [testByBodyParts, setTestByBodyPart] = useState([]);
   const [healthPackages, setHealthPackages] = useState([]);
@@ -128,7 +129,6 @@ const index = ({navigation}) => {
       };
       getLocationNameDefaultMalviyaBlal(coords);
     } else {
-      console.log('location is ', label);
       if (label === '0' || label === null) {
         getCurrentLocation();
       }
@@ -190,7 +190,6 @@ const index = ({navigation}) => {
   };
 
   const getCurrentLocation = () => {
-    console.log('I am call');
     request(
       Platform.select({
         android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
@@ -201,7 +200,6 @@ const index = ({navigation}) => {
         if (response === 'granted') {
           Geolocation.getCurrentPosition(
             position => {
-              console.log('loc res', position);
               setCurrentLocation(true);
 
               setLatitude(position?.coords?.latitude.toString());
@@ -221,10 +219,6 @@ const index = ({navigation}) => {
               // }
 
               getLocationName(position, 0);
-            },
-            error => {
-              // See error code charts below.
-              console.log(error.code, error.message);
             },
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 0},
           );
@@ -255,7 +249,6 @@ const index = ({navigation}) => {
               'administrative_area_level_2'
             ) {
               dummyCity = data.address_components[i].long_name;
-              // console.log('dummy city', dummyCity);
               // setCityName(dummyCity);
             }
           }
@@ -270,26 +263,19 @@ const index = ({navigation}) => {
   }
 
   // const getCurrentLocation = async val => {
-  // console.log('i am cal');
   // request(
   //   Platform.select({
   //     android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
   //     ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
   //   }),
   // ).then(response => {
-  //   console.log('res', response);
   //   if (response == 'granted') {
-  //     console.log('res', response);
   //     Geolocation.getCurrentPosition(
   //       position => {
   //         setCurrentLocation(true);
 
   //         setLatitude(position.coords.latitude.toString());
   //         setLongitude(position.coords.longitude.toString());
-  //       },
-  //       error => {
-  //         // See error code charts below.
-  //         console.log(error.code, error.message);
   //       },
   //       {enableHighAccuracy: true, timeout: 20000, maximumAge: 10000},
   //     );
@@ -371,9 +357,6 @@ const index = ({navigation}) => {
   //       //         setLatitude(position.coords.latitude.toString());
   //       //         setLongitude(position.coords.longitude.toString());
   //     },
-  //     error => {
-  //       console.log(error.message.toString());
-  //     },
   //     {
   //       showLocationDialog: true,
   //       enableHighAccuracy: true,
@@ -404,7 +387,6 @@ const index = ({navigation}) => {
               'administrative_area_level_2'
             ) {
               dummyCity = data.address_components[i].long_name;
-              // console.log('dummy city', dummyCity);
               // setCityName(dummyCity);
             }
           }
@@ -419,7 +401,6 @@ const index = ({navigation}) => {
   }
 
   const getZipCode = async (details, cityName) => {
-    // console.log('getZipCode  called');
     let data = details.results[0] || [];
     for (let i = 0; i < data.address_components.length; i++) {
       for (let j = 0; j < data.address_components[i].types.length; j++) {
@@ -443,9 +424,7 @@ const index = ({navigation}) => {
         data: data,
         url: servicesPoints.userServices.checkPinCode,
       };
-      console.log('Latest rewwww is', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      console.log('Latest Respons is', response);
       if (response) {
         const {success} = response;
         if (success) {
@@ -471,7 +450,6 @@ const index = ({navigation}) => {
           );
           await AsyncStorage.setItem('LocationStatus', '1');
         } else {
-          console.log('Latest Respons is here', response);
           await AsyncStorage.setItem('LocationStatus', '0');
           let user = await AsyncStorage.getItem('userToken');
 
@@ -520,7 +498,6 @@ const index = ({navigation}) => {
   };
 
   const getAddresLabel = async () => {
-    console.log('getAddresLabel');
     let label = await AsyncStorage.getItem('addressLabel');
     let storage_city_id = await AsyncStorage.getItem('cityId');
     let storage_panel_id = await AsyncStorage.getItem('panelId');
@@ -536,7 +513,6 @@ const index = ({navigation}) => {
   };
 
   const getHome_banners = async () => {
-    console.log('getHome_banners');
     try {
       const requestConfig = {
         method: method.get,
@@ -565,7 +541,6 @@ const index = ({navigation}) => {
     }
   };
   const getCartCount = async () => {
-    console.log('getCartCount');
     try {
       const requestConfig = {
         method: method.get,
@@ -595,7 +570,6 @@ const index = ({navigation}) => {
     }
   };
   const getNotificationCount = async () => {
-    console.log('getNotificationCount');
     try {
       const requestConfig = {
         method: method.get,
@@ -625,7 +599,6 @@ const index = ({navigation}) => {
     }
   };
   const getHealthPackages = async () => {
-    console.log('getHealthPackages');
     try {
       let data = {
         PanelId: panelId,
@@ -651,16 +624,13 @@ const index = ({navigation}) => {
     }
   };
   const getBlalAwards = async () => {
-    console.log('getBlalAwards');
     try {
       const requestConfig = {
         method: method.get,
 
         url: `${servicesPoints.commonServices.why_choose_blal_lab}`,
       };
-      // console.log('rq', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      // console.log('rs', response);
       if (response) {
         const {success} = response;
         if (success) {
@@ -682,16 +652,13 @@ const index = ({navigation}) => {
     }
   };
   const getBlogs = async () => {
-    console.log('getBlogs');
     try {
       const requestConfig = {
         method: method.get,
 
         url: `${servicesPoints.blogs.home_blogs}`,
       };
-      // console.log('rq', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      // console.log('rs of blogs', response);
       if (response) {
         const {success} = response;
         if (success) {
@@ -713,16 +680,13 @@ const index = ({navigation}) => {
     }
   };
   const getNewsEvent = async () => {
-    console.log('getNewsEvent');
     try {
       const requestConfig = {
         method: method.get,
 
         url: `${servicesPoints.commonServices.news_events_list}`,
       };
-      // console.log('rq', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      // console.log('rs of newsEvent', response);
       if (response) {
         const {success} = response;
         if (success) {
@@ -744,7 +708,6 @@ const index = ({navigation}) => {
     }
   };
   const getTestByBodyParts = async () => {
-    console.log('getTestByBodyParts');
     try {
       let data = {
         limit: 10,
@@ -769,7 +732,6 @@ const index = ({navigation}) => {
   };
 
   const getTestByCondition = async () => {
-    console.log('getTestByCondition');
     try {
       let data = {
         limit: 6,
@@ -784,7 +746,6 @@ const index = ({navigation}) => {
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
-          // console.log('city ID , pansel id', cityId, panelId);
           setTestByCondition(response.data);
           SetLoader(false);
         } else {
@@ -811,9 +772,6 @@ const index = ({navigation}) => {
 
     // axios(config)
     //   .then(function (response) {
-    //     console.log('asd', JSON.stringify(response.data));
-    //     // console.log('city', JSON.stringify(response?.PostOffice[0].Circle));
-    //     console.log('data city', response.data.PostOffice[0].Circle);
     //     let val = '';
     //     if (response.data.PostOffice[0].District === 'Bhilwara') {
     //       val = response.data.PostOffice[0].District;
@@ -832,10 +790,6 @@ const index = ({navigation}) => {
 
         var selectedCity = '';
 
-        console.log(
-          'response1.results[0].address_components',
-          response1.results[0].address_components,
-        );
         for (
           let i = 0;
           i < response1.results[0].address_components.length;
@@ -860,8 +814,6 @@ const index = ({navigation}) => {
             }
           }
         }
-
-        console.log('selectedCity is', selectedCity);
         checkPincode(selectedCity);
       })
       .catch(error => {
@@ -888,9 +840,6 @@ const index = ({navigation}) => {
       if (response) {
         const {success} = response;
         if (success) {
-          console.log('resss', response);
-          console.log('cityyyyy', response?.data?.CityId);
-          console.log('panellllll', response?.data?.Panel_ID);
           Toast(response.message, 1);
           setPincode('');
           addressLabel(pinCode);
@@ -989,6 +938,7 @@ const index = ({navigation}) => {
 
   const onNavigateAddAddress = () => {
     setHomeSelectAddress(false);
+
     navigation.navigate('AddNewAddress');
   };
 
@@ -1020,7 +970,6 @@ const index = ({navigation}) => {
     }, 200);
   };
   const onCloseHomeSelectModal = (cityId, panelId) => {
-    console.log('I am call', cityId, panelId);
     setHomeSelectAddress(false);
     if (cityId) {
       setCityOrPanelIds(cityId, panelId);
@@ -1362,6 +1311,7 @@ const index = ({navigation}) => {
             onCloseHomeSelectModal(cityId, panelId)
           }
           visible={homeSelectAddress}
+          setAddressLabel={setAddressLabel}
         />
       </View>
     </>

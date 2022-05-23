@@ -6,8 +6,8 @@ import axios from 'axios';
 // import {PROFILE_SETUP, TOKEN} from '../Redux/ActionConstant/AuthConstant';
 
 // URL config
-// const DOMAIN = 'https://lims.blallab.com:443/LISWebAPI/';
-const DOMAIN = 'https://lims.blallab.com/WebApiLive/';
+// const DOMAIN = 'ht:tps://lims.blallab.com:443/LISWebAPI/';
+const DOMAIN = 'https://silverapi.blallab.com';
 
 export const API_BASE_URL = DOMAIN;
 
@@ -50,15 +50,12 @@ const NetworkRequestBlal = async requestConfig => {
 
     // apiClient.defaults.headers.common.Authorization = token;
 
-    // console.log('requestConfig', requestConfig);
-
     const response = await apiClient.request(requestConfig);
 
     if (response) {
       const {status, message} = response;
 
       if (status === 200) {
-        // console.log('res of blal apis', response);
         const {data} = response;
 
         return data;
@@ -67,7 +64,6 @@ const NetworkRequestBlal = async requestConfig => {
 
     return null;
   } catch (error) {
-    console.log(error.message);
     return null;
   }
 };

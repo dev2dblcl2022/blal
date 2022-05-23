@@ -64,16 +64,8 @@ export default function BottomTabBar({state, descriptors, navigation}) {
   useEffect(() => {
     if (routeValue === 'CallUs') {
       const subscription = AppState.addEventListener('change', nextAppState => {
-        if (
-          appState.current.match(/inactive|background/) &&
-          nextAppState === 'active'
-        ) {
-          console.log('App has come to the foreground!');
-        }
-
         appState.current = nextAppState;
         setAppStateVisible(appState.current);
-        console.log('AppState', appState.current);
         navigation.goBack();
       });
 
@@ -88,7 +80,6 @@ export default function BottomTabBar({state, descriptors, navigation}) {
     // client secret key ==> U2Ak457QqbwyvMvfoVkCHbdMU7q4ps0Qi3QNf3DNAkj8rzL2WDmIVDuCZjCBp1OF
     ZendeskChat.init('GTgw066gP0PvWLeRulhoN5kAqSY07dU5');
 
-    // console.log('this.state.userProfile ==> ', this.state.userProfile);
     ZendeskChat.startChat({
       name: userData.fullname,
 

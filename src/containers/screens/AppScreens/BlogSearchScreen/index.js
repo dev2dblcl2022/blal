@@ -50,7 +50,6 @@ import {AuthContext} from '../../../../../context/context';
 const index = ({navigation, route}) => {
   let blogType = route.params?.blogType;
   let category_id = route.params?.data?.id;
-  // console.log('data ius', route.params?.data);
   const [visible, setVisible] = useState(false);
   const [packageData, setPackageData] = useState({});
   const {signOut} = React.useContext(AuthContext);
@@ -80,7 +79,6 @@ const index = ({navigation, route}) => {
   }, [categoryId]);
 
   const getSubCategory = async () => {
-    console.log('categoryid', categoryId);
     let data = {
       category_id: category_id,
     };
@@ -89,18 +87,13 @@ const index = ({navigation, route}) => {
       method: method.get,
       url: `${servicesPoints.blogs.blog_sub_categories}?category_id=${data.category_id}`,
     };
-
-    console.log('req of blogs subCategory', requestConfig);
     const response = await NetworkRequest(requestConfig);
 
     if (response) {
       const {success} = response;
       if (success) {
         setSubCategoryBlog(response.data);
-
-        console.log('res success of blogs search', response);
       } else {
-        console.log('res failure', response);
         Toast(response.message, 0);
         if (response === 'Network Error') {
           Toast('Network Error', 0);
@@ -118,7 +111,6 @@ const index = ({navigation, route}) => {
   const getFilterData = async () => {
     let startDate = await AsyncStorage.getItem('startDate');
     let endDate = await AsyncStorage.getItem('endDate');
-    console.log('start&end', startDate, endDate);
     setStartDate(startDate ? startDate : '');
     setEndDate(endDate ? endDate : '');
   };
@@ -170,19 +162,13 @@ const index = ({navigation, route}) => {
         method: method.get,
         url: url,
       };
-
-      console.log('req of blogs search', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      console.log('res success of search blog', response);
       if (response) {
         const {success} = response;
         if (success) {
-          console.log('res success of search blog', response);
           setBlogs(response.data.docs);
           setLoader(false);
-          // console.log('res success of blogs search', response);
         } else {
-          console.log('res failure', response);
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);

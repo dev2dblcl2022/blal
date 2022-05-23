@@ -99,7 +99,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     shadowOpacity: 0.1,
     shadowRadius: 2,
-
+    zIndex: 99999,
     elevation: 5,
     borderColor: colors.purplishGrey,
   },

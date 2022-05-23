@@ -46,10 +46,6 @@ export default props => {
     }
   }
 
-  // console.log(
-  //   'hello',
-  //   `https://lims.blallab.com/ExceUploadApp/AppImages/${imageType}/${NAME}.jpg`,
-  // );
   return (
     <TouchableOpacity onPress={props.onPress} style={styles.itemContainer}>
       <View style={styles.profilePicSection}>

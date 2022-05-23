@@ -115,17 +115,13 @@ async function NetworkRequest(requestConfig) {
         // let apiData = data;
 
         // if (JSON.parse(apiData.status) === 401) {
-        //   console.log(apiData.message);
         //   LogoutFun();
         // }
-        // console.log('api data is ', data);
         return data;
       }
     }
     return null;
   } catch (error) {
-    // console.log(error.message);
-    console.log(error.message);
     return error.message;
   }
 }

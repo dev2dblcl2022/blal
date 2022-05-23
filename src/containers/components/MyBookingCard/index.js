@@ -30,12 +30,9 @@ export default props => {
   } = props?.data;
 
   let discount = Number(total_discount).toFixed(0);
-  // console.log('rated', rated);
-  console.log('props', props.total_member_amount);
-
-  const num1 = parseInt(total_member_amount);
-  const num2 = parseInt(pickup_charge);
-  const totalAmount = num1 + num2;
+  // const num1 = parseInt(total_member_amount);
+  // const num2 = parseInt(pickup_charge);
+  // const totalAmount = num1 + num2;
 
   return (
     <TouchableOpacity onPress={props.onViewMore} style={styles.bookingCard}>
@@ -167,7 +164,7 @@ export default props => {
           {final_amount ? (
             <RegularText
               style={styles.bookingRateText}
-              title={`${'\u20B9'} ${totalAmount}`}
+              title={`${'\u20B9'} ${props.data.bookingAmount}`}
             />
           ) : null}
           <View

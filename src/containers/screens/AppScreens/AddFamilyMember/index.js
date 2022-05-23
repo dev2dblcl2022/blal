@@ -150,7 +150,6 @@ const index = ({navigation}) => {
           'content-type': 'multipart/form-data',
         },
       };
-      console.log('request', requestConfig);
 
       const response = await NetworkRequest(requestConfig);
       if (response) {
@@ -161,22 +160,18 @@ const index = ({navigation}) => {
           Toast(response.message, 1);
           age = 'Age';
           navigation.goBack();
-        } else {
-          console.log('res failure', response);
-          if (response === 'Network Error') {
-            Toast('Network Error', 0);
-            setLoader(false);
-          } else if (response.status === 401) {
-            signOut();
-          } else {
-            null;
-          }
+        } else if (response === 'Network Error') {
+          Toast('Network Error', 0);
           setLoader(false);
-          Toast(response.message, 0);
+        } else if (response.status === 401) {
+          signOut();
+        } else {
+          null;
         }
+        setLoader(false);
+        Toast(response.message, 0);
       }
     } catch (error) {
-      console.log(error.message);
       setLoader(false);
     }
   };
@@ -273,7 +268,6 @@ const index = ({navigation}) => {
       });
 
       const result = await check(platformPermission);
-      // console.log('storage', result);
       switch (result) {
         case RESULTS.UNAVAILABLE:
           Toast(
@@ -488,7 +482,7 @@ const index = ({navigation}) => {
               placeholder="Select Relation"
               value={value}
               listMode={'SCROLLVIEW'}
-              style={{borderColor: colors.purplishGrey, borderWidth: 1}}
+              style={{borderColor: colors.purplishGrey}}
               items={allRelation}
               zIndex={1000}
               setOpen={setOpens}

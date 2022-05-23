@@ -102,7 +102,6 @@ const index = ({navigation}) => {
         setPatients(newData);
         setLoader(false);
       } else {
-        console.log('res failure', response);
         if (response === 'Network Error') {
           Toast('Network Error', 0);
           setLoader(false);
@@ -124,11 +123,9 @@ const index = ({navigation}) => {
     if (response) {
       const {success} = response;
       if (success) {
-        // console.log('res success', response);
         setAddresses(response.data);
         setLoader(false);
       } else {
-        // console.log('res failure', response);
         if (response === 'Network Error') {
           Toast('Network Error', 0);
         }
@@ -138,7 +135,6 @@ const index = ({navigation}) => {
   };
 
   const uploadApi = async () => {
-    // console.log('add', selectedAddresses);
     if (!patientValues) {
       Toast('Please select Patients');
     } else if (Object.keys(selectedAddresses).length === 0) {
@@ -179,7 +175,6 @@ const index = ({navigation}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-      console.log('response', response);
       if (response) {
         const {success} = response;
         if (success) {
@@ -258,10 +253,6 @@ const index = ({navigation}) => {
               lat: position.coords.latitude,
               long: position.coords.longitude,
             });
-          },
-          error => {
-            // See error code charts below.
-            console.log(error.code, error.message);
           },
           {enableHighAccuracy: true, timeout: 10000, maximumAge: 10000},
         );
@@ -552,7 +543,6 @@ const index = ({navigation}) => {
         quality: 0.5,
       };
       launchCamera(options, response => {
-        console.log('reee', response);
         selectImage = 1;
         if (response.assets) {
           setImages([...images, ...response.assets]);
@@ -576,7 +566,6 @@ const index = ({navigation}) => {
 
   async function checkPermissionCamera() {
     // CameraController.open(data => {
-    //   console.log('data is ', data);
     //   if (data) {
     //     // setProfileImage(data.path);
     //     // setUpdateProfileImage(true);
@@ -589,7 +578,6 @@ const index = ({navigation}) => {
       });
 
       const result = await check(platformPermission);
-      console.log('resss image', result);
       switch (result) {
         case RESULTS.UNAVAILABLE:
           Toast('This feature is not available on this device', 0);
@@ -637,7 +625,6 @@ const index = ({navigation}) => {
       });
 
       const result = await check(platformPermission);
-      console.log('storage', result);
       switch (result) {
         case RESULTS.UNAVAILABLE:
           Toast(

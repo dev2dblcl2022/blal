@@ -156,12 +156,10 @@ const index = ({navigation, route}) => {
           'content-type': 'multipart/form-data',
         },
       };
-      // console.log('formdata of signup', formData);
       const response = await NetworkRequest(requestConfig);
       if (response) {
         const {success} = response;
         if (success) {
-          // console.log('res success of signup', response);
           setLoader(false);
           // Toast(response.message, 1);
           signIn(response.data, response.data.token);
@@ -180,7 +178,6 @@ const index = ({navigation, route}) => {
         }
       }
     } catch (error) {
-      console.log(error.message);
       setLoader(false);
     }
   };
@@ -210,7 +207,6 @@ const index = ({navigation, route}) => {
     setYear(split_date[2]);
     setDate(formatDate(date));
     // setDate(selectedDate);
-    // console.log('res success of signup', response);
     setFullDate(newDate);
     setDatePicker(false);
   };
@@ -289,7 +285,6 @@ const index = ({navigation, route}) => {
       });
 
       const result = await check(platformPermission);
-      // console.log('storage', result);
       switch (result) {
         case RESULTS.UNAVAILABLE:
           Toast(

@@ -128,8 +128,6 @@ const index = ({navigation, route}) => {
   };
 
   const onMapReady = () => {
-    // console.log('i ma call', lat, long);
-
     // setLatitude(lat);
     // setLongitude(long);
     // position.latitude
@@ -275,7 +273,6 @@ const index = ({navigation, route}) => {
         }
       }
     } catch (error) {
-      console.log(error.message);
       setLoader(false);
     }
   };
@@ -369,10 +366,6 @@ const index = ({navigation, route}) => {
             setLongitude(position.coords.longitude);
 
             getLocationName(position, 0, 'editFalse');
-          },
-          error => {
-            // See error code charts below.
-            console.log(error.code, error.message);
           },
           {enableHighAccuracy: true, timeout: 10000, maximumAge: 10000},
         );

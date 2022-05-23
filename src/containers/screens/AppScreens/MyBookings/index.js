@@ -34,7 +34,7 @@ import imagesConstants from '../../../../constants/imagesConstants';
 import {AuthContext} from '../../../../../context/context';
 import {Api_Live_Url, Pay_tmMerchantId} from '../../../../config/Setting';
 const merchantId = Pay_tmMerchantId;
-const index = ({navigation, route}) => {
+const index1 = ({navigation, route}) => {
   const screen = route?.params?.screen;
   const [loader, setLoader] = useState(false);
   const [footerLoader, setFooterLoader] = useState(false);
@@ -141,7 +141,8 @@ const index = ({navigation, route}) => {
       if (response) {
         const {success} = response;
         if (success) {
-          setBookings(response?.data?.docs);
+          const bookingNewData = refectorBookingData(response?.data?.docs);
+          setBookings(bookingNewData);
           setLoader(false);
           getMyFamilyMembers();
 
@@ -181,6 +182,20 @@ const index = ({navigation, route}) => {
     getMyFamilyMembers();
   }
 
+  const refectorBookingData = bookingData => {
+    const arr = [];
+    bookingData.map(_data => {
+      if (!arr.includes(_data.booking_hash)) {
+        arr.push(_data.booking_hash);
+        _data.bookingAmount =
+          parseInt(_data.total_member_amount) + parseInt(_data.pickup_charge);
+      } else {
+        _data.bookingAmount = _data.total_member_amount;
+      }
+    });
+    return bookingData;
+  };
+
   const getAllBookings = async val => {
     setLoader(true);
     try {
@@ -198,7 +213,8 @@ const index = ({navigation, route}) => {
       if (response) {
         const {success} = response;
         if (success) {
-          setBookings(response?.data?.docs);
+          const bookingNewData = refectorBookingData(response?.data?.docs);
+          setBookings(bookingNewData);
           setRefreshing(false);
           getMyFamilyMembers();
         } else {
@@ -293,19 +309,15 @@ const index = ({navigation, route}) => {
   // }, [page]);
 
   const loadMorBookings = () => {
-    console.log('total page', totalPage, currentPage);
     if (totalPage > currentPage) {
-      console.log('pagination called', totalPage);
       setFooterLoader(true);
       // setPage(page + 1);
-      // console.log('page number ', page);
       getAllBookingsStarting();
     } else {
     }
   };
 
   const onInitiateTransaction = async item => {
-    console.log('I am calling ', item);
     let orderId = `${item.id}_${Date.now()}`;
     try {
       let data = {
@@ -318,15 +330,11 @@ const index = ({navigation, route}) => {
         data: data,
         url: servicesPoints.paymentServices.initiate_transaction,
       };
-      console.log('I am calling initate  request config ', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      console.log('I am calling response ', response);
       if (response) {
         const {success} = response;
         if (success) {
-          console.log('response is transaction is', response);
           let txnToken = response.data.body.txnToken;
-          console.log('txn token is here', txnToken);
           onPayment(txnToken, item, orderId);
         } else {
           if (response === 'Network Error') {
@@ -346,7 +354,6 @@ const index = ({navigation, route}) => {
   };
 
   const onPayment = (token, data, orderID) => {
-    console.log('cal android 1 ', token, data);
     if (Platform.OS === 'ios') {
       AllInOneSDKManager.startTransaction(
         orderID, // Booking Id
@@ -367,7 +374,6 @@ const index = ({navigation, route}) => {
           Toast('Payment Failed! Try again');
         });
     } else {
-      console.log('cal android ', token, data);
       AllInOneSDKManager.startTransaction(
         orderID,
         merchantId,
@@ -393,28 +399,23 @@ const index = ({navigation, route}) => {
 
   const paymentSuccess = (res, data, orderID) => {
     if (res.RESPCODE === '01' && res.TXNID) {
-      console.log('before onclickmake ', res);
       onClickMakePayment(res.TXNID, data, orderID);
     }
   };
 
   const onClickMakePayment = async (transaction_id, values, orderID) => {
-    console.log('inside onclick make ', transaction_id, orderID);
     try {
-      // console.log('inside try ');
       setLoader(true);
       let data = {
         booking_id: values.id,
         transactions: transaction_id,
       };
 
-      // console.log('REQUEST of payment', data);
       const requestConfig = {
         method: method.post,
         data: data,
         url: servicesPoints.bookingServices.create_pending_booking,
       };
-      console.log('requestConfig of payment', requestConfig);
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
@@ -424,7 +425,6 @@ const index = ({navigation, route}) => {
 
           // setRefresh(true);
           // Toast(response.message, 1);
-          // console.log('Response of Payment', response);
           getAllBookingsStarting(1);
         } else {
           Toast(response.message, 0);
@@ -444,7 +444,6 @@ const index = ({navigation, route}) => {
     }
   };
   const onClearNavigation = () => {
-    console.log('pppp', screen);
     navigationOrder.reset({
       index: 0,
       routes: [{name: 'Home'}],
@@ -532,7 +531,6 @@ const index = ({navigation, route}) => {
             </View>
             <View
               style={{
-                zIndex: 2000,
                 flexDirection: 'row',
                 paddingHorizontal: hp('1.4%'),
                 paddingVertical: hp('1%'),
@@ -545,11 +543,16 @@ const index = ({navigation, route}) => {
                     value={patientValues}
                     placeholderStyle={{color: colors.purplishGrey}}
                     textStyle={{fontSize: hp('1.5%')}}
-                    style={{borderColor: colors.purplishGrey, borderWidth: 1}}
+                    style={{
+                      borderColor: colors.purplishGrey,
+                      borderWidth: 1,
+                      zIndex: 999,
+                    }}
                     dropDownContainerStyle={styles.dropDownContainer}
                     items={patients}
                     setOpen={setPatientOpens}
                     setValue={setPatientValues}
+                    setItems={setPatients}
                   />
                 </View>
               </View>
@@ -561,11 +564,16 @@ const index = ({navigation, route}) => {
                     value={statusValue}
                     textStyle={{fontSize: hp('1.5%')}}
                     placeholderStyle={{color: colors.purplishGrey}}
-                    style={{borderColor: colors.purplishGrey, borderWidth: 1}}
+                    style={{
+                      borderColor: colors.purplishGrey,
+                      borderWidth: 1,
+                      zIndex: 999,
+                    }}
                     dropDownContainerStyle={styles.dropDownContainer}
                     items={status}
                     setOpen={setStatusOpen}
                     setValue={setStatusValue}
+                    setItems={setStatus}
                   />
                 </View>
               </View>
@@ -576,12 +584,17 @@ const index = ({navigation, route}) => {
                     placeholder="Duration"
                     placeholderStyle={{color: colors.purplishGrey}}
                     value={timeValues}
-                    style={{borderColor: colors.purplishGrey, borderWidth: 1}}
+                    style={{
+                      borderColor: colors.purplishGrey,
+                      borderWidth: 1,
+                      zIndex: 999,
+                    }}
                     items={times}
                     textStyle={{fontSize: hp('1.5%')}}
                     dropDownContainerStyle={styles.dropDownContainer}
                     setOpen={setTimeOpens}
                     setValue={setTimeValues}
+                    setItems={setTimes}
                   />
                 </View>
               </View>
@@ -629,10 +642,11 @@ const index = ({navigation, route}) => {
                     </View>
                   );
                 }}
-                renderItem={({item}) => {
+                renderItem={({item, index}) => {
                   return (
                     <MyBookingCard
                       onCancelBooking={() => cancelBooking(item)}
+                      index={index}
                       onViewMore={() =>
                         navigation.navigate('MyBookingDetail', {
                           screen: 'MyBookingTab',
@@ -658,4 +672,4 @@ const index = ({navigation, route}) => {
   );
 };
 
-export default index;
+export default index1;

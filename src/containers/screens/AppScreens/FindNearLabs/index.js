@@ -66,26 +66,19 @@ const index = ({navigation}) => {
   }, [navigation]);
 
   async function getCurrentLocation(val) {
-    // console.log('i am cal');
     // request(
     //   Platform.select({
     //     android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
     //     ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
     //   }),
-    // ).then(response => {
-    //   console.log('res', response);
+    // )
     //   if (response == 'granted') {
-    //     console.log('res', response);
     //     Geolocation.getCurrentPosition(
     //       position => {
     //         setCurrentLocation(true);
 
     //         setLatitude(position.coords.latitude.toString());
     //         setLongitude(position.coords.longitude.toString());
-    //       },
-    //       error => {
-    //         // See error code charts below.
-    //         console.log(error.code, error.message);
     //       },
     //       {enableHighAccuracy: true, timeout: 20000, maximumAge: 10000},
     //     );
@@ -173,29 +166,24 @@ const index = ({navigation}) => {
     }
   }
 
+  const success = pos => {
+    const crd = pos.coords;
+    setLatitude(crd.latitude);
+    setLongitude(crd.longitude);
+    setCurrentLocation(true);
+  };
+
+  const error = err => {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  };
+
   const setUserLocation = async () => {
-    Geolocation.getCurrentPosition(
-      async position => {
-        let _LAT = position.coords.latitude;
-        let _LONG = position.coords.longitude;
-        setLatitude(_LAT);
-        setLongitude(_LONG);
-
-        setCurrentLocation(true);
-
-        //         setLatitude(position.coords.latitude.toString());
-        //         setLongitude(position.coords.longitude.toString());
-      },
-      error => {
-        console.log(error.message);
-      },
-      {
-        showLocationDialog: true,
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 0,
-      },
-    );
+    Geolocation.getCurrentPosition(success, error, {
+      showLocationDialog: true,
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 0,
+    });
   };
 
   useEffect(() => {
@@ -210,7 +198,6 @@ const index = ({navigation}) => {
     }
   }, [cityId]);
   const getCityPanelId = async () => {
-    console.log('1');
     let city = await AsyncStorage.getItem('cityId');
     let panel = await AsyncStorage.getItem('panelId');
 
@@ -227,7 +214,6 @@ const index = ({navigation}) => {
     };
 
     let requestConfig = {};
-
     if (!val) {
       requestConfig = {
         method: blalMethod.post,
@@ -241,10 +227,8 @@ const index = ({navigation}) => {
         url: `${blalServicesPoints.blalUserServices.findNearLabs}?id=${data.id}&lat=${data.lat}&lon=${data.lon}&SearchKeyword=${data.SearchKeyword}`,
       };
     }
-    console.log('req', requestConfig);
 
     const response = await NetworkRequestBlal(requestConfig);
-    console.log('response', response);
     if (response) {
       const {status_Code} = response;
       if (status_Code === 200) {
@@ -252,7 +236,6 @@ const index = ({navigation}) => {
         setLoader(false);
       } else {
         setLoader(false);
-        console.log('res failure', response);
       }
     }
   };
@@ -298,7 +281,7 @@ const index = ({navigation}) => {
                         alignItems: 'center',
                       }}>
                       <BoldText
-                        title={`No Lab's Found`}
+                        title={"No Lab's Found"}
                         style={{
                           color: colors.app_theme_dark_green,
                           alignSelf: 'center',

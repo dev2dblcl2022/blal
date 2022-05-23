@@ -40,7 +40,6 @@ export default props => {
         url: servicesPoints.userServices.my_family_mambers,
       };
       const response = await NetworkRequest(requestConfig);
-      // console.log('full res', response);
       if (response) {
         const {success} = response;
         if (success) {

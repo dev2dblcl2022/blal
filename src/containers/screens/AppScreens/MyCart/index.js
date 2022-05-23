@@ -80,7 +80,6 @@ const index = ({navigation}) => {
   const getCityPanelId = async () => {
     let cityID = await AsyncStorage.getItem('cityId');
     let panelID = await AsyncStorage.getItem('panelId');
-    // console.log('12312312t', cityID, panelID);
     // setCityId(city);
     city = cityID;
     panel = panelID;
@@ -111,7 +110,6 @@ const index = ({navigation}) => {
           arr.forEach(item => {
             _arr.push(...item.booking_member_tests);
           });
-          // console.log('cit iss', cit, pan);
           // getLastSearched(cit, pan);
           setLoader(false);
           setCartTestPackageIds(_arr);
@@ -189,7 +187,6 @@ const index = ({navigation}) => {
         // setTopPackages(response.data.PackageModel);
       } else {
         setLoader(false);
-        // console.log('res failure', response);
       }
     }
   };
@@ -222,7 +219,6 @@ const index = ({navigation}) => {
         method: method.post,
         url: servicesPoints.bookingServices.add,
       };
-
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
@@ -249,7 +245,6 @@ const index = ({navigation}) => {
         }
       }
     } catch (err) {
-      console.log(err);
       setLoader(false);
     }
   };
@@ -313,7 +308,6 @@ const index = ({navigation}) => {
     await AsyncStorage.removeItem('Code');
     navigation.navigate('BookingDetails');
   };
-  console.log('cartData', cartData);
   const renderSelfTextCard = (item, index) => {
     let length = cartData.bookings.length - 1;
 
@@ -362,7 +356,7 @@ const index = ({navigation}) => {
 
   const onClearCartConfirmation = async () => {
     Alert.alert(
-      `You are sure want clear your cart`,
+      `Are you sure you want to clear your cart ?`,
       ``,
       [
         {
@@ -614,7 +608,6 @@ export default index;
 //   const getCityPanelId = async () => {
 //     let city = await AsyncStorage.getItem('cityId');
 //     let panel = await AsyncStorage.getItem('panelId');
-//     console.log('12312312t', city, panel);
 //     setCityId(city);
 //     setPanelId(panel);
 //   };
@@ -630,7 +623,6 @@ export default index;
 //       if (response) {
 //         const {success} = response;
 //         if (success) {
-//           console.log('res of my cart', response);
 //           setCartData(response.data);
 //           // setBookingMembersTests(response.data.booking_member_tests);
 //           setFamilyMembersData(response.data?.family_members);
@@ -677,21 +669,16 @@ export default index;
 //     };
 
 //     const response = await NetworkRequestBlal(requestConfig);
-//     console.log('requestConfig', requestConfig);
 //     if (response) {
 //       const {status_Code} = response;
 //       if (status_Code === 200) {
-//         console.log('resss', response);
-//         // console.log('res is here of searched', response);
 //         let data = [];
 //         data = response.data.TestModel;
 //         let newData = data.concat(response.data.PackageModel);
-//         console.log('newData', newData);
 //         setTopTest(newData);
 //         // setTopPackages(response.data.PackageModel);
 //       } else {
 //         setLoader(false);
-//         // console.log('res failure', response);
 //       }
 //     }
 //   };

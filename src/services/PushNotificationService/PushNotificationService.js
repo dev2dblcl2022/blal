@@ -5,7 +5,6 @@ export default class PushNotificationService {
   constructor(onRegister, onNotification) {
     this.lastId = 0;
     this.lastChannelCounter = 0;
-    console.log('call 1');
     this.createDefaultChannels();
 
     NotificationHandler.attachRegister(onRegister);
@@ -19,7 +18,6 @@ export default class PushNotificationService {
     });
 
     // PushNotification.getChannels(function (channels) {
-    //   console.log('channels:', channels);
     // });
   }
 
@@ -34,7 +32,6 @@ export default class PushNotificationService {
         vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
       },
       // created =>
-      // console.log(`createChannel 'default-channel-id' returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
     );
   }
 
@@ -62,7 +59,6 @@ export default class PushNotificationService {
 
   localNotification(notification) {
     this.lastId++;
-    console.log('Notification show data', notification);
     // console.log('Notification show data---', notification.data);
     const {title, message, data} = notification;
 

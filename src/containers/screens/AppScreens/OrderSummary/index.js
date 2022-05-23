@@ -61,7 +61,6 @@ const index = ({navigation, route}) => {
   const {selectedLabCenterCityId} = route.params;
   const {selectedLabItem} = route.params;
   const navigationOrder = useNavigation();
-  // console.log('arr selectedLabItem is', selectedLabItem);
   const {selectedLabLatitude} = route.params;
   const {selectedLabLongitude} = route.params;
 
@@ -155,15 +154,11 @@ const index = ({navigation, route}) => {
           lab === 0 ? 'Home' : 'Lab'
         }`,
       };
-      console.log('rerequsts of cart', requestConfig);
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
         const {success} = response;
         if (success) {
-          console.log('res of cart', response);
-          // console.log('res of cityId', response.data?.bookings[0]?.city_id);
-          // console.log('res of panel id', response.data?.bookings[0]?.city_id);
           setCartData(response.data);
 
           // setBookingMembersTests(response.data.booking_member_tests);
@@ -217,7 +212,6 @@ const index = ({navigation, route}) => {
   };
 
   const onDeleteTest = async item => {
-    console.log('delete item', item);
     try {
       setLoader(true);
       let data = {
@@ -229,7 +223,6 @@ const index = ({navigation, route}) => {
         url: servicesPoints.bookingServices.remove_member_item_from_cart,
       };
 
-      // console.log('request remove from cart', requestConfig);
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
@@ -249,7 +242,6 @@ const index = ({navigation, route}) => {
         }
       }
     } catch (err) {
-      console.log('err is', err);
       setLoader(false);
     }
   };
@@ -323,7 +315,6 @@ const index = ({navigation, route}) => {
     paymentDetail,
   ) => {
     try {
-      // console.log('inside try ');
       setLoader(true);
       let data = {};
       if (payment_type === 'Cash') {
@@ -333,7 +324,7 @@ const index = ({navigation, route}) => {
             lab === 0 ? `${bookingDate} ${bookingTime}` : `${selectedLabDate} `,
           address_id:
             lab === 0
-              ? `${selectedAddress.area1} ${selectedAddress.area2} ${selectedAddress.city} ${selectedAddress.state} ${selectedAddress.pincode}`
+              ? `${selectedAddress.number} ${selectedAddress.area1} ${selectedAddress.area2} ${selectedAddress.city} ${selectedAddress.state} ${selectedAddress.pincode}`
               : `${selectedLabItem.Centre}#${selectedLabAddress}`,
           payment_mode: 'Cash',
           final_amount: finalAmount.toString(),
@@ -367,7 +358,7 @@ const index = ({navigation, route}) => {
               : `${selectedLabDate} 11:30:00`,
           address_id:
             lab === 0
-              ? `${selectedAddress.area1} ${selectedAddress.area2} ${selectedAddress.city} ${selectedAddress.state} ${selectedAddress.pincode}`
+              ? `${selectedAddress.number} ${selectedAddress.area1} ${selectedAddress.area2} ${selectedAddress.city} ${selectedAddress.state} ${selectedAddress.pincode}`
               : selectedLabAddress,
           payment_mode: 'Online',
           final_amount: finalAmount.toString(),
@@ -400,11 +391,10 @@ const index = ({navigation, route}) => {
         url: servicesPoints.bookingServices.create_booking,
       };
 
-      console.log('requestConfig of payment', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      console.log('Response of Payment', response);
       setBookingSuccessfulData(response.data);
       if (response) {
+        console.log(response, 'responseBooking');
         const {success} = response;
         if (success) {
           setLoader(false);
@@ -427,6 +417,7 @@ const index = ({navigation, route}) => {
         }
       }
     } catch (err) {
+      console.log(err);
       setLoader(false);
     }
   };
@@ -571,7 +562,6 @@ const index = ({navigation, route}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-
       if (response) {
         const {success} = response;
         if (success) {
@@ -618,7 +608,6 @@ const index = ({navigation, route}) => {
           paymentSuccess(res, paymentDetail);
         })
         .catch(err => {
-          console.log('error caught ', err);
           Toast('Payment Failed! Try again');
         });
     } else {
@@ -631,10 +620,9 @@ const index = ({navigation, route}) => {
         `${Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
         false,
         false,
+        `${'paytm'}${merchantId}`,
       )
         .then(res => {
-          console.log('res caught final 1 ', res);
-
           // const parseData = JSON.parse(res);
 
           let paymentDetail = {
@@ -891,16 +879,19 @@ const index = ({navigation, route}) => {
                       onChangeText={val => setCouponCode(val)}
                       placeholder={'Enter the Coupon Code'}
                     />
-                    <TouchableOpacity onPress={() => setCouponCode('')}>
-                      <View style={styles.arrowSection}>
-                        <View style={styles.arrowCircle}>
-                          <Image
-                            style={{marginLeft: 80, marginTop: 10}}
-                            source={imagesConstants.cancelRed}
-                          />
+
+                    {code.length > 0 ? (
+                      <TouchableOpacity onPress={() => setCouponCode('')}>
+                        <View style={styles.arrowSection}>
+                          <View style={styles.arrowCircle}>
+                            <Image
+                              style={{marginLeft: 80, marginTop: 10}}
+                              source={imagesConstants.cancelRed}
+                            />
+                          </View>
                         </View>
-                      </View>
-                    </TouchableOpacity>
+                      </TouchableOpacity>
+                    ) : null}
                   </View>
                   <View style={styles.applyBtnSection}>
                     <TouchableOpacity

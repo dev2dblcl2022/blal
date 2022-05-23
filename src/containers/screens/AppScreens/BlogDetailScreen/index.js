@@ -43,7 +43,6 @@ export default function index({route, navigation}) {
   const [commentValidation, setCommentValidation] = useState(false);
 
   const containerViewRef = useRef(null);
-  // console.log('BlogDetail scren', data);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -65,12 +64,10 @@ export default function index({route, navigation}) {
   const getUserData = async () => {
     let data = await AsyncStorage.getItem('userData');
     let parseData = JSON.parse(data);
-    console.log('parse data', parseData);
     setUserData(parseData);
   };
 
   const getBlogsDetail = async val => {
-    console.log('i am calling again');
     try {
       let formData = {
         blog_id: data.id,
@@ -81,20 +78,14 @@ export default function index({route, navigation}) {
 
         url: `${servicesPoints.blogs.blogdetails}?blog_id=${formData.blog_id}&user_id=${userData?.user?.id}`,
       };
-
-      console.log('req of blogs search', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      console.log('response of blogs search', response);
       if (response) {
         const {success} = response;
         if (success) {
           setBlogDetail(response.data);
           setCommented(false);
           setLoader(false);
-
-          console.log('res success of blogs detail', response);
         } else {
-          console.log('res failure', response);
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
@@ -129,10 +120,7 @@ export default function index({route, navigation}) {
           data: formData,
           url: `${servicesPoints.blogs.commentblog}`,
         };
-
-        console.log('req of blogs comment', requestConfig);
         const response = await NetworkRequest(requestConfig);
-        console.log('rs of blogs comment', response);
         if (response) {
           const {success} = response;
           if (success) {
@@ -142,7 +130,6 @@ export default function index({route, navigation}) {
             Toast(response.message, 1);
             // getBlogsDetail();
           } else {
-            console.log('res failure', response);
             Toast(response.message, 0);
             if (response === 'Network Error') {
               Toast('Network Error', 0);
@@ -173,8 +160,6 @@ export default function index({route, navigation}) {
         data: formData,
         url: `${servicesPoints.blogs.likeblog}`,
       };
-
-      console.log('req of blogs comment', requestConfig);
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
@@ -185,7 +170,6 @@ export default function index({route, navigation}) {
 
           Toast(response.message, 1);
         } else {
-          console.log('res failure', response);
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);

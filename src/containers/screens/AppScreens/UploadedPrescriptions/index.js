@@ -145,7 +145,6 @@ const index = ({navigation, route}) => {
   //         setPatients(newData);
   //         setLoader(false);
   //       } else {
-  //         console.log('res failure', response);
   //         if (response === 'Network Error') {
   //           Toast('Network Error', 0);
   //           setLoader(false);
@@ -163,7 +162,6 @@ const index = ({navigation, route}) => {
   //   }, [patientValues, timeValues, statusValue]);
 
   const onOpenFile = url => {
-    // console.log('I am call.', url);
     // resources = {
     //   file:
     //     Platform.OS === 'ios'
@@ -202,7 +200,6 @@ const index = ({navigation, route}) => {
           // Start downloading
           // setLoader(true);
           await onOpenFile(url);
-          console.log('Storage Permission Granted.');
         } else {
           // If permission denied then show alert
           Alert.alert('Error', 'Storage Permission Not Granted');
@@ -268,7 +265,6 @@ const index = ({navigation, route}) => {
   //   }
 
   //   const getAllBookings = async val => {
-  //     console.log('heii i am heree');
   //     setLoader(true);
   //     try {
   //       const requestConfig = {
@@ -280,19 +276,15 @@ const index = ({navigation, route}) => {
   //         }`,
   //       };
 
-  //       console.log('full request config is', requestConfig);
-
   //       const response = await NetworkRequest(requestConfig);
 
   //       if (response) {
   //         const {success} = response;
   //         if (success) {
-  //           console.log('full booking  res is ', response);
   //           setBookings(response?.data?.docs);
   //           setRefreshing(false);
   //           getMyFamilyMembers();
   //         } else {
-  //           console.log('res failure', response);
   //           if (response === 'Network Error') {
   //             Toast('Network Error', 0);
   //           }
@@ -301,7 +293,6 @@ const index = ({navigation, route}) => {
   //       } else {
   //       }
   //     } catch (err) {
-  //       console.log('err', err);
   //     }
   //   };
 
@@ -338,20 +329,14 @@ const index = ({navigation, route}) => {
   //   };
 
   const loadMorBookings = () => {
-    console.log('total page', totalPage, currentPage);
     if (totalPage > currentPage) {
-      console.log('pagination called', totalPage);
       setFooterLoader(true);
       // setPage(page + 1);
-      // console.log('page number ', page);
       getAllPrescriptionStarting();
-    } else {
-      console.log('pagination not called', totalPage);
     }
   };
 
   //   const onInitiateTransaction = async item => {
-  //     console.log('I am calling ', item);
   //     let orderId = `${item.id}_${Date.now()}`;
   //     try {
   //       let data = {
@@ -364,15 +349,11 @@ const index = ({navigation, route}) => {
   //         data: data,
   //         url: servicesPoints.paymentServices.initiate_transaction,
   //       };
-  //       console.log('I am calling initate  request config ', requestConfig);
   //       const response = await NetworkRequest(requestConfig);
-  //       console.log('I am calling response ', response);
   //       if (response) {
   //         const {success} = response;
   //         if (success) {
-  //           console.log('response is transaction is', response);
   //           let txnToken = response.data.body.txnToken;
-  //           console.log('txn token is here', txnToken);
   //           onPayment(txnToken, item, orderId);
   //         } else {
   //           if (response === 'Network Error') {
@@ -393,28 +374,23 @@ const index = ({navigation, route}) => {
 
   //   const paymentSuccess = (res, data, orderID) => {
   //     if (res.RESPCODE === '01' && res.TXNID) {
-  //       console.log('before onclickmake ', res);
   //       onClickMakePayment(res.TXNID, data, orderID);
   //     }
   //   };
 
   //   const onClickMakePayment = async (transaction_id, values, orderID) => {
-  //     console.log('inside onclick make ', transaction_id, orderID);
   //     try {
-  //       // console.log('inside try ');
   //       setLoader(true);
   //       let data = {
   //         booking_id: values.id,
   //         transactions: transaction_id,
   //       };
 
-  //       // console.log('REQUEST of payment', data);
   //       const requestConfig = {
   //         method: method.post,
   //         data: data,
   //         url: servicesPoints.bookingServices.create_pending_booking,
   //       };
-  //       console.log('requestConfig of payment', requestConfig);
   //       const response = await NetworkRequest(requestConfig);
 
   //       if (response) {
@@ -424,7 +400,6 @@ const index = ({navigation, route}) => {
 
   //           // setRefresh(true);
   //           // Toast(response.message, 1);
-  //           // console.log('Response of Payment', response);
   //           getAllBookingsStarting(1);
   //         } else {
   //           Toast(response.message, 0);
@@ -444,7 +419,6 @@ const index = ({navigation, route}) => {
   //     }
   //   };
   //   const onClearNavigation = () => {
-  //     console.log('pppp', screen);
   //     navigationOrder.reset({
   //       index: 0,
   //       routes: [{name: 'Home'}],
@@ -465,8 +439,6 @@ const index = ({navigation, route}) => {
               style={{height: '100%', width: '100%'}}
               resource={resources[resourceType]}
               resourceType={resourceType}
-              onLoad={() => console.log(`PDF rendered from ${resourceType}`)}
-              onError={error => console.log('Cannot render PDF', error)}
             />
           </View>
         </SafeAreaView>

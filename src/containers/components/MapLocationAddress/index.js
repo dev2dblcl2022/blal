@@ -36,12 +36,9 @@ export default props => {
     const response = await NetworkRequest(requestConfig);
 
     if (response) {
-      // console.log('res', response);
       const {success} = response;
       if (success) {
         setAddresses(response.data);
-      } else {
-        console.log('res failure', response);
       }
     }
   };

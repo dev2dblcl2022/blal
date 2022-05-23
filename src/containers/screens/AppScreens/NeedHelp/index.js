@@ -64,7 +64,6 @@ export default function index({navigation}) {
   //       }
   //     }
   //   } catch (error) {
-  //     console.log(error.message);
   //   }
   // };
 
@@ -72,8 +71,6 @@ export default function index({navigation}) {
   //   // Optionally specify the appId provided by Zendesk
   //   // client secret key ==> U2Ak457QqbwyvMvfoVkCHbdMU7q4ps0Qi3QNf3DNAkj8rzL2WDmIVDuCZjCBp1OF
   //   ZendeskChat.init('GTgw066gP0PvWLeRulhoN5kAqSY07dU5');
-
-  //   // console.log('this.state.userProfile ==> ', this.state.userProfile);
   //   ZendeskChat.startChat({
   //     name: userData.fullname,
 

@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.faizal.OtpVerify.RNOtpVerifyPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
                               new MainReactPackage();
+            new RNOtpVerifyPackage();
             new LottiePackage();
             new SplashScreenReactPackage();  //here
           new RNSmsRetrieverPackage();

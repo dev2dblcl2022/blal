@@ -9,24 +9,20 @@ export function post(url, formData, data) {
     return instanceImage
       .post(url, formData)
       .then(function (response) {
-        // console.log('success',response);
         return response.data;
       })
       .catch(function (error) {
         //showToaster(0,error.message);
-        // console.log('error is', error);
         return error;
       });
   } else {
     return instance
       .post(url, formData)
       .then(function (response) {
-        // console.log('success',response);
         return response.data;
       })
       .catch(function (error) {
         //showToaster(0,error.message);
-        console.log('error is', error);
         return error;
       });
   }
@@ -47,13 +43,11 @@ export const get = async (url, type = 0) => {
   return instance
     .get(url, options)
     .then(function (response) {
-      // console.log('success', response);
       return response.data;
     })
     .catch(function (error) {
       // showToaster(0,error.message);
       // ShowToast(0, error.message);
-      console.log('error', error);
       return error;
     });
 };
@@ -73,13 +67,11 @@ export const Delete = async (url, type = 0) => {
   return instance
     .delete(url, options)
     .then(function (response) {
-      // console.log('success', response);
       return response.data;
     })
     .catch(function (error) {
       // showToaster(0,error.message);
       // ShowToast(0, error.message);
-      console.log('error', error);
       return error;
     });
 };

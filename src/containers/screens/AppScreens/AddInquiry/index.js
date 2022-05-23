@@ -158,7 +158,6 @@ const index = ({navigation}) => {
           Toast(response.message, 1);
           navigation.goBack();
         } else {
-          console.log('res failure', response);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
             setLoader(false);
@@ -172,7 +171,6 @@ const index = ({navigation}) => {
         }
       }
     } catch (error) {
-      console.log(error.message);
       setLoader(false);
     }
   };
@@ -261,7 +259,6 @@ const index = ({navigation}) => {
       });
 
       const result = await check(platformPermission);
-      // console.log('storage', result);
       switch (result) {
         case RESULTS.UNAVAILABLE:
           Toast(

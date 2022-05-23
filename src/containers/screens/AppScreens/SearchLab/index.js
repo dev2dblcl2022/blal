@@ -194,13 +194,11 @@ const index = ({navigation, route}) => {
         method: method.get,
         url: servicesPoints.bookingServices.check_top_test_in_cart,
       };
-      // console.log('res of already api', requestConfig);
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
         const {success} = response;
         if (success) {
-          // console.log('res of already api', response);
           setAlreadyCartItem(response?.data);
         } else {
           if (response === 'Network Error') {
@@ -220,11 +218,9 @@ const index = ({navigation, route}) => {
   };
 
   const getStorageData = async () => {
-    // console.log('alreadyCartItem', alreadyCartItem);
     let cityId = await AsyncStorage.getItem('cityId');
     let panelId = await AsyncStorage.getItem('panelId');
     let userToken = await AsyncStorage.getItem('userToken');
-    // console.log('userToken 1', userToken, cityId, panelId);
     setCityId(cityId);
     setPanelId(panelId);
     setUserToken(userToken);
@@ -376,7 +372,6 @@ const index = ({navigation, route}) => {
         }
       }
     } catch (err) {
-      console.log('i am call err', err);
       setLoader(false);
     }
   };
@@ -465,7 +460,6 @@ const index = ({navigation, route}) => {
     await setSearchText(val);
 
     if (val.length >= 3) {
-      // console.log('call');
       getTest(val);
     } else {
       null;
@@ -590,7 +584,6 @@ const index = ({navigation, route}) => {
         method: method.post,
         url: servicesPoints.bookingServices.add,
       };
-
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
@@ -615,7 +608,6 @@ const index = ({navigation, route}) => {
         }
       }
     } catch (err) {
-      console.log(err);
       setLoader(false);
     }
   };

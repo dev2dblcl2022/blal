@@ -24,7 +24,6 @@ export default props => {
   let documentsData = documents.split(',');
   let documentsLength = documentsData.length;
 
-  // console.log('rated', rated);
   return (
     <TouchableOpacity onPress={props.onViewMore} style={styles.bookingCard}>
       <View style={styles.bookingCardPartOne}>

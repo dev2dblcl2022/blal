@@ -64,24 +64,20 @@ const index = ({navigation}) => {
     arr = latestBlogs.map(item => {
       return {image: item.image};
     });
-    console.log('attttttt', arr);
     setBlogsSliderIMages(arr);
   };
 
   const getBlogsData = async () => {
-    console.log('blogs function called');
     try {
       const requestConfig = {
         method: method.get,
         url: servicesPoints.userServices.blogs_Data,
       };
-      console.log('blogs requestConfig', requestConfig);
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
         const {success} = response;
         if (success) {
-          console.log('blogs res is here', response);
           setBlogsCategory(response.data.blogs_category);
           setPopularBlogs(response.data.popular_blogs);
           setLatestBlogs(response.data.latest_blogs);

@@ -109,7 +109,6 @@ const index = ({navigation}) => {
       url: servicesPoints.userServices.my_family_mambers,
     };
     const response = await NetworkRequest(requestConfig);
-    console.log('res is ', response);
     if (response) {
       const {success} = response;
       if (success) {
@@ -122,7 +121,6 @@ const index = ({navigation}) => {
 
         response.data.map(item => {
           if (val?.user?.uhid === item.uhid) {
-            // console.log('id mil gyi', item.uhid);
             setTimeValues('3');
             // primaryUhidUser = item.uhid;
             setPatientValues(item.uhid);
@@ -162,9 +160,7 @@ const index = ({navigation}) => {
 
         url: `https://lims.blallab.com/WebApiLive/GetMyReports?PatientId=${primaryUhid}&FromDate=${startData}&ToDate=${endDate}`,
       };
-      console.log('Reports Request Config 1', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      console.log('Reports response', response);
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
@@ -179,7 +175,6 @@ const index = ({navigation}) => {
         setLoader(false);
       }
     } catch (err) {
-      console.log('err is ', err);
       setLoader(false);
     }
   };
@@ -196,7 +191,6 @@ const index = ({navigation}) => {
   //   if (response) {
   //     const {success} = response;
   //     if (success) {
-  //       console.log('Reports get successfully', response);
   //       setReports(response.data?.docs);
   //       setLoader(false);
   //       setRefreshing(false);
@@ -224,9 +218,7 @@ const index = ({navigation}) => {
 
         url: `https://lims.blallab.com/WebApiLive/GetMyReports?PatientId=${patientValues}&FromDate=${apiStartDate}&ToDate=${apiEndDate}`,
       };
-      // console.log('Reports Request Config', requestConfig);
       const response = await NetworkRequest(requestConfig);
-      // console.log('Reports response', response);
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
@@ -241,7 +233,6 @@ const index = ({navigation}) => {
         setLoader(false);
       }
     } catch (err) {
-      console.log('err is ', err);
       setLoader(false);
     }
   };
@@ -276,7 +267,6 @@ const index = ({navigation}) => {
           // Start downloading
           // setLoader(true);
           await onOpenPdfFile(url);
-          console.log('Storage Permission Granted.');
         } else {
           // If permission denied then show alert
           Alert.alert('Error', 'Storage Permission Not Granted');
@@ -344,7 +334,6 @@ const index = ({navigation}) => {
 
     let report1 = reports;
     report1 = report1.map((itn, index) => {
-      console.log('itn', itn);
       if (itn.LedgerTransactionNo === mainReportItem.LedgerTransactionNo) {
         // itn.selected = !itn.selected;
         itn.testSelected = !itn.testSelected;
@@ -443,7 +432,6 @@ const index = ({navigation}) => {
           // Start downloading
           // setLoader(true);
           downloadFile(url, type, report);
-          console.log('Storage Permission Granted.');
         } else {
           // If permission denied then show alert
           Alert.alert('Error', 'Storage Permission Not Granted');
@@ -711,15 +699,11 @@ const index = ({navigation}) => {
         .format('YYYY-MM-DD');
       setApiStartDate(TODAY_START_Date);
       setApiEndDate(TODAY_End_Date);
-      // console.log('WEEk Date Start Date', TODAY_START_Date);
-      // console.log('WEEk Date Start Date', TODAY_End_Date);
       // getMyReports(3);
     } else if (timeValues === '2') {
       const WEEK_START = moment().subtract(1, 'week').format(Date_Format);
       setApiStartDate(WEEK_START);
       setApiEndDate(currentDate);
-      // console.log('WEEk Date Start Date', WEEK_START);
-      // console.log('WEEk Date End Date', currentDate);
       // getMyReports(3);
     } else if (timeValues === '3') {
       const MONTH_START = moment().subtract(1, 'month').format(Date_Format);
@@ -732,7 +716,6 @@ const index = ({navigation}) => {
       setApiEndDate(currentDate);
       // getMyReports(3);
     } else if (timeValues === '5') {
-      // console.log('date 1', startDateLabel, endDateLabel);
       // setApiStartDate(startDateLabel);
       // setApiEndDate(endDateLabel);
     } else {
@@ -741,17 +724,10 @@ const index = ({navigation}) => {
   };
 
   const startHandleDatePickerConfirm = async date => {
-    // console.log('date 1', startDateLabel, endDateLabel);
     let newDate = moment(date).format(Date_Format);
-    // console.log('date 2', startDateLabel, endDateLabel);
     setStartDateLabel(newDate);
-    // console.log('date 3', startDateLabel, endDateLabel);
-
     setApiStartDate(newDate);
-    // console.log('date 4', startDateLabel, endDateLabel);
     setStartDatePicker(false);
-
-    // console.log('date 5', startDateLabel, endDateLabel);
   };
 
   const startHandleDatePickerCancel = () => {

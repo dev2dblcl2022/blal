@@ -61,7 +61,6 @@ const index = ({navigation}) => {
       }
     } catch (error) {
       setLoader(false);
-      console.log('error is here in try catch', error);
     }
   };
 
@@ -100,7 +99,6 @@ const index = ({navigation}) => {
         }
       } catch (error) {
         setLoader(false);
-        console.log('error is here in try catch', error);
       }
     }
   };
@@ -136,7 +134,6 @@ const index = ({navigation}) => {
       }
     } catch (error) {
       setLoader(false);
-      console.log('error is here in try catch', error);
     }
   };
 

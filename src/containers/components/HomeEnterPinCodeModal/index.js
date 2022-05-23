@@ -19,7 +19,7 @@ export default props => {
   // useEffect(() => {
   //   setVisible(props.pincodevisible);
   // }, [props]);
-  // console.log('ccc', props);
+  //
 
   // function btnCancelPinCode() {
   //   setVisible(false);

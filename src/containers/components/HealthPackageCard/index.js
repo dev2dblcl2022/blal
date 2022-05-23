@@ -14,11 +14,6 @@ export default props => {
     TotalMRP,
   } = props?.data;
 
-  // console.log(
-  //   'homeimage',
-  //   `https://lims.blallab.com/ExceUploadApp/AppImages/Package/${NAME}.jpg`,
-  // );
-
   return (
     <TouchableOpacity onPress={props.onPress} style={styles.itemContainer}>
       <View style={styles.itemContainerInner}>

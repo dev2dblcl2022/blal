@@ -161,7 +161,6 @@ const index = ({navigation}) => {
                 fetchDetails={true}
                 renderDescription={row => row.description} // custom description render
                 onPress={(data, details = null) => {
-                  console.log('data is', data);
                   // for (let zip of details.address_components) {
                   //   if (zip.types[0] === 'postal_code') {
                   //     setZipCode(zip.long_name);
@@ -256,10 +255,6 @@ const index = ({navigation}) => {
             setLongitude(position.coords.longitude);
 
             getLocationName(position, 0);
-          },
-          error => {
-            // See error code charts below.
-            console.log(error.code, error.message);
           },
           {enableHighAccuracy: true, timeout: 10000, maximumAge: 10000},
         );

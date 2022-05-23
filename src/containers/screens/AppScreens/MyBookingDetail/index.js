@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
   FlatList,
@@ -57,16 +58,10 @@ const index = ({navigation, route}) => {
   const myBookingData = route.params.myBookingData;
   const screen = route.params.screen;
 
-  // console.log('MyBooking Data', myBookingData);
-  // console.log('MyBooking Data screen', screen);
   const [familyMembersData, setFamilyMembersData] = useState([]);
   const [loader, setLoader] = useState(true);
   const [bookingDetailData, setBookingDetailData] = useState({});
   const [prescriptionShown, setPrescriptionShown] = useState(false);
-  // const source = {
-  //   uri: 'http://www.africau.edu/images/default/sample.pdf',
-  //   cache: true,
-  // };
 
   const [labAddress, setLabAddress] = useState('');
   const [labName, setLabName] = useState('');
@@ -86,7 +81,6 @@ const index = ({navigation, route}) => {
 
   // const onClearNavigation = () => {
   //   if (prescriptionShown) {
-  //     console.log('prescriptionShown val', prescriptionShown);
   //     setPrescriptionShown(false);
   //   } else {
   //     navigation.pop();
@@ -105,8 +99,8 @@ const index = ({navigation, route}) => {
       if (response) {
         const {success} = response;
         if (success) {
+          console.log(response.data, 'response.data');
           setBookingDetailData(response.data);
-
           if (response?.data?.collection_type === 'Lab') {
             let address = response.data.address_id.split('#');
             if (address.length) {
@@ -248,18 +242,6 @@ const index = ({navigation, route}) => {
     //   <View style={styles.container}>
     //     <Pdf
     //       source={source}
-    //       onLoadComplete={(numberOfPages, filePath) => {
-    //         console.log(`Number of pages: ${numberOfPages}`);
-    //       }}
-    //       onPageChanged={(page, numberOfPages) => {
-    //         console.log(`Current page: ${page}`);
-    //       }}
-    //       onError={error => {
-    //         console.log(error);
-    //       }}
-    //       onPressLink={uri => {
-    //         console.log(`Link pressed: ${uri}`);
-    //       }}
     //       style={styles.pdf}
     //     />
     //   </View>
@@ -293,7 +275,6 @@ const index = ({navigation, route}) => {
           // Start downloading
           // setLoader(true);
           await onOpenFile(url);
-          console.log('Storage Permission Granted.');
         } else {
           // If permission denied then show alert
           Alert.alert('Error', 'Storage Permission Not Granted');
@@ -326,7 +307,6 @@ const index = ({navigation, route}) => {
           // Start downloading
           setLoader(true);
           downloadFile(url);
-          console.log('Storage Permission Granted.');
         } else {
           // If permission denied then show alert
           Alert.alert('Error', 'Storage Permission Not Granted');
@@ -370,12 +350,10 @@ const index = ({navigation, route}) => {
       .fetch('GET', FILE_URL)
       .then(res => {
         // Alert after successful downloading
-        console.log('res -> ', JSON.stringify(res));
         setLoader(false);
         alert('Invoice Downloaded Successfully.');
       })
       .catch(err => {
-        console.log('erre', err);
         setLoader(false);
         alert('Invoice Downloaded Successfully.');
       });
@@ -401,14 +379,14 @@ const index = ({navigation, route}) => {
 
     Linking.openURL(CallNumber);
   };
-
+  console.log(bookingDetailData, 'bookingDetailData.status');
   return (
     <>
       {prescriptionShown ? (
         <SafeAreaView style={styles.safeArea}>
           <DefaultHeader
             onBack={() => setPrescriptionShown(false)}
-            title={`Uploaded Prescription`}
+            title={'Uploaded Prescription'}
           />
           <View
             style={[
@@ -420,18 +398,6 @@ const index = ({navigation, route}) => {
             ]}>
             {/* <Pdf
               source={source}
-              onLoadComplete={(numberOfPages, filePath) => {
-                console.log(`Number of pages: ${numberOfPages}`);
-              }}
-              onPageChanged={(page, numberOfPages) => {
-                console.log(`Current page: ${page}`);
-              }}
-              onError={error => {
-                console.log(error);
-              }}
-              onPressLink={uri => {
-                console.log(`Link pressed: ${uri}`);
-              }}
               style={styles.pdf}
             /> */}
 
@@ -440,8 +406,6 @@ const index = ({navigation, route}) => {
               style={{height: '100%', width: '100%'}}
               resource={resources[resourceType]}
               resourceType={resourceType}
-              onLoad={() => console.log(`PDF rendered from ${resourceType}`)}
-              onError={error => console.log('Cannot render PDF', error)}
             />
           </View>
         </SafeAreaView>
@@ -783,7 +747,6 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
-
                 {bookingDetailData.collection_type === 'Home' ? (
                   <View>
                     {bookingDetailData.status === 'Accepted' ||
@@ -820,7 +783,11 @@ const index = ({navigation, route}) => {
                                       borderRadius: hp('2.5%'),
                                     }}
                                     source={{
-                                      uri: bookingDetailData.fleet_image,
+                                      uri: bookingDetailData?.fleet_image?.includes(
+                                        'https',
+                                      )
+                                        ? bookingDetailData?.fleet_image
+                                        : 'https://tookan.s3.amazonaws.com/fleet_profile/user.png',
                                     }}
                                   />
                                 </View>
@@ -886,7 +853,6 @@ const index = ({navigation, route}) => {
                     ) : null}
                   </View>
                 ) : null}
-
                 {bookingDetailData.collection_type === 'Home' ? (
                   <View>
                     {bookingDetailData.status === 'Confirmed' ? (
@@ -924,7 +890,6 @@ const index = ({navigation, route}) => {
                     ) : null}
                   </View>
                 ) : null}
-
                 {bookingDetailData.collection_type === 'Lab' ? (
                   <View style={styles.PROSection}>
                     <View style={styles.BookingCard}>

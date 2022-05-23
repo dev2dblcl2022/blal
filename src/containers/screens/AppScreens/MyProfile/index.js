@@ -119,7 +119,6 @@ const index = ({navigation, route}) => {
           });
           // setLoader(false);
         } else {
-          console.log('res failure', response);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
             setLoader(false);
@@ -133,7 +132,6 @@ const index = ({navigation, route}) => {
       }
     } catch (error) {
       setLoader(false);
-      console.log('error is here in try catch', error);
     }
   };
 
@@ -141,7 +139,6 @@ const index = ({navigation, route}) => {
   //   try {
   //     let user_Data = await AsyncStorage.getItem('userData');
   //     let parseUserData = JSON.parse(user_Data);
-  //     console.log('data aus', parseUserData);
   //     imageSelection = 0;
   //     setValidateForm({
   //       name: parseUserData.user.fullname,
@@ -158,7 +155,6 @@ const index = ({navigation, route}) => {
   //     setDate(parseUserData.user.dob);
   //     setUserProfileImage(parseUserData.user.photo);
   //   } catch (error) {
-  //     console.log(error);
   //   }
 
   //   // setUserData(parseUserData);
@@ -245,7 +241,6 @@ const index = ({navigation, route}) => {
           Toast(response.message, 1);
           navigation.pop(1);
         } else {
-          console.log('res failure', response);
           setLoader(false);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
@@ -259,7 +254,6 @@ const index = ({navigation, route}) => {
         }
       }
     } catch (error) {
-      console.log(error.message);
       setLoader(false);
     }
   };
@@ -411,7 +405,6 @@ const index = ({navigation, route}) => {
       });
 
       const result = await check(platformPermission);
-      // console.log('storage', result);
       switch (result) {
         case RESULTS.UNAVAILABLE:
           Toast(

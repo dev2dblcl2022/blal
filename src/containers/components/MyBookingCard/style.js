@@ -47,7 +47,7 @@ export default StyleSheet.create({
     color: colors.red,
     height: hp('4%'),
     borderRadius: 30,
-    borderColor: colors.purplishGrey,
+    borderColor: colors.app_theme_dark_green,
     borderWidth: 1,
     textAlign: 'center',
     alignItems: 'center',
