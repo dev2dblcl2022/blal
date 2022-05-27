@@ -98,13 +98,11 @@ const index = ({navigation}) => {
         url: servicesPoints.bookingServices.myCart,
       };
       const response = await NetworkRequest(requestConfig);
-
       if (response) {
         const {success} = response;
         if (success) {
           let arr = [];
           arr = response?.data?.bookings;
-
           const _arr = [];
 
           arr.forEach(item => {

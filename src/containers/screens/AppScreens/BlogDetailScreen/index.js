@@ -257,7 +257,7 @@ export default function index({route, navigation}) {
 
                   <BoldText
                     style={[styles.buyNowText, {marginTop: 10}]}
-                    title={`${blogDetail?.created_at} ${blogDetail?.timeAgo}`}
+                    title={` ${blogDetail?.timeAgo}`}
                   />
                 </View>
               </View>

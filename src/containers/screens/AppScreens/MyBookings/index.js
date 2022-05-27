@@ -185,6 +185,7 @@ const index1 = ({navigation, route}) => {
   const refectorBookingData = bookingData => {
     const arr = [];
     bookingData.map(_data => {
+      console.log('_data', _data.total_member_amount);
       if (!arr.includes(_data.booking_hash)) {
         arr.push(_data.booking_hash);
         _data.bookingAmount =

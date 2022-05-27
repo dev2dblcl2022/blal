@@ -99,7 +99,6 @@ const index = ({navigation, route}) => {
       if (response) {
         const {success} = response;
         if (success) {
-          console.log(response.data, 'response.data');
           setBookingDetailData(response.data);
           if (response?.data?.collection_type === 'Lab') {
             let address = response.data.address_id.split('#');
@@ -379,7 +378,7 @@ const index = ({navigation, route}) => {
 
     Linking.openURL(CallNumber);
   };
-  console.log(bookingDetailData, 'bookingDetailData.status');
+
   return (
     <>
       {prescriptionShown ? (
@@ -441,6 +440,8 @@ const index = ({navigation, route}) => {
                             ? 'Booking Successful'
                             : bookingDetailData.status === 'Registered'
                             ? 'Booking Registered'
+                            : bookingDetailData.status === 'Cancelled'
+                            ? 'Booking Cancelled'
                             : 'Booking Report Approved'
                         }
                       />
@@ -1063,7 +1064,7 @@ const index = ({navigation, route}) => {
                           title={
                             bookingDetailData.payment_mode === 'Online'
                               ? `Paid (${bookingDetailData.payment_mode})`
-                              : 'You need to pay'
+                              : 'Amount'
                           }
                         />
                       </View>
@@ -1135,7 +1136,11 @@ const index = ({navigation, route}) => {
                       <View style={styles.totalPayableSection}>
                         <BoldText
                           style={styles.payableText}
-                          title={'Total (Paid)'}
+                          title={`Total (${
+                            bookingDetailData.payment_mode === 'Online'
+                              ? 'Paid'
+                              : 'You Need to Pay'
+                          })`}
                         />
                         <BoldText
                           style={styles.payableText}

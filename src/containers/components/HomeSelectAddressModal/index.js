@@ -242,6 +242,7 @@ export default props => {
         return itn;
       }
     });
+
     if (addressData.length > 0) {
       // props.onPressDone(address.length > 0 ? '1' : '0', address);
       getLocationName(
@@ -371,7 +372,13 @@ export default props => {
 
   const renderAlsoAddCard = item => {
     return (
-      <LocationAddressCard onSelect={() => onSelectAddress(item)} data={item} />
+      <LocationAddressCard
+        onSelect={() => {
+          onSelectAddress(item);
+          onDone1();
+        }}
+        data={item}
+      />
     );
   };
   return (
@@ -381,9 +388,12 @@ export default props => {
       closeModal={props.onRequestClose}>
       <View style={styles.modalContainer}>
         <View style={[styles.circleContainer]}>
-          <TouchableOpacity onPress={onDone1}>
-            <BoldText style={styles.doneText} title={'Done'} />
+          <TouchableOpacity
+            onPress={props.onPressDone}
+            style={styles.crossSection}>
+            <Image source={imagesConstants.cancelRed} />
           </TouchableOpacity>
+
           {/**current location pincode */}
           <View style={styles.currentLocationSection}>
             <TouchableOpacity onPress={props.onPressUseCurrentLocation}>

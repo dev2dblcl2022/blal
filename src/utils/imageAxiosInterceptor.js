@@ -78,7 +78,6 @@ instance.interceptors.request.use(
 
     let apiToken = '';
     apiToken = await AsyncStorage.getItem('apiToken');
-    // console.log('apiToken', apiToken);
     config.headers = {
       Authorization: `Bearer ${JSON.parse(apiToken)}`,
       'Content-Type': 'multipart/form-data',

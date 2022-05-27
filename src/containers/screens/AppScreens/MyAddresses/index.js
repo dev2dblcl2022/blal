@@ -421,7 +421,7 @@ const index = ({navigation, props, route}) => {
           <View style={styles.btnSection}>
             <View>
               <TouchableOpacity
-                onPress={() => setHomeSelectAddress(true)}
+                onPress={onNavigateSetLocation}
                 // onPress={() => navigation.navigate('AddNewAddress')}
                 style={styles.addMemberSection}>
                 <BoldText

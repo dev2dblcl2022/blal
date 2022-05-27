@@ -167,7 +167,10 @@ export default props => {
               />
               <SubmitButton
                 style={styles.submitBtn}
-                onPress={addToCart}
+                onPress={() => {
+                  addToCart();
+                  // props.navigation.navigate('MyCart');
+                }}
                 title={textConstants.btnText.addToCart}
               />
             </View>

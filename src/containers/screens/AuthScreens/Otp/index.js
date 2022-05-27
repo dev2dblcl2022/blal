@@ -57,18 +57,25 @@ const index = ({navigation, route, props}) => {
   // const onSubmit = data => {
   // };
   // useEffect(() => {
-  //   RNOtpVerify.getOtp().then(p => RNOtpVerify.addListener(otpHandler));
+  //   RNOtpVerify.getOtp().then(p => {
+  //     console.log(p, 'ghhbj');
+  //     RNOtpVerify.addListener(otpHandler);
+  //   });
   //   return () => {
   //     RNOtpVerify.removeListener();
   //   };
   // }, []);
   // const otpHandler = message => {
+  //   const regex = /\d+/g;
   //   console.log('message', message);
-  //   const lOtp = /(\d{6})/g.exec(message)[1];
-  //   setOtp(lOtp);
+  //   const lOtp = message.match(regex); // creates array from matches
+  //   // const lOtp = message[1];
+  //   console.log(lOtp);
+  //   setOtp(parseInt(lOtp[0]));
   //   RNOtpVerify.removeListener();
   //   Keyboard.dismiss();
   // };
+  // console.log(otp, 'otpp');
   function useInterval(callback, delay) {
     const savedCallback = useRef();
     useEffect(() => {
@@ -243,7 +250,7 @@ const index = ({navigation, route, props}) => {
             // code={otp}
             // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
             onCodeChanged={text => onChangeText('otp', text, 'required')}
-            autoFocusOnLoad={true}
+            autoFocusOnLoad
             codeInputFieldStyle={styles.underlineStyleBase}
             codeInputHighlightStyle={styles.underlineStyleHighLighted}
           />

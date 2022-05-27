@@ -34,6 +34,7 @@ import moment from 'moment';
 import {Date_Format} from '../../../../config/Setting';
 import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getSilverapiURL} from '../../../../apis/env';
 const index = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const {signOut, signIn} = React.useContext(AuthContext);
@@ -118,13 +119,11 @@ const index = ({navigation}) => {
         response.data.map(item => {
           newData.push({label: item.fullname, value: item.uhid});
         });
-
         response.data.map(item => {
           if (val?.user?.uhid === item.uhid) {
             setTimeValues('3');
             // primaryUhidUser = item.uhid;
             setPatientValues(item.uhid);
-
             setPrimaryUhid(item.uhid);
           }
         });
@@ -157,8 +156,9 @@ const index = ({navigation}) => {
     try {
       const requestConfig = {
         method: blalMethod.post,
-
         url: `https://lims.blallab.com/WebApiLive/GetMyReports?PatientId=${primaryUhid}&FromDate=${startData}&ToDate=${endDate}`,
+        // url: `https://lims.blallab.com/MobileAppCode/Design/Lab/LabReportNew.aspx?PHead=${1}&TestID=${primaryUhid}`,
+        // url: `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=${1}&TestID=${primaryUhid}`,
       };
       const response = await NetworkRequest(requestConfig);
       if (response) {
@@ -213,12 +213,16 @@ const index = ({navigation}) => {
   const getMyReports = async () => {
     try {
       setLoader(true);
+
       const requestConfig = {
         method: blalMethod.post,
-
-        url: `https://lims.blallab.com/WebApiLive/GetMyReports?PatientId=${patientValues}&FromDate=${apiStartDate}&ToDate=${apiEndDate}`,
+        url: getSilverapiURL(
+          `/GetMyReports?PatientId=${patientValues}&FromDate=${apiStartDate}&ToDate=${apiEndDate}`,
+        ),
       };
+
       const response = await NetworkRequest(requestConfig);
+
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
@@ -278,8 +282,8 @@ const index = ({navigation}) => {
     }
   };
 
-  const onOpenPdfFile = url => {
-    const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${url}`;
+  const onOpenPdfFile = reportsIds => {
+    const fileUrl = `https://lims.blallab.com/MobileAppCode/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
     navigation.navigate('PrescriptionViewer', {
       url: fileUrl,
       screenName: 'Report',
@@ -353,7 +357,7 @@ const index = ({navigation}) => {
   };
 
   const downloadInvoice = mainReportItem => {
-    const fileUrl = `https://lims.blallab.com/blal/Design/Finanace/ReceiptBill.aspx?cmd=reprint&LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&Status=0&TYPE=LAB`;
+    const fileUrl = `https:lims.blallab.com/MobileAppCode/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`;
     checkPermission(fileUrl, 'Invoice', '');
   };
   const downloadReport = item => {
@@ -379,8 +383,7 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-
-    const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+    const fileUrl = `https://lims.blallab.com/MobileAppCode/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
     checkPermission(fileUrl, 'Report');
   };
 
@@ -390,6 +393,7 @@ const index = ({navigation}) => {
     let newData = item.TestDataListModel;
     newData = newData?.map((itn, inde) => {
       if (itn.Status === 'Approved' && itn.selected) {
+        1;
         data.push({id: itn.Test_ID, name: itn.TestName});
       }
       return itn;
@@ -401,8 +405,7 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-
-    const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+    const fileUrl = `https://lims.blallab.com/MobileAppCode/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
     checkPermission(fileUrl, 'Report');
 
     // data.map(item => {
@@ -484,9 +487,9 @@ const index = ({navigation}) => {
 
         setLoader(false);
         if (type === 'Invoice') {
-          Toast(`${type} Downloaded Successfully.`, 1);
+          Toast(`${type} Downloaded Successfully!`, 1);
         } else {
-          Toast(`${type} Downloaded Successfully.`, 1);
+          Toast(`${type} Download Successfully!`, 1);
         }
       })
       .catch(err => {
@@ -612,6 +615,7 @@ const index = ({navigation}) => {
             <BoldText style={styles.termsConditionText} title={'Select All'} />
           </View>
         </View>
+
         <View style={styles.reportListSection}>
           <FlatList
             data={item.TestDataListModel}
@@ -774,19 +778,19 @@ const index = ({navigation}) => {
       <View style={styles.infoSection}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('SampleReport')}
+            // onPress={() => navigation.navigate('SampleReport')}
             style={styles.backContainerFirst}>
             <RegularText
               style={styles.trendAnalysisText}
-              title={'View Trend Analysis'}
+              // title={'View Trend Analysis'}
             />
-            <Image
+            {/* <Image
               style={{
                 tintColor: colors.app_theme_dark_green,
                 marginLeft: hp('1%'),
               }}
               source={imagesConstants.graph}
-            />
+            /> */}
           </TouchableOpacity>
 
           {patientValues || timeValues ? (
@@ -807,7 +811,6 @@ const index = ({navigation}) => {
             </TouchableOpacity>
           ) : null}
         </View>
-
         <View
           style={[
             styles.dropDownSections,
@@ -848,7 +851,6 @@ const index = ({navigation}) => {
             /> 
           </View> */}
         </View>
-
         {timeValues === '5' ? (
           <View
             style={{
@@ -873,7 +875,6 @@ const index = ({navigation}) => {
             </TouchableOpacity>
           </View>
         ) : null}
-
         <View
           style={
             // timeOpens || patientOpens
@@ -885,6 +886,7 @@ const index = ({navigation}) => {
             title={'Select the Paitent for whom you want to see the report'}
           />
         </View>
+
         <View style={styles.listSection}>
           <FlatList
             data={reports}

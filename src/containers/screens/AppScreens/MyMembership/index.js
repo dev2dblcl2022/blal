@@ -83,11 +83,10 @@ const index = ({navigation}) => {
       };
 
       const response = await NetworkRequestBlal(requestConfig);
-      console.log(response, 'gfsjgfjds');
+
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
-          console.log(response.data, 'gfsjgfjds');
           setMembershipData(response?.data);
           setLoader(false);
         } else {

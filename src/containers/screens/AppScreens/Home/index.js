@@ -127,6 +127,7 @@ const index = ({navigation}) => {
         latitude: DefaultLatitude,
         longitude: DefaultLongitude,
       };
+
       getLocationNameDefaultMalviyaBlal(coords);
     } else {
       if (label === '0' || label === null) {
@@ -548,7 +549,6 @@ const index = ({navigation}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-
       if (response) {
         const {success} = response;
         if (success) {
@@ -1006,7 +1006,7 @@ const index = ({navigation}) => {
       <SafeAreaView style={styles.safeArea}>
         <HomeHeader
           onPressNotification={() => navigation.navigate('Notification')}
-          label={headerAddressLabel}
+          label={headerAddressLabel ? headerAddressLabel : getLocation}
           onPressCart={() => navigation.navigate('MyCart')}
           onPressMenu={() => {
             navigation.dispatch(DrawerActions.openDrawer());

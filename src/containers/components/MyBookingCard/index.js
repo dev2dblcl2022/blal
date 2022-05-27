@@ -92,11 +92,18 @@ export default props => {
       </View>
       <View style={styles.cardPartTwo}>
         <View style={{flex: 1}}>
+          <View style={{marginTop: hp('1%')}}>
+            <RegularText style={styles.booingDateText} title={created_at} />
+          </View>
           <View>
             <LightText style={styles.bookingIdLabel} title={'Date & Time'} />
           </View>
+
           <View style={{marginTop: hp('1%')}}>
-            <RegularText style={styles.booingDateText} title={created_at} />
+            <RegularText
+              style={styles.booingDateText}
+              title={booking_date_time}
+            />
           </View>
           <View>
             <LightText
@@ -104,24 +111,18 @@ export default props => {
               title={'Appointment Date and Time'}
             />
           </View>
-          <View style={{marginTop: hp('1%')}}>
-            <RegularText
-              style={styles.booingDateText}
-              title={booking_date_time}
-            />
-          </View>
         </View>
         <View style={{flex: 1, alignItems: 'flex-end'}}>
-          <View style={{paddingRight: hp('2%')}}>
-            <LightText
-              style={styles.bookingIdLabel}
-              title={'Collection Type'}
-            />
-          </View>
           <View style={{marginTop: hp('1%'), paddingRight: hp('2%')}}>
             <RegularText
               style={styles.booingDateText}
               title={collection_type === 'Home' ? 'Home' : 'Lab'}
+            />
+          </View>
+          <View style={{paddingRight: hp('2%')}}>
+            <LightText
+              style={styles.bookingIdLabel}
+              title={'Collection Type'}
             />
           </View>
         </View>

@@ -42,6 +42,7 @@ import NetworkRequest, {
 } from '../../../../services/NetworkRequest';
 import {AuthContext} from '../../../../../context/context';
 import axios from 'axios';
+import {getSilverapiURL} from '../../../../apis/env';
 const index = ({navigation, route}) => {
   let type = '';
   let filterConditionKeys = '';
@@ -406,7 +407,9 @@ const index = ({navigation, route}) => {
         }${testIdCondition ? testIdCondition : ''}`,
       };
 
-      let url = `https://lims.blallab.com/WebApiLive/GetFilterTestPackage?CityId=${data.CityId}&PanelId=${data.PanelId}`;
+      let url = getSilverapiURL(
+        `/GetFilterTestPackage?CityId=${data.CityId}&PanelId=${data.PanelId}`,
+      );
 
       if (data.Type) {
         url = `${url}&Type=${data.Type}`;

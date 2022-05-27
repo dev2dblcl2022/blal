@@ -313,6 +313,7 @@ const index = ({navigation, route}) => {
     payment_type,
     transaction_id,
     paymentDetail,
+    orderID,
   ) => {
     try {
       setLoader(true);
@@ -372,6 +373,7 @@ const index = ({navigation, route}) => {
           latitude: lab === 0 ? Number(selectedAddress.latitude) : null,
           longitude: lab === 0 ? Number(selectedAddress.longitude) : null,
           transactions: transaction_id,
+          txnOrderId: orderID,
           address_type: null,
           CentreID: selectedLabCenterId ? selectedLabCenterId : null,
           member_discount: membershipDiscount,
@@ -394,7 +396,6 @@ const index = ({navigation, route}) => {
       const response = await NetworkRequest(requestConfig);
       setBookingSuccessfulData(response.data);
       if (response) {
-        console.log(response, 'responseBooking');
         const {success} = response;
         if (success) {
           setLoader(false);
@@ -498,9 +499,13 @@ const index = ({navigation, route}) => {
 
       if (response) {
         const {success} = response;
+        console.log('response.message', response.message);
         if (success) {
           Toast(
-            response.message,
+            response.message === 'success'
+              ? 'Discount coupon removed!'
+              : response.message,
+            response.message === 'success' ? 1 : 0,
             response.message === 'Coupon code applied successfully!' ? 1 : 0,
           );
           // setViewOfferClick(false);
@@ -605,7 +610,7 @@ const index = ({navigation, route}) => {
             mid: merchantId,
             orderId: orderID,
           };
-          paymentSuccess(res, paymentDetail);
+          paymentSuccess(res, paymentDetail, orderID);
         })
         .catch(err => {
           Toast('Payment Failed! Try again');
@@ -630,7 +635,7 @@ const index = ({navigation, route}) => {
             orderId: orderID,
           };
 
-          paymentSuccess(res, paymentDetail);
+          paymentSuccess(res, paymentDetail, orderID);
         })
         .catch(err => {
           console.log('error caught ', err);
@@ -639,9 +644,9 @@ const index = ({navigation, route}) => {
     }
   };
 
-  const paymentSuccess = (res, paymentDetail) => {
+  const paymentSuccess = (res, paymentDetail, orderID) => {
     if (res.STATUS === 'TXN_SUCCESS') {
-      onClickMakePayment('Online', res.TXNID, paymentDetail);
+      onClickMakePayment('Online', res.TXNID, paymentDetail, orderID);
     }
   };
 

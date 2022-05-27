@@ -358,17 +358,16 @@ const index = ({navigation, route}) => {
     Geocoder.from(
       val === 0 ? data.latitude : data.latitude,
       val === 0 ? data.longitude : data.longitude,
-    )
-      .then(json => {
-        getZipCode(json);
-        // alert(data.latitude);
-        setLatitude(val === 0 ? data.latitude : data.latitude);
-        setLongitude(val === 0 ? data.longitude : data.longitude);
-        var addressComponent = json.results[0].formatted_address;
+    ).then(json => {
+      getZipCode(json);
+      // alert(data.latitude);
+      setLatitude(val === 0 ? data.latitude : data.latitude);
+      setLongitude(val === 0 ? data.longitude : data.longitude);
+      var addressComponent = json.results[0].formatted_address;
 
-        setAddressComponent(addressComponent);
-        setLoader(false);
-      })
+      setAddressComponent(addressComponent);
+      setLoader(false);
+    });
   };
   const getZipCode = async details => {
     let data = details.results[0] || [];
@@ -560,7 +559,7 @@ const index = ({navigation, route}) => {
               <View style={styles.mobileNumberInput}>
                 <InputField
                   value={validateForm.phoneNumber}
-                  error={validateForm.phoneNumberError}
+                  // error={validateForm.phoneNumberError}
                   returnKeyType={'next'}
                   maxLength={10}
                   keyboardType={'number-pad'}
@@ -569,7 +568,7 @@ const index = ({navigation, route}) => {
                     onChangeText('phoneNumber', text, 'phoneNumber')
                   }
                   style={styles.input}
-                  placeholder={'Mobile Number'}
+                  placeholder={'Alternate Mobile Number'}
                 />
               </View>
               <View style={[styles.radioButtonSection]}>

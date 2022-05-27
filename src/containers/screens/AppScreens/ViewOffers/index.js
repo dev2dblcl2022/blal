@@ -52,7 +52,6 @@ const index = ({navigation, props}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-
       if (response) {
         const {success} = response;
         if (success) {

@@ -244,8 +244,8 @@ export default function index({navigation, route, props}) {
           setLoader(false);
 
           Toast(response.message, 1);
-          // navigation.navigate('MyCart');
-          navigation.pop(2);
+          navigation.navigate('MyCart');
+          // navigation.pop(2);
           // navigation.navigate('SearchLab');
         } else {
           Toast(response.message, 0);

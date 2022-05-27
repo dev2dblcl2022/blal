@@ -13,7 +13,16 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: 0,
   },
-
+  crossSection: {
+    position: 'absolute',
+    top: 10,
+    borderRadius: hp('2%'),
+    height: hp('4%'),
+    width: hp('4%'),
+    right: 10,
+    zIndex: 999,
+    padding: hp('1%'),
+  },
   circleContainer: {
     flex: 1,
     height: '50%',
