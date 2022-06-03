@@ -10,8 +10,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@autocomplete/material-ui": "0.0.17",
     "@codler/react-native-keyboard-aware-scroll-view": "^2.0.0",
-    "@material-ui/icons": "^4.11.3",
     "@react-native-async-storage/async-storage": "^1.15.8",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/datetimepicker": "^3.5.2",
@@ -56,6 +56,7 @@
     "react-native-keyboard-aware-scroll-view": "APSL/react-native-keyboard-aware-scroll-view#pull/501/head",
     "react-native-maps": "^0.29.4",
     "react-native-modal-datetime-picker": "^10.2.0",
+    "react-native-multiple-select": "^0.5.9",
     "react-native-otp-auto-fill": "^0.1.17",
     "react-native-otp-verify": "^1.0.5",
     "react-native-pager-view": "^5.4.7",

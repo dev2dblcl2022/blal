@@ -639,7 +639,7 @@ export default function index({navigation, route, props}) {
                   /> */}
                   </View>
                   <View style={[styles.genderSection, {marginTop: hp('2%')}]}>
-                    {packageData?.HomeCollection === '1' ? (
+                    {packageData?.HomeCollection === '1' || 'YES' ? (
                       <View style={styles.gender}>
                         <Image
                           style={styles.maleImg}

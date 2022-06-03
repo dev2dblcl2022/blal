@@ -185,14 +185,17 @@ const index1 = ({navigation, route}) => {
   const refectorBookingData = bookingData => {
     const arr = [];
     bookingData.map(_data => {
-      console.log('_data', _data.total_member_amount);
-      if (!arr.includes(_data.booking_hash)) {
-        arr.push(_data.booking_hash);
-        _data.bookingAmount =
-          parseInt(_data.total_member_amount) + parseInt(_data.pickup_charge);
-      } else {
-        _data.bookingAmount = _data.total_member_amount;
-      }
+      _data.bookingAmount = (
+        parseInt(_data.total_member_amount) +
+        (parseInt(_data.pickup_charge) || 0)
+      ).toFixed(2);
+      // if (!arr.includes(_data.booking_hash)) {
+      //   arr.push(_data.booking_hash);
+      //   _data.bookingAmount =
+      //     parseInt(_data.total_member_amount) + parseInt(_data.pickup_charge);
+      // } else {
+      //   _data.bookingAmount = _data.total_member_amount;
+      // }
     });
     return bookingData;
   };
@@ -332,7 +335,7 @@ const index1 = ({navigation, route}) => {
         url: servicesPoints.paymentServices.initiate_transaction,
       };
       const response = await NetworkRequest(requestConfig);
-      if (response) {
+      if (response.status === 200) {
         const {success} = response;
         if (success) {
           let txnToken = response.data.body.txnToken;
@@ -348,6 +351,8 @@ const index1 = ({navigation, route}) => {
           }
           setLoader(false);
         }
+      } else {
+        Toast('Try again, Payment Failure!', 0);
       }
     } catch (err) {
       setLoader(false);
@@ -401,6 +406,8 @@ const index1 = ({navigation, route}) => {
   const paymentSuccess = (res, data, orderID) => {
     if (res.RESPCODE === '01' && res.TXNID) {
       onClickMakePayment(res.TXNID, data, orderID);
+    } else {
+      Toast('Try again, Payment Failure!', 0);
     }
   };
 

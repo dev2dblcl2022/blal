@@ -191,7 +191,10 @@ const index = ({navigation, route}) => {
     } else {
       if (!patientsValues) {
         Toast('Please select Patients', 0);
-      } else if (!dependentPatientsValues) {
+      } else if (
+        !dependentPatientsValues &&
+        membershipCardData.No_of_dependant > 0
+      ) {
         Toast('Please select Dependent Patients', 0);
       } else {
         onInitiateTransaction();
@@ -216,7 +219,7 @@ const index = ({navigation, route}) => {
 
       const response = await NetworkRequest(requestConfig);
 
-      if (response) {
+      if (response.status === 200) {
         const {success} = response;
         if (success) {
           let txnToken = response.data.body.txnToken;
@@ -234,6 +237,8 @@ const index = ({navigation, route}) => {
           }
           setLoader(false);
         }
+      } else {
+        Toast('Try again, Payment Failure!', 0);
       }
     } catch (err) {
       setLoader(false);
@@ -292,6 +297,8 @@ const index = ({navigation, route}) => {
     // let response = JSON.parse(res.response);
     if (res.RESPCODE === '01' && res.TXNID) {
       apiAddCard(res.TXNID);
+    } else {
+      Toast('Try again, Payment Failure!', 0);
     }
   };
 
@@ -340,8 +347,8 @@ const index = ({navigation, route}) => {
         method: 'post',
         url:
           membershipCardData.No_of_dependant === '1'
-            ? `https://lims.blallab.com/WebApiLive/CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}`
-            : `https://lims.blallab.com/WebApiLive/CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}&DependentId=${data.DependentId}`,
+            ? `https://silverapi.blallab.com/CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}`
+            : `https://silverapi.blallab.com/CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}&DependentId=${data.DependentId}`,
         headers: {},
       };
 
@@ -443,7 +450,6 @@ const index = ({navigation, route}) => {
                 placeholder={'Full Name'}
               />
             </View> */}
-
             <View style={styles.dropDownView}>
               <DropDownPicker
                 open={patientsOpens}
@@ -457,11 +463,12 @@ const index = ({navigation, route}) => {
                 setValue={setPatientsValues}
               />
             </View>
-            {membershipCardData.No_of_dependant === '2' ? (
+
+            {membershipCardData.No_of_dependant >= '2' ? (
               <View
                 style={[
                   styles.dropDownView,
-                  {marginTop: patientsOpens ? hp('25%') : 20},
+                  {marginTop: patientsOpens ? hp('30%') : 20},
                 ]}>
                 <DropDownPicker
                   open={dependentPatientsOpen}
@@ -470,12 +477,13 @@ const index = ({navigation, route}) => {
                   listChildContainerStyle={{position: 'absolute'}}
                   style={{borderColor: colors.purplishGrey, borderWidth: 1}}
                   items={allPatients}
-                  zIndex={1000}
+                  zIndex={3000}
                   setOpen={setDependentPatientsOpen}
                   setValue={setDependentPatientsValues}
                 />
               </View>
             ) : null}
+
             {/* 
             <TouchableOpacity
               onPress={() => navigation.navigate('AddFamilyMember')}
@@ -485,7 +493,6 @@ const index = ({navigation, route}) => {
                 title={'+ Add more Members'}
               />
             </TouchableOpacity> */}
-
             {/* <View style={styles.mobileNumberInput}>
               <InputField
                 value={validateForm.email}
@@ -513,7 +520,6 @@ const index = ({navigation, route}) => {
                 placeholder={'Mobile number'}
               />
             </View> */}
-
             {/* <View style={styles.dropDownView}>
               <DropDownPicker
                 open={opens}
@@ -525,12 +531,20 @@ const index = ({navigation, route}) => {
                 setValue={setValue}
               />
             </View> */}
-
             <View
               style={[
                 styles.validitySection,
                 {
-                  marginTop: patientsOpens ? hp('25%') : 20,
+                  marginTop:
+                    membershipCardData.No_of_dependant >= '2' &&
+                    dependentPatientsOpen
+                      ? hp('30%')
+                      : membershipCardData.No_of_dependant >= '2' &&
+                        patientsOpens
+                      ? 20
+                      : patientsOpens
+                      ? hp('30%')
+                      : 20,
                 },
               ]}>
               <BoldText style={styles.validityText} title={'Validity'} />
@@ -540,7 +554,6 @@ const index = ({navigation, route}) => {
                 title={`${membershipCardData?.CardValidity} Year(s) Valid`}
               />
             </View>
-
             <View style={[styles.validitySection]}>
               <BoldText style={styles.validityText} title={'Amount'} />
 
@@ -549,7 +562,6 @@ const index = ({navigation, route}) => {
                 title={`${'\u20B9'} ${membershipCardData.Amount}`}
               />
             </View>
-
             <View style={styles.fullBodyCheckupSection}>
               <View style={styles.sectionOne}>
                 <View style={styles.headingCollection}>
@@ -583,7 +595,6 @@ const index = ({navigation, route}) => {
                 </View>
               </View>
             </View>
-
             <View style={styles.fullBodyCheckupSection}>
               <View style={styles.sectionOne}>
                 <View style={styles.headingTestSection}>
@@ -608,7 +619,6 @@ const index = ({navigation, route}) => {
                 </View>
               </View>
             </View>
-
             <SubmitButton
               style={styles.submitBtn}
               onPress={onSubmit}

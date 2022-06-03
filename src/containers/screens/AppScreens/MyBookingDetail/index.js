@@ -434,7 +434,8 @@ const index = ({navigation, route}) => {
                             ? 'Booking Confirmed'
                             : bookingDetailData.status === 'Accepted'
                             ? 'Booking Pro Accepted'
-                            : bookingDetailData.status === 'Started'
+                            : bookingDetailData.status === 'Started' ||
+                              'Arrived'
                             ? 'Booking Pro Started'
                             : bookingDetailData.status === 'Successful'
                             ? 'Booking Successful'
@@ -461,7 +462,7 @@ const index = ({navigation, route}) => {
                           ? imagesConstants.bookingConfirmed
                           : bookingDetailData.status === 'Accepted'
                           ? imagesConstants.proAssign
-                          : bookingDetailData.status === 'Started'
+                          : bookingDetailData.status === 'Started' || 'Arrived'
                           ? imagesConstants.started
                           : bookingDetailData.status === 'Successful'
                           ? imagesConstants.collectionDone
@@ -700,7 +701,7 @@ const index = ({navigation, route}) => {
                         <RegularText
                           style={styles.bookingRateText}
                           title={`${'\u20B9'} ${
-                            bookingDetailData.final_amount
+                            bookingDetailData.total_member_amount
                           }`}
                         />
                         {/* <View
@@ -1076,7 +1077,7 @@ const index = ({navigation, route}) => {
                         <RegularText
                           style={styles.rateText}
                           title={`${'\u20B9'} ${
-                            bookingDetailData.total_amount
+                            bookingDetailData.total_member_amount
                           }`}
                         />
                       </View>
@@ -1092,7 +1093,7 @@ const index = ({navigation, route}) => {
                         />
                         )
                       </View> */}
-                      {Number(bookingDetailData.discounted_amount) ? (
+                      {Number(bookingDetailData.total_member_discounted) ? (
                         <View style={styles.testPriceSection}>
                           <RegularText
                             style={styles.testPrice}
@@ -1101,7 +1102,7 @@ const index = ({navigation, route}) => {
                           <RegularText
                             style={styles.rateText}
                             title={`(-) ${'\u20B9'} ${
-                              bookingDetailData.discounted_amount
+                              bookingDetailData.total_member_discounted
                             }`}
                           />
                         </View>
@@ -1129,7 +1130,15 @@ const index = ({navigation, route}) => {
                         <RegularText
                           style={styles.rateText}
                           title={`${'\u20B9'} ${
-                            bookingDetailData.total_amount
+                            parseInt(bookingDetailData.total_member_amount) +
+                            (bookingDetailData.pickup_charge
+                              ? parseInt(bookingDetailData.pickup_charge)
+                              : 0) -
+                            (bookingDetailData.total_member_discounted
+                              ? parseInt(
+                                  bookingDetailData.total_member_discounted,
+                                )
+                              : 0)
                           }`}
                         />
                       </View>
@@ -1145,7 +1154,15 @@ const index = ({navigation, route}) => {
                         <BoldText
                           style={styles.payableText}
                           title={`${'\u20B9'} ${
-                            bookingDetailData.final_amount
+                            parseInt(bookingDetailData.total_member_amount) +
+                            (bookingDetailData.pickup_charge
+                              ? parseInt(bookingDetailData.pickup_charge)
+                              : 0) -
+                            (bookingDetailData.total_member_discounted
+                              ? parseInt(
+                                  bookingDetailData.total_member_discounted,
+                                )
+                              : 0)
                           }`}
                         />
                       </View>

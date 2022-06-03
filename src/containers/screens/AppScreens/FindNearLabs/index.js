@@ -152,10 +152,10 @@ const index = ({navigation}) => {
           ],
         );
       } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-        Toast('Location permission revoked by user.', 0);
+        Toast('Please allow location permission.', 0);
         setLoader(false);
         Alert.alert(
-          'Allow Blal to use your location to use your current location.',
+          'Please allow location permission for current location.',
           '',
           [
             {text: 'Go to Settings', onPress: openSettings},

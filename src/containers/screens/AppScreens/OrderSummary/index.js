@@ -499,14 +499,15 @@ const index = ({navigation, route}) => {
 
       if (response) {
         const {success} = response;
-        console.log('response.message', response.message);
         if (success) {
           Toast(
             response.message === 'success'
               ? 'Discount coupon removed!'
               : response.message,
-            response.message === 'success' ? 1 : 0,
-            response.message === 'Coupon code applied successfully!' ? 1 : 0,
+            response.message === 'Coupon code applied successfully!' ||
+              'success'
+              ? 1
+              : 0,
           );
           // setViewOfferClick(false);
           setTotalPrice(response.data.total_amount);
@@ -567,7 +568,7 @@ const index = ({navigation, route}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-      if (response) {
+      if (response.status === 200) {
         const {success} = response;
         if (success) {
           let txnToken = response.data.body.txnToken;
@@ -585,6 +586,8 @@ const index = ({navigation, route}) => {
           }
           setLoader(false);
         }
+      } else {
+        Toast('Try again, Payment Failure!', 0);
       }
     } catch (err) {
       setLoader(false);
@@ -647,16 +650,18 @@ const index = ({navigation, route}) => {
   const paymentSuccess = (res, paymentDetail, orderID) => {
     if (res.STATUS === 'TXN_SUCCESS') {
       onClickMakePayment('Online', res.TXNID, paymentDetail, orderID);
+    } else {
+      Toast('Try again, Payment Failure!', 0);
     }
   };
 
   const setCouponCode = cop_code => {
     setCode(cop_code);
-    if (viewOfferClick && code) {
-      onApplyCuponCode(cop_code);
-    } else {
-      null;
-    }
+    // if (viewOfferClick && code) {
+    //   onApplyCuponCode(cop_code);
+    // } else {
+    //   null;
+    // }
   };
 
   return (
@@ -886,11 +891,15 @@ const index = ({navigation, route}) => {
                     />
 
                     {code.length > 0 ? (
-                      <TouchableOpacity onPress={() => setCouponCode('')}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setCode('');
+                          onApplyCuponCode('');
+                        }}>
                         <View style={styles.arrowSection}>
-                          <View style={styles.arrowCircle}>
+                          <View style={[styles.arrowCircle, {marginTop: 10}]}>
                             <Image
-                              style={{marginLeft: 80, marginTop: 10}}
+                              // style={{marginTop: 10}}
                               source={imagesConstants.cancelRed}
                             />
                           </View>

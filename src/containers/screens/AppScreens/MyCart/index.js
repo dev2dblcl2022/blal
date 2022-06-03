@@ -304,7 +304,10 @@ const index = ({navigation}) => {
     await AsyncStorage.removeItem('cartBookingAddress');
     await AsyncStorage.removeItem('cartBookingTime');
     await AsyncStorage.removeItem('Code');
-    navigation.navigate('BookingDetails');
+    let collectionType = cartDataBookings.map((item, key) => {
+      return item.collection_type;
+    });
+    navigation.navigate('BookingDetails', {collectionType: collectionType});
   };
   const renderSelfTextCard = (item, index) => {
     let length = cartData.bookings.length - 1;
@@ -332,6 +335,7 @@ const index = ({navigation}) => {
   };
 
   const renderAlsoAddCard = item => {
+   
     let testPackageData = {
       id: item.Id,
       type: item.TestType,
@@ -345,6 +349,7 @@ const index = ({navigation}) => {
           navigation.navigate('FullBodyCheckup', {
             testPackageData: testPackageData,
             type: item.TestType,
+            name: item.testName,
             comeFromMyCart: false,
           })
         }
@@ -408,7 +413,6 @@ const index = ({navigation}) => {
         onBack={() => navigation.goBack()}
         title={textConstants.myCart.myCart}
       /> */}
-
       <View style={[styles.container]}>
         <TouchableOpacity
           hitSlop={{left: 15, right: 15, top: 15, bottom: 15}}
@@ -431,6 +435,7 @@ const index = ({navigation}) => {
           ) : null}
         </TouchableOpacity>
       </View>
+
       {cartDataBookings.length ? (
         <View style={{flex: 1}}>
           <View style={{flex: 1}}>

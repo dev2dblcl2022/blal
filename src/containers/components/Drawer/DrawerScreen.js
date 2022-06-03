@@ -75,12 +75,12 @@ const DrawerScreen = ({navigation}) => {
       screen: 'UploadedPrescriptionsStack',
     },
     {id: 6, screenName: 'My Reports', screen: 'MyReports'},
-    {id: 7, screenName: 'Smart Reports', screen: 'SampleReport'},
-    {id: 8, screenName: 'Addresses', screen: 'MyAddresses'},
-    {id: 9, screenName: 'Blogs', screen: 'BlogStack'},
-    {id: 10, screenName: 'Need Help ?', screen: 'NeedHelp'},
-    {id: 11, screenName: 'About Dr. B Lal Lab', screen: 'AboutDrBlal'},
-    {id: 12, screenName: 'Logout', screen: 'xyz'},
+    // {id: 7, screenName: 'Smart Reports', screen: 'SampleReport'},
+    {id: 7, screenName: 'Addresses', screen: 'MyAddresses'},
+    {id: 8, screenName: 'Blogs', screen: 'BlogStack'},
+    {id: 9, screenName: 'Need Help ?', screen: 'NeedHelp'},
+    {id: 10, screenName: 'About Dr. B Lal Lab', screen: 'AboutDrBlal'},
+    {id: 11, screenName: 'Logout', screen: 'xyz'},
   ]);
 
   const onNext = async item => {
@@ -102,19 +102,19 @@ const DrawerScreen = ({navigation}) => {
         {cancelable: false},
       );
     } else {
-      if (item.id === 12) {
+      if (item.id === 11) {
         await AsyncStorage.removeItem('LocationStatus');
         addressLabel('');
         signOut();
 
         // Logout();
-      } else if (item.id === 10) {
+      } else if (item.id === 9) {
         if (Platform.OS === 'ios') {
           navigation.navigate(item.screen);
         } else {
           startZendeskChat();
         }
-      } else if (item.id === 8) {
+      } else if (item.id === 7) {
         navigation.navigate(item.screen, {location: true});
       } else {
         navigation.navigate(item.screen);
@@ -197,6 +197,8 @@ const DrawerScreen = ({navigation}) => {
               );
             }}
           />
+
+          <RegularText style={styles.versionText} title={'Ver: 1.0'} />
         </View>
       </View>
     </SafeAreaView>

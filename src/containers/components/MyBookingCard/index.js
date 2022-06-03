@@ -229,8 +229,17 @@ export default props => {
           }}>
           <TouchableOpacity onPress={props.onPressRate}>
             <LightText
-              style={[styles.viewMoreText, {fontSize: hp('2.5%')}]}
-              title={'Rate'}
+              style={{
+                fontSize: hp('2.5%'),
+                color: 'white',
+                backgroundColor: colors.app_theme_dark_green,
+                paddingRight: hp('2%'),
+                paddingLeft: hp('2%'),
+                paddingHorizontal: hp('2%'),
+                paddingVertical: hp('2%'),
+                borderRadius: 10,
+              }}
+              title={'Rate Us'}
             />
           </TouchableOpacity>
         </View>

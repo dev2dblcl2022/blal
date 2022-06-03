@@ -283,7 +283,8 @@ const index = ({navigation}) => {
   };
 
   const onOpenPdfFile = reportsIds => {
-    const fileUrl = `https://lims.blallab.com/MobileAppCode/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+    const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+
     navigation.navigate('PrescriptionViewer', {
       url: fileUrl,
       screenName: 'Report',
@@ -357,7 +358,8 @@ const index = ({navigation}) => {
   };
 
   const downloadInvoice = mainReportItem => {
-    const fileUrl = `https:lims.blallab.com/MobileAppCode/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`;
+    const fileUrl = `https://lims.blallab.com/blal/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`;
+
     checkPermission(fileUrl, 'Invoice', '');
   };
   const downloadReport = item => {
@@ -383,7 +385,8 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-    const fileUrl = `https://lims.blallab.com/MobileAppCode/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+    const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+
     checkPermission(fileUrl, 'Report');
   };
 
@@ -405,7 +408,8 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-    const fileUrl = `https://lims.blallab.com/MobileAppCode/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+    const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+
     checkPermission(fileUrl, 'Report');
 
     // data.map(item => {
@@ -834,7 +838,7 @@ const index = ({navigation}) => {
             <View style={styles.dropDownView}>
               <DropDownPicker
                 open={timeOpens}
-                placeholder="Time"
+                placeholder="Duration"
                 value={timeValues}
                 style={{borderColor: colors.purplishGrey, borderWidth: 1}}
                 items={times}

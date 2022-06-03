@@ -190,6 +190,16 @@ const index = ({navigation}) => {
     }
   };
 
+  const success = pos => {
+    const crd = pos.coords;
+    setLatitude(crd.latitude);
+    setLongitude(crd.longitude);
+    setCurrentLocation(true);
+    getLocationName(pos);
+  };
+  const error = err => {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  };
   const getCurrentLocation = () => {
     request(
       Platform.select({
@@ -199,30 +209,26 @@ const index = ({navigation}) => {
     )
       .then(response => {
         if (response === 'granted') {
-          Geolocation.getCurrentPosition(
-            position => {
-              setCurrentLocation(true);
+          Geolocation.getCurrentPosition(success, error, {
+            showLocationDialog: true,
+            enableHighAccuracy: true,
+            timeout: 20000,
+            maximumAge: 0,
+          });
 
-              setLatitude(position?.coords?.latitude.toString());
-              setLongitude(position?.coords?.longitude.toString());
-              // setLatitude('26.6966');
-              // setLongitude('77.8908');
+          // setLatitude('26.6966');
+          // setLongitude('77.8908');
 
-              // if (user === 'GuestUser') {
-              //   SetLoader(true);
-              //   let coords = {
-              //     latitude: DefaultLatitude,
-              //     longitude: DefaultLongitude,
-              //   };
-              //   getLocationNameDefaultMalviyaBlal(coords);
-              // } else {
-              //   checkStartingPincode(add_zipCode, cityName);
-              // }
-
-              getLocationName(position, 0);
-            },
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 0},
-          );
+          // if (user === 'GuestUser') {
+          //   SetLoader(true);
+          //   let coords = {
+          //     latitude: DefaultLatitude,
+          //     longitude: DefaultLongitude,
+          //   };
+          //   getLocationNameDefaultMalviyaBlal(coords);
+          // } else {
+          //   checkStartingPincode(add_zipCode, cityName);
+          // }
         } else {
           let coords = {
             latitude: DefaultLatitude,
@@ -236,6 +242,7 @@ const index = ({navigation}) => {
   };
 
   function getLocationNameDefaultMalviyaBlal(data) {
+    console.log('datatata', data);
     Geocoder.init('AIzaSyBvrwNiJMMmne5aMGkQUMCpb-rafOYdT4g');
     Geocoder.from(data.latitude, data.longitude)
 
@@ -254,6 +261,7 @@ const index = ({navigation}) => {
             }
           }
         }
+
         addressLabel(addressComponent);
         // setAddressLabel(addressComponent);
 
@@ -397,6 +405,7 @@ const index = ({navigation}) => {
 
         setLocationName(addressComponent);
         getZipCode(json, dummyCity);
+        SetLoader(false);
       })
       .catch(error => console.warn(error));
   }
@@ -1006,7 +1015,7 @@ const index = ({navigation}) => {
       <SafeAreaView style={styles.safeArea}>
         <HomeHeader
           onPressNotification={() => navigation.navigate('Notification')}
-          label={headerAddressLabel ? headerAddressLabel : getLocation}
+          label={headerAddressLabel}
           onPressCart={() => navigation.navigate('MyCart')}
           onPressMenu={() => {
             navigation.dispatch(DrawerActions.openDrawer());
@@ -1022,7 +1031,6 @@ const index = ({navigation}) => {
           }
         />
         {/* <MainContainer> */}
-
         <ScrollView contentContainerStyle={styles.content}>
           <View>
             <Carousel
@@ -1247,7 +1255,6 @@ const index = ({navigation}) => {
             {/* News Section */}
           </View>
         </ScrollView>
-
         {/* </MainContainer> */}
       </SafeAreaView>
       {trackingUrl && userToken !== 'GuestUser' ? (

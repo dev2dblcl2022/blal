@@ -223,7 +223,6 @@ const index = ({navigation}) => {
                         />
                       </View>
                     ) : null}
-
                     <View style={styles.listSectionTwo}>
                       <FlatList
                         data={allMembersData}

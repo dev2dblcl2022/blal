@@ -26,6 +26,7 @@ export default StyleSheet.create({
   },
   textInput: {
     color: 'black',
+    width: '90%',
   },
   youCanAddSection: {
     padding: hp('2%'),

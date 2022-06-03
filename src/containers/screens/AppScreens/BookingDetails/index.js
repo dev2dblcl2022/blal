@@ -241,7 +241,7 @@ const index = ({navigation, props}) => {
         setLongitude(DefaultLongitude);
         setCurrentLocation(true);
       } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-        Toast('Location permission revoked by user.', 0);
+        Toast('Please allow location permission.', 0);
         setLatitude(DefaultLatitude);
         setLongitude(DefaultLongitude);
         setCurrentLocation(true);
@@ -346,7 +346,6 @@ const index = ({navigation, props}) => {
       url: `${servicesPoints.userServices.get_User_Address}?collection_type=${data.collection_type}`,
     };
     const response = await NetworkRequest(requestConfig);
-
     if (response) {
       const {success} = response;
       if (success) {

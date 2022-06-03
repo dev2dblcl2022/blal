@@ -35,6 +35,12 @@ export default StyleSheet.create({
     fontSize: hp('1.8%'),
     marginTop: hp('1%'),
   },
+  versionText: {
+    fontSize: hp('1.8%'),
+    marginTop: hp('2%'),
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
   profileImg: {
     height: hp('12.6%'),
     borderRadius: hp('6.6%'),

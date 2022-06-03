@@ -1,8 +1,10 @@
-// export const Api_Local_Url = 'http://192.168.0.173:7000/';
-export const Api_Local_Url = 'https://sapi.blal.hl1.in';
+// export const Api_Local_Url = 'http://192.168.0.175:7000/';
+// export const Api_Local_Url = 'https://sapi.blal.hl1.in'; //staging
+export const Api_Local_Url = 'https://gold-ca-api.blallab.com/'; //production
 // 'http://192.168.0.200:7000/'
-// export const Api_Live_Url = 'http://192.168.0.173:7000/';
-export const Api_Live_Url = 'https://sapi.blal.hl1.in';
+// export const Api_Live_Url = 'http://192.168.0.175:7000/';
+// export const Api_Live_Url = 'https://sapi.blal.hl1.in';
+export const Api_Live_Url = 'https://gold-ca-api.blallab.com/'; //production
 export const ABOUT_DR_BLAL_LINK = 'https://www.blallab.com/company-profile/';
 export const TermsAndConditionUrl =
   'http://drblal-dev.tk/content/app/terms_and_conditions';

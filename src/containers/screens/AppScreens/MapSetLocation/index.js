@@ -140,6 +140,33 @@ const index = ({navigation, route}) => {
       }
     }
   };
+  const success = pos => {
+    const crd = pos.coords;
+    setLatitude(crd.latitude);
+    setLongitude(crd.longitude);
+    setCurrentLocation(true);
+    getLocationName(pos, 0);
+  };
+  const error = err => {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  };
+  async function getCurrentLocation() {
+    request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+        ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+      }),
+    ).then(response => {
+      if (response === 'granted') {
+        Geolocation.getCurrentPosition(success, error, {
+          showLocationDialog: true,
+          enableHighAccuracy: true,
+          timeout: 20000,
+          maximumAge: 0,
+        });
+      }
+    });
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -155,13 +182,14 @@ const index = ({navigation, route}) => {
             onMapReady={() => onMapReady()}
             style={styles.mapStyle}
             initialRegion={{
-              latitude: 26.8552714,
-              longitude: 75.8147654,
+              latitude: latitude ? latitude : 26.855451,
+              longitude: longitude ? longitude : 75.820374,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
             onRegionChangeComplete={region => {
               // const onRegionChange = region => {
+
               setLatitude(region.latitude);
               setLongitude(region.longitude);
 
@@ -212,29 +240,6 @@ const index = ({navigation, route}) => {
     </SafeAreaView>
   );
 
-  async function getCurrentLocation() {
-    request(
-      Platform.select({
-        android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-        ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
-      }),
-    ).then(response => {
-      if (response === 'granted') {
-        Geolocation.getCurrentPosition(
-          position => {
-            setCurrentLocation(true);
-
-            setLatitude(position.coords.latitude);
-            setLongitude(position.coords.longitude);
-
-            getLocationName(position, 0);
-          },
-          {enableHighAccuracy: true, timeout: 10000, maximumAge: 10000},
-        );
-      }
-    });
-  }
-
   async function getCurrentLocationAgain() {
     request(
       Platform.select({
@@ -265,6 +270,7 @@ const index = ({navigation, route}) => {
   }
 
   function getLocationName(data, val) {
+    console.log('datata', data);
     Geocoder.init('AIzaSyBvrwNiJMMmne5aMGkQUMCpb-rafOYdT4g');
     Geocoder.from(
       val === 0 ? data.coords.latitude : data.latitude,
@@ -288,7 +294,7 @@ const index = ({navigation, route}) => {
             }
           }
         }
-
+        console.log('addressComponent', addressComponent);
         setLocation(addressComponent);
         getZipCode(json);
       })

@@ -48,16 +48,15 @@ const index = ({navigation}) => {
     try {
       setLoader(true);
       let data = {
-        CityId: Number(cityId),
+        PanelId: Number(panelId),
       };
       const requestConfig = {
         method: blalMethod.post,
         data: data,
-        url: `${blalServicesPoints.blalUserServices.getMembershipCard}?CityId=${data.CityId}`,
+        url: `${blalServicesPoints.blalUserServices.getMembershipCard}?CityId=${data.PanelId}`,
       };
 
       const response = await NetworkRequestBlal(requestConfig);
-
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {

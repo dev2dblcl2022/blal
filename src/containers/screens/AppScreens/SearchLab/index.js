@@ -411,9 +411,9 @@ const index = ({navigation, route}) => {
         `/GetFilterTestPackage?CityId=${data.CityId}&PanelId=${data.PanelId}`,
       );
 
-      if (data.Type) {
-        url = `${url}&Type=${data.Type}`;
-      }
+      // if (data.Type) {
+      //   url = `${url}&Type=${data.Type}`;
+      // }
 
       if (data.SearchKeyword) {
         url = `${url}&SearchKeyword=${data.SearchKeyword}`;
@@ -670,6 +670,7 @@ const index = ({navigation, route}) => {
               />
             </View>
           ) : null}
+
           <View style={styles.dataSection}>
             {showTestList ? (
               <View style={styles.searchingListSection}>
