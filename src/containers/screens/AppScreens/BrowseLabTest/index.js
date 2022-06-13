@@ -246,7 +246,7 @@ const index = ({navigation, route}) => {
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
-          setTest(response.data);
+          setTest(response.data.itemmodel);
 
           filterBodyPartsKeys = null;
           filterConditionKeys = null;

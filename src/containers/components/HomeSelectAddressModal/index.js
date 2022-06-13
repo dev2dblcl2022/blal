@@ -57,6 +57,7 @@ export default props => {
             'cartBookingAddress',
           );
           let orderSummaryAddress = JSON.parse(orderSummaryAddressStorage);
+
           let data = response.data;
           data = data.map((itn, index) => {
             if (itn.id === orderSummaryAddress.id) {
@@ -80,6 +81,12 @@ export default props => {
     return add.city;
   });
 
+  useEffect(() => {
+    if (props.pinCodeClick) {
+      onDone1(props.pinCode);
+      props.setPincodeClick(false);
+    }
+  }, [props.pinCodeClick]);
   useEffect(() => {
     // const unsubscribe = navigation.addListener('focus', () => {
     getAddresses();
@@ -184,6 +191,8 @@ export default props => {
       if (response) {
         const {success} = response;
         if (success) {
+          AsyncStorage.removeItem('cartBookingAddress');
+          setCartAddress([]);
           getMyCartData();
           props.onDone();
           onDone();
@@ -202,36 +211,86 @@ export default props => {
     }
   };
 
-  function onDone1() {
-    let data = addresses;
-    data.map((city1, index) => {
-      if (city1.selected) {
-        if (cartCityAddress && cartCityAddress.toString()) {
-          if (cartCityAddress.toString() !== city1.city) {
+  function onDone1(pincode) {
+    if (cartAddress.length) {
+      if (pincode) {
+        cartAddress.map(add => {
+          if (add.pincode.toString() !== pincode.toString()) {
             Alert.alert(
               'Cart will be discard if you change city before the checkout cart',
               ``,
               [
                 {
                   text: 'Cancel',
-                  onPress: () => props.onDone(),
+                  onPress: () => {
+                    props.onDone();
+                  },
                   style: 'cancel',
                 },
                 {
                   text: 'Ok',
-                  onPress: () => onClearCart(),
+                  onPress: () => {
+                    if (pincode) {
+                      props.onGetCityName();
+                    }
+                    props.onDone();
+                    onClearCart();
+                  },
                 },
               ],
               {cancelable: false},
             );
           } else {
-            onDone();
+            props.onGetCityName();
+
+            props.onDone();
           }
-        } else {
-          onDone();
-        }
+        });
+      } else {
+        let data = addresses;
+
+        data.map((city1, index) => {
+          if (city1.selected) {
+            if (cartCityAddress.toString()) {
+              if (cartCityAddress.toString() !== city1.city) {
+                Alert.alert(
+                  'Cart will be discard if you change city before the checkout cart',
+                  ``,
+                  [
+                    {
+                      text: 'Cancel',
+                      onPress: () => {
+                        props.onDone();
+                      },
+                      style: 'cancel',
+                    },
+                    {
+                      text: 'Ok',
+                      onPress: () => {
+                        onClearCart();
+                        if (pincode) {
+                          props.onGetCityName();
+                        }
+                      },
+                    },
+                  ],
+                  {cancelable: false},
+                );
+              } else {
+                onDone();
+              }
+            } else {
+              onDone();
+            }
+          }
+        });
       }
-    });
+    } else {
+      onDone();
+      if (pincode) {
+        props.onGetCityName();
+      }
+    }
   }
   function onDone() {
     let addressData = [];
@@ -316,6 +375,7 @@ export default props => {
 
   const getZipCode = async (details, address) => {
     let data = details.results[0] || [];
+
     for (let i = 0; i < data.address_components.length; i++) {
       for (let j = 0; j < data.address_components[i].types.length; j++) {
         if (data.address_components[i].types[j] === 'postal_code') {
@@ -341,7 +401,6 @@ export default props => {
       };
 
       const response = await NetworkRequest(requestConfig);
-
       if (response) {
         const {success} = response;
         if (success) {
@@ -353,6 +412,7 @@ export default props => {
               ' ' +
               address[0].pincode,
           );
+
           props.setAddressLabel(
             address[0].area1 +
               ' ' +

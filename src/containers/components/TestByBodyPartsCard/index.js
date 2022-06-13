@@ -23,6 +23,7 @@ export default props => {
           />
         )}
       </View>
+
       <View style={styles.titleSection}>
         <RegularText
           style={styles.cardTitle}

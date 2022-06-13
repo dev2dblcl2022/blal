@@ -84,6 +84,9 @@ const index = ({navigation, route}) => {
   const [idCondition, setIdCondition] = useState('');
   const [idBodyParts, setIdBodyParts] = useState('');
   const [showTestList, setShowTestList] = useState(false);
+  const [page, setPage] = useState(10);
+  const [pageData, setPageData] = useState({});
+
   // const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
 
   // function handleDebounceFn(inputValue) {
@@ -228,6 +231,9 @@ const index = ({navigation, route}) => {
 
     await getTest('', 10);
   };
+  useEffect(() => {
+    getTest('', page);
+  }, [page]);
 
   const getLastSearched = async val => {
     if (Platform.OS === 'ios') {
@@ -418,6 +424,7 @@ const index = ({navigation, route}) => {
       if (data.SearchKeyword) {
         url = `${url}&SearchKeyword=${data.SearchKeyword}`;
       }
+      testIdConditions;
 
       if (data.BodyParts) {
         url = `${url}&BodyParts=${data.BodyParts}`;
@@ -433,7 +440,6 @@ const index = ({navigation, route}) => {
       let requestConfig = {
         method: blalMethod.post,
         data: data,
-
         url: url,
       };
 
@@ -442,8 +448,8 @@ const index = ({navigation, route}) => {
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
-          setTest(response.data);
-
+          setTest(response.data.itemmodel);
+          setPageData(response.data.pager);
           filterBodyPartsKeys = null;
           filterConditionKeys = null;
           setLoader(false);
@@ -626,7 +632,17 @@ const index = ({navigation, route}) => {
     AsyncStorage.removeItem('filterDataConditions');
     navigation.goBack();
   };
-
+  const fetchMoreData = () => {
+    if (pageData.TotalItems >= page) {
+      const cal = pageData.TotalItems - page;
+      setPage(page + (cal >= 10 ? 10 : cal));
+    }
+  };
+  const renderFooter = () => (
+    <View style={styles.loaderArea}>
+      <Text>Loading...</Text>
+    </View>
+  );
   return (
     <SafeAreaView style={styles.safeArea}>
       <SearchHeader
@@ -670,7 +686,6 @@ const index = ({navigation, route}) => {
               />
             </View>
           ) : null}
-
           <View style={styles.dataSection}>
             {showTestList ? (
               <View style={styles.searchingListSection}>
@@ -696,6 +711,9 @@ const index = ({navigation, route}) => {
                       </View>
                     );
                   }}
+                  ListFooterComponent={renderFooter}
+                  onEndReachedThreshold={0.2}
+                  onEndReached={fetchMoreData}
                   renderItem={({item}) => renderSearchCard(item)}
                 />
               </View>

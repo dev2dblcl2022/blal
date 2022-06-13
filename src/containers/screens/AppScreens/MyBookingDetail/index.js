@@ -54,6 +54,8 @@ let resources = {
 const resourceType = 'url';
 
 const index = ({navigation, route}) => {
+  console.log('navigation', navigation);
+  console.log('routte', route?.params?.myBookingData?.refundStatus);
   const {signOut, signIn} = React.useContext(AuthContext);
   const myBookingData = route.params.myBookingData;
   const screen = route.params.screen;
@@ -435,7 +437,7 @@ const index = ({navigation, route}) => {
                             : bookingDetailData.status === 'Accepted'
                             ? 'Booking Pro Accepted'
                             : bookingDetailData.status === 'Started' ||
-                              'Arrived'
+                              bookingDetailData.status === 'Arrived'
                             ? 'Booking Pro Started'
                             : bookingDetailData.status === 'Successful'
                             ? 'Booking Successful'
@@ -462,7 +464,8 @@ const index = ({navigation, route}) => {
                           ? imagesConstants.bookingConfirmed
                           : bookingDetailData.status === 'Accepted'
                           ? imagesConstants.proAssign
-                          : bookingDetailData.status === 'Started' || 'Arrived'
+                          : bookingDetailData.status === 'Started' ||
+                            bookingDetailData.status === 'Arrived'
                           ? imagesConstants.started
                           : bookingDetailData.status === 'Successful'
                           ? imagesConstants.collectionDone
@@ -1130,12 +1133,12 @@ const index = ({navigation, route}) => {
                         <RegularText
                           style={styles.rateText}
                           title={`${'\u20B9'} ${
-                            parseInt(bookingDetailData.total_member_amount) +
+                            parseFloat(bookingDetailData.total_member_amount) +
                             (bookingDetailData.pickup_charge
-                              ? parseInt(bookingDetailData.pickup_charge)
+                              ? parseFloat(bookingDetailData.pickup_charge)
                               : 0) -
                             (bookingDetailData.total_member_discounted
-                              ? parseInt(
+                              ? parseFloat(
                                   bookingDetailData.total_member_discounted,
                                 )
                               : 0)
@@ -1154,12 +1157,12 @@ const index = ({navigation, route}) => {
                         <BoldText
                           style={styles.payableText}
                           title={`${'\u20B9'} ${
-                            parseInt(bookingDetailData.total_member_amount) +
+                            parseFloat(bookingDetailData.total_member_amount) +
                             (bookingDetailData.pickup_charge
-                              ? parseInt(bookingDetailData.pickup_charge)
+                              ? parseFloat(bookingDetailData.pickup_charge)
                               : 0) -
                             (bookingDetailData.total_member_discounted
-                              ? parseInt(
+                              ? parseFloat(
                                   bookingDetailData.total_member_discounted,
                                 )
                               : 0)
@@ -1192,6 +1195,13 @@ const index = ({navigation, route}) => {
                     <CancelButton
                       onPress={cancelBooking}
                       title={'Cancel Booking'}
+                    />
+                  </View>
+                ) : route?.params?.myBookingData?.refundStatus ? (
+                  <View style={styles.cancelBookingBtn}>
+                    <RegularText
+                      style={styles.refundStatus}
+                      title={`Refund Status: ${route?.params?.myBookingData?.refundStatus}`}
                     />
                   </View>
                 ) : null}

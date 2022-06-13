@@ -335,7 +335,6 @@ const index = ({navigation}) => {
   };
 
   const renderAlsoAddCard = item => {
-   
     let testPackageData = {
       id: item.Id,
       type: item.TestType,

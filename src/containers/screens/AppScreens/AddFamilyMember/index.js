@@ -61,14 +61,14 @@ const index = ({navigation}) => {
     {label: 'Brother', value: 'Brother'},
     {label: 'Child', value: 'Child'},
     {label: 'Father', value: 'Father'},
-    {label: 'Mother', value: 'Mother'},
-    {label: 'Siblings', value: 'Siblings'},
-    {label: 'Grandparent', value: 'Grandparent'},
-    {label: 'Relative', value: 'Relative'},
     {label: 'Friend', value: 'Friend'},
-    {label: 'Other', value: 'Other'},
-
-    {label: 'Daughter', value: 'Daughter'},
+    {label: 'Grandparent', value: 'Grandparent'},
+    {label: 'Husband', value: 'Husband'},
+    {label: 'Mother', value: 'Mother'},
+    {label: 'Relative', value: 'Relative'},
+    {label: 'Sibling', value: 'Sibling'},
+    {label: 'Sister', value: 'Sister'},
+    {label: 'Wife', value: 'Wife'},
   ]);
   const [validateForm, setValidateForm] = useState({
     name: '',
@@ -169,7 +169,7 @@ const index = ({navigation}) => {
           null;
         }
         setLoader(false);
-        Toast(response.message, 0);
+        Toast(response.message, 1);
       }
     } catch (error) {
       setLoader(false);

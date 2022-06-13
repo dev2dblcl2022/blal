@@ -352,6 +352,15 @@ export default StyleSheet.create({
     // marginTop: hp('1%'),
     padding: hp('2%'),
   },
+  refundStatus: {
+    backgroundColor: colors.app_theme_dark_green,
+    color: '#fff',
+    borderRadius: 5,
+    textAlign: 'center',
+    alignItems: 'center',
+    paddingHorizontal: hp('1.5%'),
+    paddingVertical: hp('1.5%'),
+  },
   collectionDoneText: {
     fontSize: hp('1.8%'),
     textAlign: 'center',

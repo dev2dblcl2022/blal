@@ -224,7 +224,8 @@ const index = ({navigation, route}) => {
             'panelId',
             response.data?.Panel_ID.toString(),
           );
-          Toast(response.message, 1);
+
+          Toast(response.message, 0);
           if (response?.data?.isHomeCollection) {
             Toast(response.message, 1);
           }

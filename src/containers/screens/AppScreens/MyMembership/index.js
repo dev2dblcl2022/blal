@@ -170,6 +170,7 @@ const index = ({navigation}) => {
               );
             }}
             renderItem={({item}) => {
+              let validFrom = item.ValidFrom.split(' ');
               let validTill = item.ValidTo.split(' ');
               return (
                 <View style={styles.dataSectionOne}>
@@ -189,19 +190,19 @@ const index = ({navigation}) => {
                             title={item.MembershipCardName}
                           />
                           <RegularText
-                            style={styles.emailText}
-                            title={`${'\u20B9'} ${item.Amount}`}
+                            style={styles.tillText}
+                            title={`Valid from : ${validFrom[0]}`}
                           />
                         </View>
                         <View style={styles.requestUpgradeSection}>
                           <View style={styles.buyNowBtn}>
-                            <RegularText
+                            {/* <RegularText
                               style={styles.requestUpgradeText}
                               title={'Request Upgrade'}
-                            />
+                            /> */}
                             <RegularText
                               style={styles.tillText}
-                              title={`Valid Till : ${validTill[0]}`}
+                              title={`Valid till : ${validTill[0]}`}
                             />
                           </View>
                         </View>
@@ -209,7 +210,10 @@ const index = ({navigation}) => {
                     </View>
 
                     {item.CardInvestigationModel.length > 0 ? (
-                      <View style={{marginTop: 20}}>
+                      <View
+                        style={{
+                          marginTop: 20,
+                        }}>
                         <FlatList
                           data={item.CardInvestigationModel}
                           horizontal={true}
@@ -222,30 +226,41 @@ const index = ({navigation}) => {
                                   width: hp('15%'),
                                   margin: hp('1%'),
                                 }}>
-                                <View style={style.serviceCardSection}>
-                                  <View style={styles.timeSection}>
-                                    <RegularText
-                                      style={styles.timeCount}
-                                      title={item.Remaining}
+                                {item.InvestigationName ? (
+                                  <View style={style.serviceCardSection}>
+                                    {item.Remaining ? (
+                                      <View style={styles.timeSection}>
+                                        <RegularText
+                                          style={styles.timeCount}
+                                          title={item.TotalCount}
+                                        />
+                                        <RegularText
+                                          style={styles.timeText}
+                                          title={'Times'}
+                                        />
+                                      </View>
+                                    ) : null}
+
+                                    <Image
+                                      style={{marginTop: hp('2%')}}
+                                      source={imagesConstants.flask}
                                     />
                                     <RegularText
-                                      style={styles.timeText}
-                                      title={'Times'}
+                                      style={styles.cardTitle}
+                                      title={item?.InvestigationName}
+                                    />
+                                    <RegularText
+                                      style={styles.remainingCount}
+                                      title={`${item?.Remaining} Remaining`}
                                     />
                                   </View>
-                                  <Image source={imagesConstants.house} />
-                                  <RegularText
-                                    style={styles.cardTitle}
-                                    title={item.InvestigationShortName}
-                                  />
-                                </View>
+                                ) : null}
                               </View>
                             );
                           }}
                         />
                       </View>
                     ) : null}
-
                     <View
                       style={{alignItems: 'flex-end', marginTop: hp('1.5%')}}>
                       <TouchableOpacity onPress={() => onOpen(item)}>
@@ -261,7 +276,9 @@ const index = ({navigation}) => {
                         />
                       </TouchableOpacity>
                     </View>
-
+                    {!item.selected ? (
+                      <View style={styles.sectionSeparator} />
+                    ) : null}
                     {/* <View style={styles.servicesSection}>
                         <View style={{flex: 1, margin: 5}}>
                           <View style={style.serviceCardSection}>
@@ -325,9 +342,8 @@ const index = ({navigation}) => {
                           <View />
                         </View>
                       </View> */}
-
                     {item.selected ? (
-                      <>
+                      <View>
                         <View style={styles.fullBodyCheckupSection}>
                           <View style={styles.sectionOne}>
                             <View style={styles.headingTestSection}>
@@ -362,7 +378,7 @@ const index = ({navigation}) => {
                             </View>
                           </View>
                         </View>
-                        <View style={styles.validitySection}>
+                        <View style={[styles.validitySection]}>
                           <BoldText
                             style={styles.sampleText}
                             title={'Associated Mobile'}
@@ -373,7 +389,10 @@ const index = ({navigation}) => {
                             title={userData.user.phone_number}
                           />
                         </View>
-                      </>
+                        {item.selected ? (
+                          <View style={styles.sectionSeparator} />
+                        ) : null}
+                      </View>
                     ) : null}
                   </View>
                 </View>

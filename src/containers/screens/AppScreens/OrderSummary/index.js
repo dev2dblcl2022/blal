@@ -124,12 +124,11 @@ const index = ({navigation, route}) => {
   }, []);
 
   const getCoupon = async () => {
-    let code = await AsyncStorage.getItem('Code');
+    let _code = await AsyncStorage.getItem('Code');
     let MembershipCode = await AsyncStorage.getItem('MembershipCode');
     let MembershipId = await AsyncStorage.getItem('MembershipCardId');
-
-    if (code) {
-      setCode(code);
+    if (_code) {
+      setCode(_code);
       setMembershipCoupon(MembershipCode);
       setMembershipCardId(MembershipId);
     } else {
@@ -424,7 +423,6 @@ const index = ({navigation, route}) => {
   };
 
   const onStoreData = async () => {
-    await AsyncStorage.removeItem('Code');
     await AsyncStorage.setItem(
       'cartBookingDate',
       lab === 0 ? bookingDate : selectedLabDate,
@@ -498,6 +496,7 @@ const index = ({navigation, route}) => {
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
+        console.log(response.message);
         const {success} = response;
         if (success) {
           Toast(
@@ -505,7 +504,7 @@ const index = ({navigation, route}) => {
               ? 'Discount coupon removed!'
               : response.message,
             response.message === 'Coupon code applied successfully!' ||
-              'success'
+              response.message === 'success'
               ? 1
               : 0,
           );

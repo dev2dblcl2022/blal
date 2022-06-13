@@ -114,7 +114,7 @@ const index = ({navigation}) => {
   const [trackingUrl, setTrackingUrl] = useState('');
   const [state, dispatch] = useReducer();
   const [newsEvent, setNewsEvent] = useState([]);
-
+  const [pinCodeClick, setPincodeClick] = useState(false);
   useEffect(() => {
     getLocation();
   }, []);
@@ -242,7 +242,6 @@ const index = ({navigation}) => {
   };
 
   function getLocationNameDefaultMalviyaBlal(data) {
-    console.log('datatata', data);
     Geocoder.init('AIzaSyBvrwNiJMMmne5aMGkQUMCpb-rafOYdT4g');
     Geocoder.from(data.latitude, data.longitude)
 
@@ -624,7 +623,7 @@ const index = ({navigation}) => {
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
-          setHealthPackages(response.data);
+          setHealthPackages(response.data.itemmodel);
         } else {
         }
       }
@@ -1073,6 +1072,7 @@ const index = ({navigation}) => {
             </View>
             {/* Find Near by Labs Button */}
             {/* Health Package Section */}
+
             <View style={styles.testByCondition}>
               <HomeHorizontalList
                 data={healthPackages}
@@ -1093,6 +1093,7 @@ const index = ({navigation}) => {
                     id: item.Id,
                     type: item.TestType,
                   };
+
                   return (
                     <HealthPackageCard
                       onPress={() =>
@@ -1302,9 +1303,10 @@ const index = ({navigation}) => {
           pinCodeVisible={homePinCodeModal}
           backBtnPinCode={onOpenAddressModal}
           value={pinCode}
-          onApplyPinCode={() =>
-            pinCode ? onGetCityName() : alert('Please Enter your Pincode')
-          }
+          onApplyPinCode={() => {
+            setPincodeClick(true);
+            pinCode ? '' : alert('Please Enter your Pincode');
+          }}
           onChangeText={val => setPincode(val)}
           onPinBack={() => onClosePinModal()}
           onRequestClose={() => onClosePinModal()}
@@ -1319,6 +1321,10 @@ const index = ({navigation}) => {
           }
           visible={homeSelectAddress}
           setAddressLabel={setAddressLabel}
+          pinCodeClick={pinCodeClick}
+          pinCode={pinCode}
+          setPincodeClick={setPincodeClick}
+          onGetCityName={onGetCityName}
         />
       </View>
     </>

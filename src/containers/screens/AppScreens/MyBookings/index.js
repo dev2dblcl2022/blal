@@ -137,12 +137,20 @@ const index1 = ({navigation, route}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-
       if (response) {
         const {success} = response;
         if (success) {
           const bookingNewData = refectorBookingData(response?.data?.docs);
-          setBookings(bookingNewData);
+          const finalBookingList = bookingNewData.map(booking => {
+            response?.data?.bookingTransaction.map(refund => {
+              if (booking.id.toString() === refund.reference_id.toString()) {
+                booking.refundStatus = refund.current_status;
+              }
+            });
+            return booking;
+          });
+         
+          setBookings(finalBookingList);
           setLoader(false);
           getMyFamilyMembers();
 

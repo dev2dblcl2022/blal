@@ -106,7 +106,6 @@ export default props => {
           </View>
         ) : null}
       </View>
-
       <View style={styles.amountRightSection}>
         <BoldText style={styles.testNameText} title={`${'\u20B9'} ${Rate}`} />
         <View style={styles.offSection}>

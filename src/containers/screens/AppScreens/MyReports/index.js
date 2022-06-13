@@ -35,6 +35,7 @@ import {Date_Format} from '../../../../config/Setting';
 import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getSilverapiURL} from '../../../../apis/env';
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
 const index = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const {signOut, signIn} = React.useContext(AuthContext);
@@ -283,8 +284,8 @@ const index = ({navigation}) => {
   };
 
   const onOpenPdfFile = reportsIds => {
+    // const fileUrl = `http://limsreport.blallab.com/S3/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
     const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
-
     navigation.navigate('PrescriptionViewer', {
       url: fileUrl,
       screenName: 'Report',
@@ -357,8 +358,9 @@ const index = ({navigation}) => {
     // }
   };
 
-  const downloadInvoice = mainReportItem => {
-    const fileUrl = `https://lims.blallab.com/blal/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`;
+  const downloadInvoice = async mainReportItem => {
+    // const fileUrl = `http://limsreport.blallab.com/S3/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`;
+    const fileUrl = `https://lims.blallab.com/blal/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&Status=0&TYPE=LAB`;
 
     checkPermission(fileUrl, 'Invoice', '');
   };
@@ -411,7 +413,6 @@ const index = ({navigation}) => {
     const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
 
     checkPermission(fileUrl, 'Report');
-
     // data.map(item => {
     //   const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${item.id}`;
     //   checkPermission(fileUrl, 'Report');
@@ -474,8 +475,11 @@ const index = ({navigation}) => {
       addAndroidDownloads: {
         path:
           RootDir +
-          '/file_' +
-          Math.floor(date.getTime() + date.getSeconds() / 2),
+          `/file_${type}` +
+          ' ' +
+          '(' +
+          Math.floor(date.getTime() + date.getSeconds() / 2) +
+          ').pdf',
         //  +
         // file_ext,
         description: 'downloading file...',
@@ -484,12 +488,14 @@ const index = ({navigation}) => {
         useDownloadManager: true,
       },
     };
+
     config(options)
       .fetch('GET', FILE_URL)
       .then(res => {
         // Alert after successful downloading
 
         setLoader(false);
+
         if (type === 'Invoice') {
           Toast(`${type} Downloaded Successfully!`, 1);
         } else {

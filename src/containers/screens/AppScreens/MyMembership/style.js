@@ -8,6 +8,11 @@ export default StyleSheet.create({
   safeArea: {
     flexGrow: 1,
   },
+  sectionSeparator: {
+    marginTop: hp('2%'),
+    height: hp('0.5%'),
+    backgroundColor: colors.gray_light,
+  },
   scroll: {flex: 0.9, backgroundColor: colors.white},
   mainContainer: {
     flex: 1,
@@ -27,23 +32,27 @@ export default StyleSheet.create({
   },
   profilePicSection: {flex: 0.2, alignItems: 'center'},
   profilePicView: {
-    height: hp('23%'),
+    height: hp('20%'),
     width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-
     shadowOpacity: 0.1,
     shadowRadius: 2,
-
     elevation: 5,
   },
-  profilePic: {width: '100%', height: '100%', borderRadius: 10},
+  profilePic: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+    borderRadius: 10,
+  },
   dataSection: {marginTop: hp('2%'), flexDirection: 'row'},
   nameText: {fontSize: hp('1.6%'), color: colors.app_theme_dark_green},
   buyNowText: {fontSize: hp('1.6%'), color: colors.app_theme_dark_green},
@@ -97,7 +106,6 @@ export default StyleSheet.create({
       height: 2,
     },
     width: '100%',
-
     justifyContent: 'center',
     alignItems: 'center',
     height: hp('15%'),
@@ -110,13 +118,23 @@ export default StyleSheet.create({
     elevation: 5,
   },
   cardTitle: {
-    fontSize: hp('1.5%'),
-    marginTop: hp('1%'),
+    fontSize: hp('1.2%'),
+    marginTop: hp('0%'),
+    paddingRight: hp('1%'),
+    paddingLeft: hp('1%'),
+    position: 'relative',
+    top: 10,
     color: colors.app_theme_dark_green,
+  },
+  remainingCount: {
+    padding: hp('1%'),
+    fontSize: hp('1.2%'),
+    color: colors.app_theme_dark_green,
+    position: 'relative',
+    top: 10,
   },
   timeSection: {
     top: -20,
-
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',

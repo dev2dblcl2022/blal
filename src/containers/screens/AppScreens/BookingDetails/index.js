@@ -13,6 +13,7 @@ import {
   Alert,
   Linking,
   Platform,
+  BackHandler,
 } from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {
@@ -665,6 +666,17 @@ const index = ({navigation, props}) => {
       </View>
     );
   };
+
+  // useEffect(() => {
+  //   BackHandler.addEventListener('hardwareBackPress', () =>
+  //     AsyncStorage.removeItem('Code'),
+  //   );
+  //   return () => {
+  //     BackHandler.removeEventListener('hardwareBackPress', () =>
+  //       AsyncStorage.removeItem('Code'),
+  //     );
+  //   };
+  // }, []);
 
   return (
     <SafeAreaView style={styles.safeArea}>

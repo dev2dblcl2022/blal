@@ -55,9 +55,9 @@ const index = ({navigation, route}) => {
   const [longitude, setLongitude] = useState(null);
   const [currentLocVisible, setCurrentLocVisible] = useState(true);
 
-  const onMapReady = () => {
+  useEffect(() => {
     getCurrentLocation();
-  };
+  }, []);
 
   const onConfirmLocation = () => {
     check_PinCode();
@@ -176,40 +176,26 @@ const index = ({navigation, route}) => {
       />
       <View style={styles.mainContainer}>
         <View style={{flex: 0.8}}>
-          <MapView
-            ref={mapRef}
-            key={GoogleMapApiKey}
-            onMapReady={() => onMapReady()}
-            style={styles.mapStyle}
-            initialRegion={{
-              latitude: latitude ? latitude : 26.855451,
-              longitude: longitude ? longitude : 75.820374,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-            onRegionChangeComplete={region => {
-              // const onRegionChange = region => {
-
-              setLatitude(region.latitude);
-              setLongitude(region.longitude);
-
-              // };
-              getLocationName(region, 1);
-            }}
-            // customMapStyle={mapStyle}
-          >
-            {/* <MapView.Marker
-              pinColor="green"
-              draggable
-              coordinate={{
-                latitude: 26.8552714,
-                longitude: 75.8147654,
+          {latitude ? (
+            <MapView
+              ref={mapRef}
+              key={GoogleMapApiKey}
+              style={styles.mapStyle}
+              initialRegion={{
+                latitude: latitude ? latitude : 26.855451,
+                longitude: longitude ? longitude : 75.820374,
+                latitudeDelta: 0,
+                longitudeDelta: 0,
               }}
-              onDragEnd={e => getLocationName(e.nativeEvent.coordinate, 1)}
-              title={'Current Location'}
-              description={'This is your current location'}
-            /> */}
-          </MapView>
+              onRegionChangeComplete={region => {
+                setLatitude(region.latitude);
+                setLongitude(region.longitude);
+                getLocationName(region, 1);
+              }}
+            />
+          ) : (
+            <></>
+          )}
           <View
             style={{
               position: 'absolute',
@@ -257,8 +243,6 @@ const index = ({navigation, route}) => {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
               },
-              // heading: 0,
-              // pitch: 90,
             });
 
             getLocationName(position, 0);
@@ -270,7 +254,6 @@ const index = ({navigation, route}) => {
   }
 
   function getLocationName(data, val) {
-    console.log('datata', data);
     Geocoder.init('AIzaSyBvrwNiJMMmne5aMGkQUMCpb-rafOYdT4g');
     Geocoder.from(
       val === 0 ? data.coords.latitude : data.latitude,
@@ -294,7 +277,6 @@ const index = ({navigation, route}) => {
             }
           }
         }
-        console.log('addressComponent', addressComponent);
         setLocation(addressComponent);
         getZipCode(json);
       })

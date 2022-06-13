@@ -9,6 +9,14 @@ export default StyleSheet.create({
     flexGrow: 1,
     backgroundColor: colors.white,
   },
+  loaderArea: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: hp('5%'),
+    paddingBottom: hp('5%'),
+    fontWeight: 'bold',
+  },
   content: {
     flexGrow: 1,
     backgroundColor: colors.white,
