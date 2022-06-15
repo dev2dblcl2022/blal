@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   Image,
   FlatList,
+  Linking,
   TouchableOpacity,
   Alert,
   Platform,
@@ -19,7 +20,6 @@ import NetworkRequest, {
 
 import {RegularText} from '../Common';
 import styles from './style';
-import ZendeskChat from 'react-native-zendesk-chat';
 import {useDrawerStatus} from '@react-navigation/drawer';
 const DrawerScreen = ({navigation}) => {
   const {signOut, addressLabel} = React.useContext(AuthContext);
@@ -112,7 +112,11 @@ const DrawerScreen = ({navigation}) => {
         if (Platform.OS === 'ios') {
           navigation.navigate(item.screen);
         } else {
-          startZendeskChat();
+          const supported = Linking.canOpenURL(`whatsapp://send?phone=${"+91-9166125555"}`);
+          if (supported) {
+            Linking.openURL(`whatsapp://send?phone=${"+91-9166125555"}`);
+            
+          }
         }
       } else if (item.id === 7) {
         navigation.navigate(item.screen, {location: true});
@@ -120,37 +124,6 @@ const DrawerScreen = ({navigation}) => {
         navigation.navigate(item.screen);
       }
     }
-  };
-
-  const startZendeskChat = () => {
-    // Optionally specify the appId provided by Zendesk
-    // client secret key ==> U2Ak457QqbwyvMvfoVkCHbdMU7q4ps0Qi3QNf3DNAkj8rzL2WDmIVDuCZjCBp1OF
-    ZendeskChat.init('GTgw066gP0PvWLeRulhoN5kAqSY07dU5');
-
-    ZendeskChat.startChat({
-      name: userData.fullname,
-
-      email: userData.email,
-      phone: userData.phone_number,
-      tags: ['support', 'help', 'zendesk'],
-
-      // department: 'IT',
-      // // The behaviorFlags are optional, and each default to 'true' if omitted
-      // behaviorFlags: {
-      //   showAgentAvailability: true,
-      //   showChatTranscriptPrompt: true,
-      //   showPreChatForm: true,
-      //   showOfflineForm: true,
-      // },
-      // // The preChatFormOptions are optional & each defaults to "optional" if omitted
-      // preChatFormOptions: {
-      //   name: 'required',
-      //   email: 'optional',
-      //   phone: 'optional',
-      //   department: 'required',
-      // },
-      // localizedDismissButtonTitle: 'Dismiss',
-    });
   };
 
   return (
