@@ -78,7 +78,12 @@ const index = ({navigation}) => {
     {label: '2', value: '2'},
   ]);
   const [userData, setUserData] = useState({});
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getUserData();
@@ -141,6 +146,7 @@ const index = ({navigation}) => {
         Toast(response.message, 0);
         if (response === 'Network Error') {
           Toast('Network Error', 0);
+          setHandleConnectionState(true);
           setLoader(false);
         } else if (response.status === 401) {
           signOut();

@@ -45,7 +45,12 @@ const index = ({navigation}) => {
   const [blogsSliderImages, setBlogsSliderIMages] = useState([]);
   const [popularBlogs, setPopularBlogs] = useState([]);
   const [latestBlogs, setLatestBlogs] = useState([]);
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getBlogsData();
@@ -85,6 +90,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

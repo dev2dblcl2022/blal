@@ -104,7 +104,12 @@ const index = ({navigation, props}) => {
   const [finalBookingAddress, setFinalBookingAddress] = useState({});
   const [maximumDate, setMaximumDate] = useState('');
   const [labSearchValue, setLabSearchValue] = useState('');
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   // let maxDate = new Date();
 
   useEffect(() => {
@@ -376,6 +381,7 @@ const index = ({navigation, props}) => {
       } else {
         if (response === 'Network Error') {
           Toast('Network Error', 0);
+          setHandleConnectionState(true);
           setLoader(false);
         }
         setLoader(false);
@@ -412,6 +418,7 @@ const index = ({navigation, props}) => {
       } else {
         if (response === 'Network Error') {
           Toast('Network Error', 0);
+          setHandleConnectionState(true);
           setLoader(false);
         }
         setLoader(false);
@@ -435,6 +442,7 @@ const index = ({navigation, props}) => {
       } else {
         if (response === 'Network Error') {
           Toast('Network Error', 0);
+          setHandleConnectionState(true);
           setLoader(false);
         }
         setLoader(false);
@@ -480,6 +488,7 @@ const index = ({navigation, props}) => {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           }
           setLoader(false);

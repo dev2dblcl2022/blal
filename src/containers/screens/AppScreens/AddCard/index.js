@@ -101,7 +101,12 @@ const index = ({navigation, route}) => {
     age: '',
     ageError: '',
   });
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getCityPanelId();
@@ -160,6 +165,7 @@ const index = ({navigation, route}) => {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -229,6 +235,7 @@ const index = ({navigation, route}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

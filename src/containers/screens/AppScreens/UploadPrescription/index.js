@@ -74,7 +74,12 @@ const index = ({navigation}) => {
     handleSubmit,
     formState: {errors, isValid},
   } = useForm({mode: 'onChange'});
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getMyFamilyMembers();
@@ -104,6 +109,7 @@ const index = ({navigation}) => {
       } else {
         if (response === 'Network Error') {
           Toast('Network Error', 0);
+          setHandleConnectionState(true);
           setLoader(false);
         }
         setLoader(false);
@@ -128,6 +134,7 @@ const index = ({navigation}) => {
       } else {
         if (response === 'Network Error') {
           Toast('Network Error', 0);
+          setHandleConnectionState(true);
         }
         setLoader(false);
       }
@@ -187,6 +194,7 @@ const index = ({navigation}) => {
 
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
 
             setLoader(false);
           }

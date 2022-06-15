@@ -34,6 +34,12 @@ const index = ({navigation}) => {
     phoneNumber: '',
     phoneNumberError: '',
   });
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  React.useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   const {
     control,
     handleSubmit,
@@ -96,6 +102,7 @@ const index = ({navigation}) => {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

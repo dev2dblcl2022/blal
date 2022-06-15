@@ -54,7 +54,12 @@ const index = ({navigation, route}) => {
   const [loader, setLoader] = useState('');
   const [longitude, setLongitude] = useState(null);
   const [currentLocVisible, setCurrentLocVisible] = useState(true);
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     getCurrentLocation();
   }, []);
@@ -114,6 +119,7 @@ const index = ({navigation, route}) => {
 
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

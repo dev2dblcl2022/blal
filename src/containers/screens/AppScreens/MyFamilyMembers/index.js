@@ -46,6 +46,12 @@ const index = ({navigation}) => {
   const [linkUHIDselection, setLinkUHIDselection] = useState(false);
   const [selectionLinkMember, setSelectionLinkMember] = useState(false);
   const [showLinkedMembers, setShowLinkedMembers] = useState(false);
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   const renderCard = item => {
     return (
       <LinkUhidCard
@@ -116,6 +122,7 @@ const index = ({navigation}) => {
       } else {
         if (response === 'Network Error') {
           Toast('Network Error', 0);
+          setHandleConnectionState(true);
           setLoader(false);
         }
         setLoader(false);
@@ -164,6 +171,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           }
           setLoader(false);

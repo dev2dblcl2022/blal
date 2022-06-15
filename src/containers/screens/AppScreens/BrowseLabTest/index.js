@@ -81,6 +81,12 @@ const index = ({navigation, route}) => {
   const [idCondition, setIdCondition] = useState('');
   const [idBodyParts, setIdBodyParts] = useState('');
   const [showTestList, setShowTestList] = useState(false);
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   // const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
 
   // function handleDebounceFn(inputValue) {
@@ -158,6 +164,7 @@ const index = ({navigation, route}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -328,7 +335,7 @@ const index = ({navigation, route}) => {
   const onAddMember = () => {
     setVisible(false);
     setTimeout(() => {
-      navigation.navigate('AddFamilyMember');
+      p;
     }, 200);
   };
 
@@ -367,6 +374,7 @@ const index = ({navigation, route}) => {
 
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

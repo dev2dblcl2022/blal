@@ -52,6 +52,7 @@ const DrawerScreen = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            // navigation.navigate('ConnectionHandle');
           } else if (response.status === 401) {
             signOut();
           } else {

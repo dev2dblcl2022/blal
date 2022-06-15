@@ -101,7 +101,12 @@ const index = ({navigation, route}) => {
   const formatDate = date => {
     return moment(date).format('MMMM DD, YYYY');
   };
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   const setFieldsValue = async () => {
     setValidateForm({
       streetNameOne: addressData?.area1,
@@ -262,6 +267,7 @@ const index = ({navigation, route}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -314,6 +320,7 @@ const index = ({navigation, route}) => {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

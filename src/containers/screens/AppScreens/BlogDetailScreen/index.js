@@ -43,7 +43,12 @@ export default function index({route, navigation}) {
   const [commentValidation, setCommentValidation] = useState(false);
 
   const containerViewRef = useRef(null);
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getUserData();
@@ -89,6 +94,7 @@ export default function index({route, navigation}) {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -133,6 +139,7 @@ export default function index({route, navigation}) {
             Toast(response.message, 0);
             if (response === 'Network Error') {
               Toast('Network Error', 0);
+              setHandleConnectionState(true);
               setLoader(false);
             } else if (response.status === 401) {
               signOut();
@@ -173,6 +180,7 @@ export default function index({route, navigation}) {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

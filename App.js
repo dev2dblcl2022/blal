@@ -208,16 +208,16 @@ export default function App() {
         // Restoring token failed
       }
 
-      const unsubscribe = NetInfo.addEventListener(state => {
-        if (state.isConnected) {
-          global.isConnected = true;
-          DeviceEventEmitter.emit('netConnected', true);
-          setNetConnected(state.isConnected);
-        } else {
-          global.isConnected = false;
-          setNetConnected(state.isConnected);
-        }
-      });
+      // const unsubscribe = NetInfo.addEventListener(state => {
+      //   if (state.isConnected) {
+      //     global.isConnected = true;
+      //     DeviceEventEmitter.emit('netConnected', true);
+      //     setNetConnected(state.isConnected);
+      //   } else {
+      //     global.isConnected = false;
+      //     setNetConnected(state.isConnected);
+      //   }
+      // });
 
       // After restoring token, we may need to validate it in production apps
 
@@ -234,55 +234,55 @@ export default function App() {
     bootstrapAsync();
   }, []);
 
-  const isConnected = async () => {
-    await fetch('https://www.google.com/')
-      .then(response => {
-        if (response.ok) {
-          global.isConnected = true;
-          setNetConnected(true);
-        } else {
-          Toast('Unable to connect to the internet.');
-        }
-      })
-      .catch(error => {
-        Toast('Unable to connect to the internet.');
-        return false;
-      });
-  };
+  // const isConnected = async () => {
+  //   await fetch('https://www.google.com/')
+  //     .then(response => {
+  //       if (response.ok) {
+  //         global.isConnected = true;
+  //         setNetConnected(true);
+  //       } else {
+  //         Toast('Unable to connect to the internet.');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       Toast('Unable to connect to the internet.');
+  //       return false;
+  //     });
+  // };
 
-  const _renderModelView = () => {
-    return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={!netConnected}
-        onRequestClose={() => {
-          BackHandler.exitApp();
-        }}>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.subView}>
-            <StatusBar barStyle="dark-content" />
-            {/* <Image
-              style={{height: hp('15%'), width: hp('18%')}}
-              source={imagesConstants.blalLogo}
-            /> */}
-            <Text style={[styles.failed, {alignSelf: 'center'}]}>
-              {'Connection Failed!'}
-            </Text>
-            <Text style={[styles.tried, {alignSelf: 'center'}]}>
-              I tried my best but it looks like there is no connectivity. Please
-              check your internet connection.
-            </Text>
-            <SubmitButton
-              onPress={() => isConnected()}
-              style={{width: hp('20%')}}
-              title="RETRY"
-            />
-          </View>
-        </SafeAreaView>
-      </Modal>
-    );
-  };
+  // const _renderModelView = () => {
+  //   return (
+  //     <Modal
+  //       animationType="slide"
+  //       transparent={true}
+  //       visible={!netConnected}
+  //       onRequestClose={() => {
+  //         BackHandler.exitApp();
+  //       }}>
+  //       <SafeAreaView style={styles.container}>
+  //         <View style={styles.subView}>
+  //           <StatusBar barStyle="dark-content" />
+  //           {/* <Image
+  //             style={{height: hp('15%'), width: hp('18%')}}
+  //             source={imagesConstants.blalLogo}
+  //           /> */}
+  //           <Text style={[styles.failed, {alignSelf: 'center'}]}>
+  //             {'Connection Failed!'}
+  //           </Text>
+            // <Text style={[styles.tried, {alignSelf: 'center'}]}>
+            //   I tried my best but it looks like there is no connectivity. Please
+            //   check your internet connection.
+            // </Text>
+  //           <SubmitButton
+  //             onPress={() => isConnected()}
+  //             style={{width: hp('20%')}}
+  //             title="RETRY"
+  //           />
+  //         </View>
+  //       </SafeAreaView>
+  //     </Modal>
+  //   );
+  // };
 
   const authContext = useMemo(
     () => ({
@@ -353,7 +353,7 @@ export default function App() {
               navigationRef.current.getCurrentRoute().name;
             routeNameRef.current = currentRouteName;
           }}>
-          {_renderModelView()}
+          {/* {_renderModelView()} */}
           {onChoose()}
         </NavigationContainer>
       </AuthContext.Provider>

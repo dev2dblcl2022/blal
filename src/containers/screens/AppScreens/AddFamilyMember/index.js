@@ -79,7 +79,12 @@ const index = ({navigation}) => {
     age: '',
     ageError: '',
   });
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   const onChangeText = (key, val) => {
     setValidateForm({
       ...validateForm,
@@ -162,6 +167,7 @@ const index = ({navigation}) => {
           navigation.goBack();
         } else if (response === 'Network Error') {
           Toast('Network Error', 0);
+          setHandleConnectionState(true);
           setLoader(false);
         } else if (response.status === 401) {
           signOut();

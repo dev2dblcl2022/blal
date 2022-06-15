@@ -81,7 +81,12 @@ const index = ({navigation, route}) => {
     gender: '',
     genderError: '',
   });
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   // useEffect(() => {
   //   getMyProfile();
   // }, []);
@@ -121,6 +126,7 @@ const index = ({navigation, route}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -244,6 +250,7 @@ const index = ({navigation, route}) => {
           setLoader(false);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

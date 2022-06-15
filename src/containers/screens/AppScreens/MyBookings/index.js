@@ -23,11 +23,17 @@ import DefaultHeader from '../../../components/DefaultHeader';
 import {BoldText, LightText, RegularText} from '../../../components/Common';
 import colors from '../../../../constants/colors';
 import AllInOneSDKManager from 'paytm_allinone_react-native';
-import {Loader, MyBookingCard, Toast} from '../../../components';
+import {
+  Loader,
+  MyBookingCard,
+  MyFamilyMemberCard,
+  Toast,
+} from '../../../components';
 import NetworkRequest, {
   method,
   servicesPoints,
 } from '../../../../services/NetworkRequest';
+import CollectionDetail from '../../AppScreens/ConnectionHandle/index';
 import {useNavigation} from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import imagesConstants from '../../../../constants/imagesConstants';
@@ -36,6 +42,7 @@ import {Api_Live_Url, Pay_tmMerchantId} from '../../../../config/Setting';
 const merchantId = Pay_tmMerchantId;
 const index1 = ({navigation, route}) => {
   const screen = route?.params?.screen;
+  5;
   const [loader, setLoader] = useState(false);
   const [footerLoader, setFooterLoader] = useState(false);
   const navigationOrder = useNavigation();
@@ -73,6 +80,12 @@ const index1 = ({navigation, route}) => {
     {label: 'Monthly', value: '3'},
     {label: 'Yearly', value: '4'},
   ]);
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       // if (apiHit) {
@@ -111,6 +124,7 @@ const index1 = ({navigation, route}) => {
       } else {
         if (response === 'Network Error') {
           Toast('Network Error', 0);
+          setHandleConnectionState(true);
           setLoader(false);
         }
         setLoader(false);
@@ -149,7 +163,7 @@ const index1 = ({navigation, route}) => {
             });
             return booking;
           });
-         
+
           setBookings(finalBookingList);
           setLoader(false);
           getMyFamilyMembers();
@@ -160,6 +174,7 @@ const index1 = ({navigation, route}) => {
 
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
           }
           setLoader(false);
         }
@@ -232,6 +247,7 @@ const index1 = ({navigation, route}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
           }
           setLoader(false);
         }
@@ -300,6 +316,7 @@ const index1 = ({navigation, route}) => {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -351,6 +368,7 @@ const index1 = ({navigation, route}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -446,6 +464,7 @@ const index1 = ({navigation, route}) => {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

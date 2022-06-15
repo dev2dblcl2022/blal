@@ -115,6 +115,12 @@ const index = ({navigation}) => {
   const [state, dispatch] = useReducer();
   const [newsEvent, setNewsEvent] = useState([]);
   const [pinCodeClick, setPincodeClick] = useState(false);
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     getLocation();
   }, []);
@@ -176,6 +182,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             SetLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -492,6 +499,7 @@ const index = ({navigation}) => {
           }
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             SetLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -536,6 +544,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             SetLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -564,6 +573,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             SetLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -593,6 +603,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             SetLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -646,6 +657,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             SetLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -674,6 +686,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             SetLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -702,6 +715,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             SetLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -869,6 +883,7 @@ const index = ({navigation}) => {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             SetLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -1030,6 +1045,7 @@ const index = ({navigation}) => {
           }
         />
         {/* <MainContainer> */}
+
         <ScrollView contentContainerStyle={styles.content}>
           <View>
             <Carousel

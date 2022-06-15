@@ -15,7 +15,12 @@ import styles from './style';
 export default props => {
   const [allMembersData, setAllMembersData] = useState([]);
   const [selectedPatients, setSelectedPatients] = useState([]);
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      props.navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   let newSelectedData = props.newItemData;
 
   // useEffect(() => {
@@ -48,6 +53,7 @@ export default props => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
           }
         }
       }

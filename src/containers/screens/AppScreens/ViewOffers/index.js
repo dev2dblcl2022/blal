@@ -36,6 +36,12 @@ const index = ({navigation, props}) => {
   const [membershipOffers, setMembershipOffer] = useState([]);
   const [loader, setLoader] = useState(true);
   // const [loader, setLoader] = useState(false);
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getOffers();
@@ -62,6 +68,7 @@ const index = ({navigation, props}) => {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

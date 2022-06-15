@@ -28,6 +28,12 @@ export default function BottomTabBar({state, descriptors, navigation}) {
   const [routeValue, setRouteValue] = useState('');
   const [userData, setUserData] = useState({});
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getMyProfile();
@@ -50,6 +56,7 @@ export default function BottomTabBar({state, descriptors, navigation}) {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
           } else if (response.status === 401) {
             null;
           } else {

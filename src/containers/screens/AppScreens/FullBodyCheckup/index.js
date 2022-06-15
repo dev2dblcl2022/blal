@@ -63,7 +63,12 @@ export default function index({navigation, route, props}) {
     {question: 'Liver Function', answer: 'mental report'},
     {question: 'HbA1c', answer: 'hospital'},
   ]);
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getCityPanelId();
@@ -251,6 +256,7 @@ export default function index({navigation, route, props}) {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

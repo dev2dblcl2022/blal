@@ -94,7 +94,12 @@ const index = ({navigation, route}) => {
   ]);
 
   const resourceType = 'url';
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       // if (apiHit) {
@@ -234,6 +239,7 @@ const index = ({navigation, route}) => {
 
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
           }
           setLoader(false);
         }

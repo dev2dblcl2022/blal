@@ -38,6 +38,12 @@ export default props => {
   const [cartDataBookings, setCartDataBookings] = useState([]);
   const [familyMembersData, setFamilyMembersData] = useState([]);
   const [cartData, setCartData] = useState({});
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      props.navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   const fetchddress = async () => {
     let data = {
       collection_type: 'Home',
@@ -166,6 +172,7 @@ export default props => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else {
             null;
@@ -199,6 +206,7 @@ export default props => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else {
             null;

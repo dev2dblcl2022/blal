@@ -49,3 +49,4 @@ export {default as EditAddress} from './EditAddress';
 export {default as CarouselPage} from './CarouselPage';
 export {default as UploadedPrescriptions} from './UploadedPrescriptions';
 export {default as BrowseLabTest} from './BrowseLabTest';
+export {default as ConnectionHandle} from './ConnectionHandle';

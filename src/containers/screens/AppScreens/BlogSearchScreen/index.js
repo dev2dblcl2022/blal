@@ -63,7 +63,12 @@ const index = ({navigation, route}) => {
   const [loader, setLoader] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [cartCount, setCartCount] = useState(0);
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getFilterData();
@@ -97,6 +102,7 @@ const index = ({navigation, route}) => {
         Toast(response.message, 0);
         if (response === 'Network Error') {
           Toast('Network Error', 0);
+          setHandleConnectionState(true);
           setLoader(false);
         } else if (response.status === 401) {
           signOut();
@@ -172,6 +178,7 @@ const index = ({navigation, route}) => {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

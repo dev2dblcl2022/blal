@@ -61,7 +61,12 @@ const index = ({navigation}) => {
   const [testType, setTestType] = useState('');
   const [cartTestPackageIds, setCartTestPackageIds] = useState([]);
   const [refresh, setRefresh] = useState('');
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   let city = '';
   let panel = '';
   useEffect(() => {
@@ -130,7 +135,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
-
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -233,6 +238,7 @@ const index = ({navigation}) => {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -285,6 +291,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
@@ -392,6 +399,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

@@ -48,6 +48,7 @@ import {
   CarouselPage,
   UploadedPrescriptions,
   BrowseLabTest,
+  ConnectionHandle,
 } from '../containers/screens/AppScreens';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import BottomTabBar from '../containers/components/TabBar/BottomTabBar';
@@ -107,6 +108,11 @@ function HomeTab() {
         name="MyCart"
         component={MyCart}
       />
+      {/* <Stack.Screen
+        options={{headerShown: false}}
+        name="ConnectionHandle"
+        component={ConnectionHandle}
+      /> */}
       <Stack.Screen
         options={{headerShown: false}}
         name="Notification"
@@ -170,6 +176,7 @@ function HomeTab() {
       <Stack.Screen name="ViewOffers" component={ViewOffers} />
       <Stack.Screen name="MyBookings" component={MyBookings} />
       <Stack.Screen name="ChangeLocation" component={ChangeLocation} />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
     </Stack.Navigator>
   );
 }
@@ -199,6 +206,12 @@ function EventTab() {
         name="MyCart"
         component={MyCart}
       />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
+      />
     </Stack.Navigator>
   );
 }
@@ -211,6 +224,12 @@ function NeedHelpTab() {
         options={{headerShown: false}}
         name="NeedHelp"
         component={NeedHelp}
+      />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
       />
     </Stack.Navigator>
   );
@@ -225,6 +244,12 @@ function ChatTab() {
         options={{headerShown: false}}
         name="CallUs"
         component={CallUs}
+      />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
       />
     </Stack.Navigator>
   );
@@ -260,6 +285,12 @@ function ProfileTab() {
         name="AddInquiry"
         component={AddInquiry}
       />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
+      />
     </Stack.Navigator>
   );
 }
@@ -294,6 +325,12 @@ function MyAddressesStack() {
         name="AddNewAddress"
         component={AddNewAddress}
       />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
+      />
     </Stack.Navigator>
   );
 }
@@ -323,6 +360,12 @@ function BlogStack() {
         name="BlogFilterScreen"
         component={BlogFilterScreen}
       />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
+      />
     </Stack.Navigator>
   );
 }
@@ -347,6 +390,12 @@ function MyMembershipStack() {
         name="MyMembership"
         component={MyMembership}
       />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
+      />
     </Stack.Navigator>
   );
 }
@@ -370,6 +419,12 @@ function UploadedPrescriptionsStack() {
         options={{headerShown: false}}
         name="PrescriptionViewer"
         component={PrescriptionViewer}
+      />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
       />
     </Stack.Navigator>
   );
@@ -399,6 +454,12 @@ function MyAccountStack() {
         options={{headerShown: false}}
         name="AddInquiry"
         component={AddInquiry}
+      />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
       />
     </Stack.Navigator>
   );
@@ -434,6 +495,12 @@ function MyBookingStack() {
         name="FullBodyCheckup"
         component={FullBodyCheckup}
       />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
+      />
     </Stack.Navigator>
   );
 }
@@ -459,6 +526,12 @@ function MyReportStack() {
         name="PrescriptionViewer"
         component={PrescriptionViewer}
       />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
+      />
     </Stack.Navigator>
   );
 }
@@ -482,6 +555,12 @@ function MyFamilyMembersStack() {
         options={{headerShown: false}}
         name="LinkUHID"
         component={LinkUHID}
+      />
+      <Stack.Screen name="ConnectionHandle" component={ConnectionHandle} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={Home}
       />
     </Stack.Navigator>
   );
@@ -577,7 +656,9 @@ function getTabBarVisibility(route) {
     routeName === 'MyBookings' ||
     routeName === 'MyBookingDetail' ||
     routeName === 'TrackProScreen' ||
-    routeName === 'UploadedPrescriptions'
+    routeName === 'UploadedPrescriptions' ||
+    routeName === 'ConnectionHandle' ||
+    routeName === 'HomeScreen'
   ) {
     return false;
   }

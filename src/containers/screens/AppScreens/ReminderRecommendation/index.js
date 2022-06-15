@@ -25,7 +25,12 @@ const index = ({navigation}) => {
   const {signIn, signOut} = React.useContext(AuthContext);
   const [notifications, setNotifications] = useState([]);
   const [loader, setLoader] = useState(true);
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getNotification();
@@ -48,6 +53,7 @@ const index = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();
