@@ -42,6 +42,7 @@ import colors from '../../../../constants/colors';
 import {CancelButton} from '../../../components/Buttons';
 import {AuthContext} from '../../../../../context/context';
 import PDFView from 'react-native-view-pdf';
+import {getStagingReportURL} from '../../../../apis/env';
 let resources = {
   file:
     Platform.OS === 'ios'
@@ -54,8 +55,6 @@ let resources = {
 const resourceType = 'url';
 
 const index = ({navigation, route}) => {
-  console.log('navigation', navigation);
-  console.log('routte', route?.params?.myBookingData?.refundStatus);
   const {signOut, signIn} = React.useContext(AuthContext);
   const myBookingData = route.params.myBookingData;
   const screen = route.params.screen;
@@ -251,7 +250,10 @@ const index = ({navigation, route}) => {
   };
 
   const onDownloadInvoice = () => {
-    const fileUrl = `https://lims.blallab.com/blal/Design/Finanace/ReceiptBill.aspx?cmd=reprint&LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=LAB`;
+    const fileUrl = getStagingReportURL(
+      `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=LAB`,
+    );
+
     checkPermission(fileUrl);
   };
 
@@ -339,8 +341,11 @@ const index = ({navigation, route}) => {
         path:
           RootDir +
           '/file_' +
+          ' ' +
+          '(' +
           Math.floor(date.getTime() + date.getSeconds() / 2) +
-          file_ext,
+          ').pdf',
+        // file_ext,
         description: 'downloading file...',
         notification: true,
         // useDownloadManager works with Android only
@@ -352,7 +357,7 @@ const index = ({navigation, route}) => {
       .then(res => {
         // Alert after successful downloading
         setLoader(false);
-        alert('Invoice Downloaded Successfully.');
+        Toast(`Invoice Downloaded Successfully!`, 1);
       })
       .catch(err => {
         setLoader(false);

@@ -18,6 +18,7 @@ export default StyleSheet.create({
   listSection: {
     flex: 1,
     paddingTop: hp('1%'),
+    resizeMode: 'contain',
   },
   dataSection: {flex: 1},
   btnSection: {flex: 0.1, justifyContent: 'center'},

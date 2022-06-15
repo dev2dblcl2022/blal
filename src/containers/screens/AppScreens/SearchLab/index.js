@@ -640,7 +640,7 @@ const index = ({navigation, route}) => {
   };
   const renderFooter = () => (
     <View style={styles.loaderArea}>
-      <Text>Loading...</Text>
+      {test.length >= 10 ? <Text>Loading...</Text> : null}
     </View>
   );
   return (

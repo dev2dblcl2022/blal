@@ -496,7 +496,6 @@ const index = ({navigation, route}) => {
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
-        console.log(response.message);
         const {success} = response;
         if (success) {
           Toast(

@@ -1,25 +1,25 @@
-import {useState, useEffect} from 'react';
-import NetInfo from '@react-native-community/netinfo';
+// import {useState, useEffect} from 'react';
+// import NetInfo from '@react-native-community/netinfo';
 
-let currentNetwork;
+// let currentNetwork;
 
-NetInfo.fetch().then(state => {
-  currentNetwork = state.isConnected;
-});
+// NetInfo.fetch().then(state => {
+//   currentNetwork = state.isConnected;
+// });
 
-const CheckConnection = () => {
-  const [netInfo, setNetInfo] = useState(currentNetwork);
+// const CheckConnection = () => {
+//   const [netInfo, setNetInfo] = useState(currentNetwork);
 
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
-      // console.log("Connection type", state.type);
-      // console.log("Is connected?", state.isConnected);
-      setNetInfo(state.isConnected);
-    });
-    return () => unsubscribe();
-  }, []);
+//   useEffect(() => {
+//     const unsubscribe = NetInfo.addEventListener(state => {
+//       console.log('Connection type');
+//       // console.log("Is connected?", state.isConnected);
+//       setNetInfo(state.isConnected);
+//     });
+//     return () => unsubscribe();
+//   }, []);
 
-  return netInfo;
-};
+//   return netInfo;
+// };
 
-export default CheckConnection;
+// export default CheckConnection;

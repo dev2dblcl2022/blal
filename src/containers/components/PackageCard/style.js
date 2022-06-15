@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   profilePicSection: {flex: 0.2, alignItems: 'center'},
   profilePicView: {
-    height: hp('28%'),
+    height: hp('20%'),
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -29,7 +29,12 @@ export default StyleSheet.create({
 
     elevation: 5,
   },
-  profilePic: {width: '100%', height: '100%', borderRadius: 10},
+  profilePic: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+    resizeMode: 'contain',
+  },
   dataSection: {marginTop: hp('2%'), flexDirection: 'row'},
   nameText: {fontSize: hp('1.8%'), color: colors.purplishGrey},
   buyNowText: {fontSize: hp('1.8%'), color: colors.white},

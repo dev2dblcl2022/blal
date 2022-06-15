@@ -7,7 +7,7 @@ import axios from 'axios';
 
 // URL config
 // const DOMAIN = 'ht:tps://lims.blallab.com:443/LISWebAPI/';
-const DOMAIN = 'https://silverapi.blallab.com';
+const DOMAIN = 'https://silverapi.blallab.com/SecureAPI';
 
 export const API_BASE_URL = DOMAIN;
 
@@ -49,20 +49,30 @@ const NetworkRequestBlal = async requestConfig => {
     // const token = await AsyncStorage.getItem('userToken');
 
     // apiClient.defaults.headers.common.Authorization = token;
+    const resToken = await axios.post(
+      `${API_BASE_URL}/api/login?UserName=1234&Password=abcd`,
+    );
+    if (resToken.status === 200) {
+      const _data = resToken.data.Result.AccessToken;
+      const response = await axios
+        .create({
+          baseURL: API_BASE_URL,
+          headers: {
+            'content-type': 'application/json',
+            Authorization: _data,
+          },
+        })
+        .request(requestConfig);
+      if (response) {
+        const {status} = response;
+        if (status === 200) {
+          const {data} = response;
 
-    const response = await apiClient.request(requestConfig);
-
-    if (response) {
-      const {status, message} = response;
-
-      if (status === 200) {
-        const {data} = response;
-
-        return data;
+          return data;
+        }
       }
+      return null;
     }
-
-    return null;
   } catch (error) {
     return null;
   }

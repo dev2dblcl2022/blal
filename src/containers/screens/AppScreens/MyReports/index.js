@@ -34,7 +34,11 @@ import moment from 'moment';
 import {Date_Format} from '../../../../config/Setting';
 import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getSilverapiURL} from '../../../../apis/env';
+import {
+  getProductionReportURL,
+  getSilverapiURL,
+  getStagingReportURL,
+} from '../../../../apis/env';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 const index = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -284,8 +288,9 @@ const index = ({navigation}) => {
   };
 
   const onOpenPdfFile = reportsIds => {
-    // const fileUrl = `http://limsreport.blallab.com/S3/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
-    const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+    const fileUrl = getStagingReportURL(
+      `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
+    );
     navigation.navigate('PrescriptionViewer', {
       url: fileUrl,
       screenName: 'Report',
@@ -359,8 +364,12 @@ const index = ({navigation}) => {
   };
 
   const downloadInvoice = async mainReportItem => {
-    // const fileUrl = `http://limsreport.blallab.com/S3/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`;
-    const fileUrl = `https://lims.blallab.com/blal/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&Status=0&TYPE=LAB`;
+    // const fileUrl = getStagingReportURL(
+    //   `/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`,
+    // );
+    const fileUrl = getStagingReportURL(
+      `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&Status=0&TYPE=LAB`,
+    );
 
     checkPermission(fileUrl, 'Invoice', '');
   };
@@ -387,7 +396,9 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-    const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+    const fileUrl = getStagingReportURL(
+      `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
+    );
 
     checkPermission(fileUrl, 'Report');
   };
@@ -410,7 +421,9 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-    const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`;
+    const fileUrl = getStagingReportURL(
+      `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
+    );
 
     checkPermission(fileUrl, 'Report');
     // data.map(item => {
