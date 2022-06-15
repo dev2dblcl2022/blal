@@ -17,7 +17,6 @@ import {
 import colors from '../../../constants/colors';
 import imagesConstants from '../../../constants/imagesConstants';
 import {RegularText} from '../Common';
-import ZendeskChat from 'react-native-zendesk-chat';
 import NetworkRequest, {
   method,
   servicesPoints,
@@ -82,36 +81,36 @@ export default function BottomTabBar({state, descriptors, navigation}) {
     }
   }, [routeValue]);
 
-  const startZendeskChat = () => {
-    // Optionally specify the appId provided by Zendesk
-    // client secret key ==> U2Ak457QqbwyvMvfoVkCHbdMU7q4ps0Qi3QNf3DNAkj8rzL2WDmIVDuCZjCBp1OF
-    ZendeskChat.init('GTgw066gP0PvWLeRulhoN5kAqSY07dU5');
+  // const startZendeskChat = () => {
+  //   // Optionally specify the appId provided by Zendesk
+  //   // client secret key ==> U2Ak457QqbwyvMvfoVkCHbdMU7q4ps0Qi3QNf3DNAkj8rzL2WDmIVDuCZjCBp1OF
+  //   ZendeskChat.init('GTgw066gP0PvWLeRulhoN5kAqSY07dU5');
 
-    ZendeskChat.startChat({
-      name: userData.fullname,
+  //   ZendeskChat.startChat({
+  //     name: userData.fullname,
 
-      email: userData.email,
-      phone: userData.phone_number,
-      tags: ['support', 'help', 'zendesk'],
+  //     email: userData.email,
+  //     phone: userData.phone_number,
+  //     tags: ['support', 'help', 'zendesk'],
 
-      // department: 'IT',
-      // // The behaviorFlags are optional, and each default to 'true' if omitted
-      // behaviorFlags: {
-      //   showAgentAvailability: true,
-      //   showChatTranscriptPrompt: true,
-      //   showPreChatForm: true,
-      //   showOfflineForm: true,
-      // },
-      // // The preChatFormOptions are optional & each defaults to "optional" if omitted
-      // preChatFormOptions: {
-      //   name: 'required',
-      //   email: 'optional',
-      //   phone: 'optional',
-      //   department: 'required',
-      // },
-      // localizedDismissButtonTitle: 'Dismiss',
-    });
-  };
+  //     // department: 'IT',
+  //     // // The behaviorFlags are optional, and each default to 'true' if omitted
+  //     // behaviorFlags: {
+  //     //   showAgentAvailability: true,
+  //     //   showChatTranscriptPrompt: true,
+  //     //   showPreChatForm: true,
+  //     //   showOfflineForm: true,
+  //     // },
+  //     // // The preChatFormOptions are optional & each defaults to "optional" if omitted
+  //     // preChatFormOptions: {
+  //     //   name: 'required',
+  //     //   email: 'optional',
+  //     //   phone: 'optional',
+  //     //   department: 'required',
+  //     // },
+  //     // localizedDismissButtonTitle: 'Dismiss',
+  //   });
+  // };
 
   const focusedOptions = descriptors[state.routes[state.index].key].options;
 
@@ -224,7 +223,11 @@ export default function BottomTabBar({state, descriptors, navigation}) {
               if (Platform.OS === 'ios') {
                 alert('In next version you will use Need Help');
               } else {
-                startZendeskChat();
+                const supported = Linking.canOpenURL(`whatsapp://send?phone=${"+91-9166125555"}`);
+                if (supported) {
+                  Linking.openURL(`whatsapp://send?phone=${"+91-9166125555"}`);
+                }
+
               }
             }
             if (route.name === 'Home') {
