@@ -488,7 +488,7 @@ const index = ({navigation}) => {
               placeholder="Select Relation"
               value={value}
               listMode={'SCROLLVIEW'}
-              style={{borderColor: colors.purplishGrey}}
+              style={{borderColor: colors.purplishGrey, marginTop: hp('2%')}}
               items={allRelation}
               zIndex={1000}
               setOpen={setOpens}

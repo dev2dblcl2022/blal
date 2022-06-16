@@ -488,7 +488,7 @@ const index = ({navigation}) => {
                 onPress={() =>
                   navigation.navigate('SearchLab', {
                     type: 'Test',
-                    bodyPartsCondition: false,
+                    bodyPartsCondition: true,
                   })
                 }
                 style={styles.submitBtn}

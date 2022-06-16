@@ -458,6 +458,8 @@ const index = ({navigation, route}) => {
                             ? 'Booking Registered'
                             : bookingDetailData.status === 'Cancelled'
                             ? 'Booking Cancelled'
+                            : bookingDetailData.status === 'Upcoming'
+                            ? 'Booking Upcoming'
                             : 'Booking Report Approved'
                         }
                       />

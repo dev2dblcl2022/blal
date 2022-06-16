@@ -99,6 +99,7 @@ const index = ({navigation}) => {
       method: method.get,
       url: servicesPoints.userServices.my_family_mambers,
     };
+
     const response = await NetworkRequest(requestConfig);
 
     if (response) {
@@ -128,7 +129,7 @@ const index = ({navigation}) => {
         setLoader(false);
       }
     } else {
-      setLoader(false);
+      setLoader(true);
     }
   };
 

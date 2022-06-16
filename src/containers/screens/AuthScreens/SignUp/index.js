@@ -161,7 +161,9 @@ const index = ({navigation, route}) => {
           'content-type': 'multipart/form-data',
         },
       };
+
       const response = await NetworkRequest(requestConfig);
+
       if (response) {
         const {success} = response;
         if (success) {

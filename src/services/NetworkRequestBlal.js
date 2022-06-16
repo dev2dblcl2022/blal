@@ -7,7 +7,8 @@ import axios from 'axios';
 
 // URL config
 // const DOMAIN = 'ht:tps://lims.blallab.com:443/LISWebAPI/';
-const DOMAIN = 'https://silverapi.blallab.com/SecureAPI';
+// const DOMAIN = 'https://silverapi.blallab.com/SecureAPI';
+const DOMAIN = 'https://api.blallab.com';
 
 export const API_BASE_URL = DOMAIN;
 
@@ -63,6 +64,7 @@ const NetworkRequestBlal = async requestConfig => {
           },
         })
         .request(requestConfig);
+
       if (response) {
         const {status} = response;
         if (status === 200) {

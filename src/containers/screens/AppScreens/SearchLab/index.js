@@ -647,9 +647,12 @@ const index = ({navigation, route}) => {
       setPage(page + (cal >= 10 ? 10 : cal));
     }
   };
+
   const renderFooter = () => (
     <View style={styles.loaderArea}>
-      {test.length >= 10 ? <Text>Loading...</Text> : null}
+      {test.length >= 10 && test.length < pageData.TotalItems ? (
+        <Text>Loading...</Text>
+      ) : null}
     </View>
   );
   return (
@@ -658,7 +661,7 @@ const index = ({navigation, route}) => {
         onChangeText={val => setSearchValue(val)}
         // onChangeText={val => handelChange(val)}
         // onChangeText={val => handleChange(val)}
-        placeholderText={'Enter test name, body part or health condition'}
+        placeholderText={'Search test or package name'}
         onPressFilter={onFilter}
         onBack={onBack}
         onClearText={() => setSearchText('')}

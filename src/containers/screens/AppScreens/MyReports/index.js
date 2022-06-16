@@ -294,7 +294,7 @@ const index = ({navigation}) => {
   };
 
   const onOpenPdfFile = reportsIds => {
-    const fileUrl = getStagingReportURL(
+    const fileUrl = getProductionReportURL(
       `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
     );
     navigation.navigate('PrescriptionViewer', {
@@ -373,7 +373,7 @@ const index = ({navigation}) => {
     // const fileUrl = getStagingReportURL(
     //   `/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`,
     // );
-    const fileUrl = getStagingReportURL(
+    const fileUrl = getProductionReportURL(
       `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&Status=0&TYPE=LAB`,
     );
 
@@ -402,7 +402,7 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-    const fileUrl = getStagingReportURL(
+    const fileUrl = getProductionReportURL(
       `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
     );
 
@@ -427,7 +427,7 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-    const fileUrl = getStagingReportURL(
+    const fileUrl = getProductionReportURL(
       `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
     );
 

@@ -112,7 +112,7 @@ export default (props, navigation) => {
               placeholderTextColor={colors.purplishGrey}
               style={styles.textInput}
               onPressIn={props.onPressSearchBar}
-              placeholder={'Enter test name, body part or health condition'}
+              placeholder={'Search test or package name'}
             />
             <Image style={styles.searchImg} source={imagesConstants.search} />
           </TouchableOpacity>

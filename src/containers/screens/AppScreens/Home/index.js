@@ -173,6 +173,7 @@ const index = ({navigation}) => {
         method: method.get,
         url: servicesPoints.bookingServices.live_track,
       };
+
       const response = await NetworkRequest(requestConfig);
 
       if (response) {

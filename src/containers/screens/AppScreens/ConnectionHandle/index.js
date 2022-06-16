@@ -6,7 +6,6 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import colors from '../../../../constants/colors';
 
 export default function ConnectionHandle({navigation}) {
-  console.log(navigation, 'navigation');
   const unsubscribe = NetInfo.addEventListener(state => {
     if (state.isConnected) {
       navigation.navigate('HomeScreen');

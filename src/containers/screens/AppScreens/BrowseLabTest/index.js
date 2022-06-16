@@ -407,7 +407,7 @@ const index = ({navigation, route}) => {
         onChangeText={val => setSearchValue(val)}
         // onChangeText={val => handelChange(val)}
         // onChangeText={val => handleChange(val)}
-        placeholderText={'Enter test name, body part or health condition'}
+        placeholderText={'Search test or package name'}
         onPressFilter={onFilter}
         onBack={onBack}
         onClearText={() => setSearchText('')}

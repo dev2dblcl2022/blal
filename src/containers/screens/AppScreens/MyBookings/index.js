@@ -292,7 +292,7 @@ const index1 = ({navigation, route}) => {
   };
 
   const onCancel = async item => {
-    setLoader(true);
+    // setLoader(true);
     try {
       let data = {
         task_id: item.task_id,

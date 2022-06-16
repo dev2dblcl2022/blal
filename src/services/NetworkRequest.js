@@ -112,6 +112,7 @@ async function NetworkRequest(requestConfig) {
 
       if (status === 200) {
         const {data} = response;
+
         // let apiData = data;
 
         // if (JSON.parse(apiData.status) === 401) {
