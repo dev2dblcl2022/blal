@@ -440,6 +440,12 @@ const index = ({navigation, route}) => {
   };
   const onShowPopup = async () => {
     setBookingSuccessPopup(true);
+    setTimeout(() => {
+      navigation.navigate('MyBookings', {
+        screen: 'OrderSummary',
+      })
+    });
+    
   };
   const onClosePopup = async () => {
     setBookingSuccessPopup(false);
