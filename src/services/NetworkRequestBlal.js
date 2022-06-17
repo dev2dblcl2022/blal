@@ -7,8 +7,8 @@ import axios from 'axios';
 
 // URL config
 // const DOMAIN = 'ht:tps://lims.blallab.com:443/LISWebAPI/';
-const DOMAIN = 'https://silverapi.blallab.com/SecureAPI';
-// const DOMAIN = 'https://api.blallab.com';
+// const DOMAIN = 'https://silverapi.blallab.com/SecureAPI';
+const DOMAIN = 'https://api.blallab.com';
 
 export const API_BASE_URL = DOMAIN;
 
@@ -53,7 +53,7 @@ const NetworkRequestBlal = async requestConfig => {
     const resToken = await axios.post(
       `${API_BASE_URL}/api/login?UserName=1234&Password=abcd`,
     );
-    console.log('resToken', resToken);
+
     if (resToken.status === 200) {
       const _data = resToken.data.Result.AccessToken;
       const response = await axios
@@ -65,7 +65,7 @@ const NetworkRequestBlal = async requestConfig => {
           },
         })
         .request(requestConfig);
-      console.log('resTokenresTokenresTokenresToken', response);
+
       if (response) {
         const {status} = response;
         if (status === 200) {

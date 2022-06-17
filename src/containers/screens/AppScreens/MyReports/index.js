@@ -25,7 +25,7 @@ import NetworkRequest, {
 import {AuthContext} from '../../../../../context/context';
 import colors from '../../../../constants/colors';
 
-import {
+import NetworkRequestBlal, {
   blalMethod,
   blalServicesPoints,
 } from '../../../../services/NetworkRequestBlal';
@@ -34,11 +34,7 @@ import moment from 'moment';
 import {Date_Format} from '../../../../config/Setting';
 import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  getProductionReportURL,
-  getSilverapiURL,
-  getStagingReportURL,
-} from '../../../../apis/env';
+import {getProductionReportURL, getSilverapiURL} from '../../../../apis/env';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 const index = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -227,13 +223,11 @@ const index = ({navigation}) => {
 
       const requestConfig = {
         method: blalMethod.post,
-        url: getSilverapiURL(
-          `/GetMyReports?PatientId=${patientValues}&FromDate=${apiStartDate}&ToDate=${apiEndDate}`,
-        ),
+        url: `/GetMyReports?PatientId=${patientValues}&FromDate=${apiStartDate}&ToDate=${apiEndDate}`,
       };
-
-      const response = await NetworkRequest(requestConfig);
-
+      console.log(requestConfig.url, 'request urll');
+      const response = await NetworkRequestBlal(requestConfig);
+      console.log(response, 'fgjgfj');
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
@@ -294,7 +288,7 @@ const index = ({navigation}) => {
   };
 
   const onOpenPdfFile = reportsIds => {
-    const fileUrl = getStagingReportURL(
+    const fileUrl = getProductionReportURL(
       `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
     );
     navigation.navigate('PrescriptionViewer', {
@@ -373,10 +367,10 @@ const index = ({navigation}) => {
     // const fileUrl = getStagingReportURL(
     //   `/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`,
     // );
-    const fileUrl = getStagingReportURL(
+    const fileUrl = getProductionReportURL(
       `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&Status=0&TYPE=LAB`,
     );
-
+    console.log('fileUrl', fileUrl);
     checkPermission(fileUrl, 'Invoice', '');
   };
   const downloadReport = item => {
@@ -402,7 +396,7 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-    const fileUrl = getStagingReportURL(
+    const fileUrl = getProductionReportURL(
       `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
     );
 
@@ -427,7 +421,7 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-    const fileUrl = getStagingReportURL(
+    const fileUrl = getProductionReportURL(
       `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
     );
 

@@ -42,10 +42,7 @@ import colors from '../../../../constants/colors';
 import {CancelButton} from '../../../components/Buttons';
 import {AuthContext} from '../../../../../context/context';
 import PDFView from 'react-native-view-pdf';
-import {
-  getProductionReportURL,
-  getStagingReportURL,
-} from '../../../../apis/env';
+import {getProductionReportURL} from '../../../../apis/env';
 let resources = {
   file:
     Platform.OS === 'ios'
@@ -265,7 +262,7 @@ const index = ({navigation, route}) => {
     const fileUrl = getProductionReportURL(
       `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=LAB`,
     );
-
+    console.log('fileUrl1', fileUrl);
     checkPermission(fileUrl);
   };
 

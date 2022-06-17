@@ -657,8 +657,7 @@ function getTabBarVisibility(route) {
     routeName === 'MyBookingDetail' ||
     routeName === 'TrackProScreen' ||
     routeName === 'UploadedPrescriptions' ||
-    routeName === 'ConnectionHandle' ||
-    routeName === 'HomeScreen'
+    routeName === 'ConnectionHandle'
   ) {
     return false;
   }

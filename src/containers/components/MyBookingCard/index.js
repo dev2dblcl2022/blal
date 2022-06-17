@@ -227,7 +227,7 @@ export default props => {
 
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={props.onPressRate}>
+          {/* <TouchableOpacity onPress={props.onPressRate}>
             <LightText
               style={{
                 fontSize: hp('2.5%'),
@@ -241,7 +241,7 @@ export default props => {
               }}
               title={'Rate Us'}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       ) : null}
     </TouchableOpacity>
