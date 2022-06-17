@@ -488,6 +488,7 @@ const index = ({navigation}) => {
                 onPress={() =>
                   navigation.navigate('SearchLab', {
                     type: 'Test',
+                    searchable: true,
                     bodyPartsCondition: true,
                   })
                 }

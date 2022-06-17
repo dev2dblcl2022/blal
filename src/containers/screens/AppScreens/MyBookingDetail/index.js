@@ -42,7 +42,10 @@ import colors from '../../../../constants/colors';
 import {CancelButton} from '../../../components/Buttons';
 import {AuthContext} from '../../../../../context/context';
 import PDFView from 'react-native-view-pdf';
-import {getStagingReportURL} from '../../../../apis/env';
+import {
+  getProductionReportURL,
+  getStagingReportURL,
+} from '../../../../apis/env';
 let resources = {
   file:
     Platform.OS === 'ios'
@@ -103,6 +106,7 @@ const index = ({navigation, route}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
+
       if (response) {
         const {success} = response;
         if (success) {
@@ -258,7 +262,7 @@ const index = ({navigation, route}) => {
   };
 
   const onDownloadInvoice = () => {
-    const fileUrl = getStagingReportURL(
+    const fileUrl = getProductionReportURL(
       `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=LAB`,
     );
 
@@ -1187,6 +1191,7 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
+
                 {bookingDetailData.LedgerTransactionNo ? (
                   <View style={styles.downloadBtnView}>
                     <TouchableOpacity

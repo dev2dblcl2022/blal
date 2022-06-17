@@ -451,9 +451,8 @@ const index = ({navigation, route}) => {
     setTimeout(() => {
       navigation.navigate('MyBookings', {
         screen: 'OrderSummary',
-      })
+      });
     });
-    
   };
   const onClosePopup = async () => {
     setBookingSuccessPopup(false);

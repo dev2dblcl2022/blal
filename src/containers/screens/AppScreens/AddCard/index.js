@@ -41,7 +41,10 @@ import NetworkRequest, {
 } from '../../../../services/NetworkRequest';
 import {AuthContext} from '../../../../../context/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {blalServicesPoints} from '../../../../services/NetworkRequestBlal';
+import NetworkRequestBlal, {
+  blalMethod,
+  blalServicesPoints,
+} from '../../../../services/NetworkRequestBlal';
 import AllInOneSDKManager from 'paytm_allinone_react-native';
 import {
   Api_Live_Url,
@@ -229,6 +232,7 @@ const index = ({navigation, route}) => {
         const {success} = response;
         if (success) {
           let txnToken = response.data.body.txnToken;
+
           onPaymentGateway(txnToken, orderId);
           setLoader(false);
           setTransactionToken(txnToken);
@@ -313,7 +317,10 @@ const index = ({navigation, route}) => {
     setLoader(true);
     try {
       var data = {};
-      if (membershipCardData.No_of_dependant === '1') {
+      if (
+        membershipCardData.No_of_dependant === '1' ||
+        membershipCardData.No_of_dependant === '0'
+      ) {
         data = {
           Hash: Hash_Id_Membership_Card_Purchase,
           Mobile: validateForm.phoneNumber,
@@ -344,46 +351,52 @@ const index = ({navigation, route}) => {
       //   url = `${blalServicesPoints.blalUserServices.CreateNewMembershipCard}?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}&DependentId=${data.DependentId}`;
       // }
 
-      // const requestConfig = {
-      //   method: method.post,
-      //   url: url,
-      //   data: data,
-      // };
-
-      var config = {
-        method: 'post',
+      const requestConfig = {
+        method: blalMethod.post,
+        data: {},
         url:
           membershipCardData.No_of_dependant === '1'
             ? `https://silverapi.blallab.com/CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}`
             : `https://silverapi.blallab.com/CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}&DependentId=${data.DependentId}`,
-        headers: {},
       };
 
-      axios(config)
-        .then(function (response) {
-          if (response) {
-            const {status} = response;
-            if (status === 200) {
-              setLoader(false);
-              navigation.pop(2);
-            } else {
-              setLoader(false);
-            }
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      // const response = await NetworkRequest(requestConfig);
-      // if (response) {
-      //   const {status_Code} = response;
-      //   if (status_Code === 200) {
-      //     setLoader(false);
-      //     navigation.pop(2);
-      //   } else {
-      //     setLoader(false);
-      //   }
-      // }
+      // var config = {
+      //   method: 'post',
+      //   url:
+      //     membershipCardData.No_of_dependant === '1'
+      //       ? `https://silverapi.blallab.com/CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}`
+      //       : `https://silverapi.blallab.com/CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}&DependentId=${data.DependentId}`,
+      //   headers: {},
+      // };
+
+      // axios(config)
+      //   .then(function (response) {
+      //     console.log('responseresponse', response);
+      //     if (response) {
+      //       const {status} = response;
+      //       if (status === 200) {
+      //         setLoader(false);
+      //         navigation.pop(2);
+      //       } else {
+      //         setLoader(false);
+      //       }
+      //     }
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
+
+      const response = await NetworkRequestBlal(requestConfig);
+
+      if (response) {
+        const {status_Code} = response;
+        if (status_Code === 200) {
+          setLoader(false);
+          navigation.pop(2);
+        } else {
+          setLoader(false);
+        }
+      }
     } catch (error) {
       setLoader(false);
     }
