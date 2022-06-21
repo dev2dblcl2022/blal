@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 import com.android.build.OutputFile
 
 /**
@@ -200,6 +201,9 @@ dependencies {
 implementation group: 'com.zendesk', name: 'messaging', version: '4.3.1'
 
  implementation fileTree(dir: "libs", include: ["*.jar"])
+ implementation platform('com.google.firebase:firebase-bom:30.1.0')
+  implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 //     implementation "com.squareup.okhttp3:okhttp:4.2.1"
 // implementation "com.squareup.okhttp3:logging-interceptor:4.2.1"
 // implementation "com.squareup.okhttp3:okhttp-urlconnection:4.2.1"
@@ -221,7 +225,7 @@ implementation "com.squareup.okhttp3:okhttp-urlconnection:4.2.1"
     implementation "com.facebook.react:react-native:+"  // From node_modules
  implementation project(':lottie-react-native')
   implementation project(':react-native-sms-retriever')
-    implementation 'com.google.firebase:firebase-analytics:17.3.0'
+    //firebase
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "1020829906778",
-    "project_id": "blal-ba439",
-    "storage_bucket": "blal-ba439.appspot.com"
+    "project_number": "1084160843626",
+    "project_id": "dblcl-36dbf",
+    "storage_bucket": "dblcl-36dbf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1020829906778:android:08441ac9c1b93a8b98e563",
+        "mobilesdk_app_id": "1:1084160843626:android:06f051cf3ef0413b514f13",
         "android_client_info": {
           "package_name": "com.blal"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1020829906778-1p95kc31v2g8hmet1ahllocfqdria01r.apps.googleusercontent.com",
+          "client_id": "1084160843626-uadv3f0utve0s9comcglqma1367r0ip2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC9UZSAMecJjzJp0JJTaOMkYk8-4Uaz27A"
+          "current_key": "AIzaSyB2RcchCdzee6hyeTIlYnf9pbvGrey35vY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1020829906778-1p95kc31v2g8hmet1ahllocfqdria01r.apps.googleusercontent.com",
+              "client_id": "1084160843626-uadv3f0utve0s9comcglqma1367r0ip2.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "1020829906778-0sam5lk25rnjac0ufl61r5vgkf4ghusv.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.octal.blal"
-              }
             }
           ]
         }
