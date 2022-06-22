@@ -239,10 +239,13 @@ const index = ({navigation, route}) => {
 
     await getTest('', 10);
   };
+  console.log('pageData', pageData);
   useEffect(() => {
-    getTest('', page);
+    if (pageData.EndPage != pageData.TotalPages) {
+      getTest('', page);
+    }
   }, [page]);
-
+  console.log('page', page);
   const getLastSearched = async val => {
     if (Platform.OS === 'ios') {
       try {
@@ -452,9 +455,9 @@ const index = ({navigation, route}) => {
         data: data,
         url: url,
       };
-
+      console.log('requestConfig', requestConfig);
       const response = await NetworkRequestBlal(requestConfig);
-
+      console.log('response.data', response.data);
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
@@ -649,10 +652,12 @@ const index = ({navigation, route}) => {
       setPage(page + (cal >= 10 ? 10 : cal));
     }
   };
-
+  console.log('pagege', page);
   const renderFooter = () => (
     <View style={styles.loaderArea}>
-      {test.length >= 10 && test.length < pageData.TotalItems ? (
+      {test.length >= 10 &&
+      test.length < pageData.TotalItems &&
+      pageData.EndPage != pageData.TotalPages ? (
         <Text>Loading...</Text>
       ) : null}
     </View>

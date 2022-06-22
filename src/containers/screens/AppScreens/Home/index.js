@@ -1256,7 +1256,7 @@ const index = ({navigation}) => {
                 onPressSeeAll={() =>
                   navigation.navigate('SeeAllList', {title: 'News & Events'})
                 }
-                listTitle={'News and Events'}
+                // listTitle={'News and Events'}
                 extraData={newsEvent}
                 seeAll={true}
                 renderItem={({item}) => {
