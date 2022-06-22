@@ -143,7 +143,7 @@ const index = ({navigation, route}) => {
   }, [navigation]);
 
   useEffect(() => {
-    if (test.length > 0) {
+    if (test.length > 0 || testByConditionType === 'test') {
       setShowTestList(true);
     } else {
       setShowTestList(false);
@@ -423,16 +423,18 @@ const index = ({navigation, route}) => {
         }${testIdCondition ? testIdCondition : ''}`,
       };
 
-      let url = `/GetFilterTestPackage?CityId=${data.CityId}&PanelId=${data.PanelId}&Type=${data.Type}`;
+      let url = `/GetFilterTestPackage?CityId=${data.CityId}&PanelId=${data.PanelId}`;
 
       // if (data.Type) {
       //   url = `${url}&Type=${data.Type}`;
       // }
-
+      if (data.Type) {
+        url = `${url}&Type=${data.Type}`;
+      }
       if (data.SearchKeyword) {
         url = `${url}&SearchKeyword=${data.SearchKeyword}`;
       }
-      testIdConditions;
+      // testIdConditions;
 
       if (data.BodyParts) {
         url = `${url}&BodyParts=${data.BodyParts}`;
@@ -746,13 +748,19 @@ const index = ({navigation, route}) => {
                         persistentScrollbar={true}
                         ListEmptyComponent={() => {
                           return (
-                            <View style={styles.emptyView}>
-                              {!loader ? (
-                                <RegularText
-                                  style={styles.emptyText}
-                                  title={`No top test found`}
-                                />
-                              ) : null}
+                            <View
+                              style={{
+                                paddingTop: hp('20%'),
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                              }}>
+                              <RegularText
+                                style={{
+                                  color: colors.app_theme_dark_green,
+                                  fontSize: hp('2.5%'),
+                                }}
+                                title={`No Test/Package found`}
+                              />
                             </View>
                           );
                         }}

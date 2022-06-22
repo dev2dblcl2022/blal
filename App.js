@@ -11,7 +11,7 @@ import {
   StyleSheet,
   DeviceEventEmitter,
 } from 'react-native';
-import analytics from "@react-native-firebase/analytics";
+import analytics from '@react-native-firebase/analytics';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -270,10 +270,10 @@ export default function App() {
   //           <Text style={[styles.failed, {alignSelf: 'center'}]}>
   //             {'Connection Failed!'}
   //           </Text>
-            // <Text style={[styles.tried, {alignSelf: 'center'}]}>
-            //   I tried my best but it looks like there is no connectivity. Please
-            //   check your internet connection.
-            // </Text>
+  // <Text style={[styles.tried, {alignSelf: 'center'}]}>
+  //   I tried my best but it looks like there is no connectivity. Please
+  //   check your internet connection.
+  // </Text>
   //           <SubmitButton
   //             onPress={() => isConnected()}
   //             style={{width: hp('20%')}}
@@ -336,10 +336,11 @@ export default function App() {
       );
     }
   };
-  const setCurrentScreenAnalytics = async (screenName) => {
-    await analytics().logScreenView({ screen_name: screenName })
-      .then(() => console.log("setCurrentScreenAnalyticsSuccess", screenName))
-      .catch((e) => console.log("Analytic Error", e));
+  const setCurrentScreenAnalytics = async screenName => {
+    await analytics()
+      .logScreenView({screen_name: screenName})
+      .then(() => console.log('setCurrentScreenAnalyticsSuccess', screenName))
+      .catch(e => console.log('Analytic Error', e));
   };
 
   return (
@@ -358,7 +359,7 @@ export default function App() {
             const currentRouteName =
               navigationRef.current.getCurrentRoute().name;
             routeNameRef.current = currentRouteName;
-            setCurrentScreenAnalytics(currentRouteName)
+            setCurrentScreenAnalytics(currentRouteName);
           }}>
           {/* {_renderModelView()} */}
           {onChoose()}

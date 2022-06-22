@@ -220,7 +220,7 @@ const index = ({navigation, route}) => {
         }${testIdCondition ? testIdCondition : ''}`,
       };
 
-      let url = `https://lims.blallab.com/WebApiLive/GetFilterTestPackage?CityId=${data.CityId}&PanelId=${data.PanelId}`;
+      let url = `/GetFilterTestPackage?CityId=${data.CityId}&PanelId=${data.PanelId}`;
 
       if (data.Type) {
         url = `${url}&Type=${data.Type}`;
