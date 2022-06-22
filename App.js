@@ -11,6 +11,7 @@ import {
   StyleSheet,
   DeviceEventEmitter,
 } from 'react-native';
+import analytics from "@react-native-firebase/analytics";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -335,6 +336,11 @@ export default function App() {
       );
     }
   };
+  const setCurrentScreenAnalytics = async (screenName) => {
+    await analytics().logScreenView({ screen_name: screenName })
+      .then(() => console.log("setCurrentScreenAnalyticsSuccess", screenName))
+      .catch((e) => console.log("Analytic Error", e));
+  };
 
   return (
     <>
@@ -352,6 +358,7 @@ export default function App() {
             const currentRouteName =
               navigationRef.current.getCurrentRoute().name;
             routeNameRef.current = currentRouteName;
+            setCurrentScreenAnalytics(currentRouteName)
           }}>
           {/* {_renderModelView()} */}
           {onChoose()}
