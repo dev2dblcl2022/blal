@@ -88,6 +88,7 @@ const index = ({navigation, route}) => {
         if (success) {
           setLoader(false);
           await AsyncStorage.setItem('LocationStatus', '1');
+
           if (type === '1') {
             addressLabel(locationLabel);
 

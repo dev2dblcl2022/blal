@@ -51,12 +51,13 @@ const index = ({navigation, route}) => {
   let imageType = null;
   let testIdBody = null;
   let testIdCondition = null;
+  let testByConditionType = null;
   if (route.params === undefined) {
     type = '';
   } else {
     type = route.params.type ? route.params.type : '';
     bodyPartsCondition = route.params.bodyPartsCondition;
-
+    testByConditionType = route?.params?.testByConditionType;
     imageType = route.params.imageType;
     testIdBody = route.params.testIdBodyParts
       ? route.params.testIdBodyParts
@@ -409,7 +410,8 @@ const index = ({navigation, route}) => {
       let data = {
         PanelId: Number(panelId),
         CityId: Number(cityId),
-        Type: type,
+
+        Type: testByConditionType ? testByConditionType : type,
         SearchKeyword: val ? val : '',
         Limit: value,
         BodyParts: `${filterBodyPartsKeys}${
@@ -421,8 +423,7 @@ const index = ({navigation, route}) => {
         }${testIdCondition ? testIdCondition : ''}`,
       };
 
-      let url = 
-        `/GetFilterTestPackage?CityId=${data.CityId}&PanelId=${data.PanelId}`;
+      let url = `/GetFilterTestPackage?CityId=${data.CityId}&PanelId=${data.PanelId}&Type=${data.Type}`;
 
       // if (data.Type) {
       //   url = `${url}&Type=${data.Type}`;
@@ -654,6 +655,7 @@ const index = ({navigation, route}) => {
       ) : null}
     </View>
   );
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <SearchHeader
@@ -697,6 +699,7 @@ const index = ({navigation, route}) => {
               />
             </View>
           ) : null}
+
           <View style={styles.dataSection}>
             {showTestList ? (
               <View style={styles.searchingListSection}>

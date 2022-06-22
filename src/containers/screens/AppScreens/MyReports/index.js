@@ -225,9 +225,9 @@ const index = ({navigation}) => {
         method: blalMethod.post,
         url: `/GetMyReports?PatientId=${patientValues}&FromDate=${apiStartDate}&ToDate=${apiEndDate}`,
       };
-      console.log(requestConfig.url, 'request urll');
+
       const response = await NetworkRequestBlal(requestConfig);
-      console.log(response, 'fgjgfj');
+      console.log('response.data', response.data);
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
@@ -368,9 +368,13 @@ const index = ({navigation}) => {
     //   `/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`,
     // );
     const fileUrl = getProductionReportURL(
-      `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&Status=0&TYPE=LAB`,
+      `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${
+        mainReportItem.LedgerTransactionNo
+      }&Status=0&TYPE=${
+        mainReportItem.TypeOfTnx === 'OPD-Package' ? 'PACKAGE' : 'LAB'
+      }`,
     );
-    console.log('fileUrl', fileUrl);
+
     checkPermission(fileUrl, 'Invoice', '');
   };
   const downloadReport = item => {

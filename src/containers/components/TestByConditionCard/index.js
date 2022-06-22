@@ -6,6 +6,7 @@ import styles from './style';
 
 export default props => {
   let {Name} = props?.data;
+
   return (
     <TouchableOpacity onPress={props.onPress} style={[styles.itemContainer]}>
       <View style={{flex: 0.2}}>

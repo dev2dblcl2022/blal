@@ -256,7 +256,7 @@ export default function index({navigation, route, props}) {
           Toast(response.message, 0);
           if (response === 'Network Error') {
             Toast('Network Error', 0);
-            setHandleConnectionState
+            setHandleConnectionState(true);
             setLoader(false);
           } else if (response.status === 401) {
             signOut();

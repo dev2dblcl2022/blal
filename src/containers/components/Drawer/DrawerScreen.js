@@ -26,7 +26,12 @@ const DrawerScreen = ({navigation}) => {
 
   const [userData, setUserData] = useState({});
   const isOpen = useDrawerStatus();
-
+  const [handleConnectionState, setHandleConnectionState] = useState(false);
+  React.useEffect(() => {
+    if (handleConnectionState) {
+      navigation.navigate('ConnectionHandle');
+    }
+  }, [handleConnectionState]);
   useEffect(() => {
     if (isOpen) {
       getMyProfile();
@@ -52,7 +57,7 @@ const DrawerScreen = ({navigation}) => {
         } else {
           if (response === 'Network Error') {
             Toast('Network Error', 0);
-            // navigation.navigate('ConnectionHandle');
+            setHandleConnectionState(true);
           } else if (response.status === 401) {
             signOut();
           } else {
@@ -113,10 +118,11 @@ const DrawerScreen = ({navigation}) => {
         if (Platform.OS === 'ios') {
           navigation.navigate(item.screen);
         } else {
-          const supported = Linking.canOpenURL(`whatsapp://send?phone=${"+91-9166125555"}`);
+          const supported = Linking.canOpenURL(
+            `whatsapp://send?phone=${'+91-9166125555'}`,
+          );
           if (supported) {
-            Linking.openURL(`whatsapp://send?phone=${"+91-9166125555"}`);
-            
+            Linking.openURL(`whatsapp://send?phone=${'+91-9166125555'}`);
           }
         }
       } else if (item.id === 7) {

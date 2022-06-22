@@ -86,8 +86,8 @@ const index = ({navigation}) => {
 
   const [homePinCodeModal, setHomePinCodeModal] = useState(false);
   const [pinCode, setPincode] = useState('');
-  const [panelId, setPanelId] = useState(Blal_Panel_Id);
-  const [cityId, setCityId] = useState(Blal_City_Id);
+  const [panelId, setPanelId] = useState('');
+  const [cityId, setCityId] = useState('');
   const [headerAddressLabel, setAddressLabel] = useState('');
   const [userToken, setUserToken] = useState('GuestUser');
   const [homeSelectAddress, setHomeSelectAddress] = useState(false);
@@ -150,13 +150,17 @@ const index = ({navigation}) => {
   }, [navigation]);
 
   const callAllHomeApi = async () => {
+    const newCityId = await AsyncStorage.getItem('cityId');
+    const newPanelId = await AsyncStorage.getItem('panelId');
+    setCityId(newCityId ? newCityId : null);
+    setPanelId(newPanelId ? newPanelId : null);
     getLiveTracking();
     getAddresLabel();
     SetLoader(true);
     getHome_banners();
     getCartCount();
     getNotificationCount();
-    getHealthPackages();
+    getHealthPackages(newCityId, newPanelId);
     getBlalAwards();
     getBlogs();
     getNewsEvent();
@@ -446,14 +450,12 @@ const index = ({navigation}) => {
         const {success} = response;
         if (success) {
           setCityId(
-            response.data.CityId
-              ? response?.data?.CityId.toString()
-              : Blal_City_Id,
+            response.data.CityId ? response?.data?.CityId.toString() : null,
           );
           setPanelId(
             response.data?.Panel_ID
               ? response?.data?.Panel_ID.toString()
-              : Blal_Panel_Id,
+              : null,
           );
           // location('1');
 
@@ -618,11 +620,11 @@ const index = ({navigation}) => {
       SetLoader(false);
     }
   };
-  const getHealthPackages = async () => {
+  const getHealthPackages = async (newCityId, newPanelId) => {
     try {
       let data = {
-        PanelId: panelId,
-        CityId: cityId,
+        PanelId: newPanelId ? newPanelId : panelId,
+        CityId: newCityId ? newCityId : cityId,
         Type: 'Package',
       };
       const requestConfig = {
@@ -1183,7 +1185,7 @@ const index = ({navigation}) => {
                     <TestByConditionCard
                       onPress={() =>
                         navigation.navigate('SearchLab', {
-                          // type: 'Test',
+                          testByConditionType: 'test',
                           // imageType: 'Test',
                           bodyPartsCondition: true,
                           testIdCondition: Number(item.Id),

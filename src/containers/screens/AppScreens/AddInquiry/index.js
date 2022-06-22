@@ -387,7 +387,7 @@ const index = ({navigation}) => {
             <BoldText style={styles.headingInquiry} title={'Inquiry'} />
             <RegularText
               style={styles.heading}
-              title={'Add New Address that you wish to have'}
+              title={'Please submit your details and we would get back soon.'}
             />
           </View>
           <View style={styles.inputFieldsContainer}>

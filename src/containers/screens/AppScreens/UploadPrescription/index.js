@@ -75,6 +75,9 @@ const index = ({navigation}) => {
     formState: {errors, isValid},
   } = useForm({mode: 'onChange'});
   const [handleConnectionState, setHandleConnectionState] = useState(false);
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [currentLocation, setCurrentLocation] = useState(false);
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -246,7 +249,20 @@ const index = ({navigation}) => {
       ...{[key]: val, [`${key}Error`]: validate(key, val)},
     });
   };
+  const success = pos => {
+    const crd = pos.coords;
+    setLatitude(crd.latitude);
+    setLongitude(crd.longitude);
+    setCurrentLocation(true);
+    navigation.navigate('AddNewAddress', {
+      lat: crd.latitude,
+      long: crd.longitude,
+    });
+  };
 
+  const error = err => {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  };
   const onAddAddress = () => {
     request(
       Platform.select({
@@ -254,16 +270,13 @@ const index = ({navigation}) => {
         ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
       }),
     ).then(response => {
-      if (response == 'granted') {
-        Geolocation.getCurrentPosition(
-          position => {
-            navigation.navigate('AddNewAddress', {
-              lat: position.coords.latitude,
-              long: position.coords.longitude,
-            });
-          },
-          {enableHighAccuracy: true, timeout: 10000, maximumAge: 10000},
-        );
+      if (response === 'granted') {
+        Geolocation.getCurrentPosition(success, error, {
+          showLocationDialog: true,
+          enableHighAccuracy: true,
+          timeout: 20000,
+          maximumAge: 0,
+        });
       } else {
         setLoader(false);
         navigation.navigate('AddNewAddress', {

@@ -229,6 +229,7 @@ const index = ({navigation}) => {
     }
 
     const response = await NetworkRequestBlal(requestConfig);
+
     if (response) {
       const {status_Code} = response;
       if (status_Code === 200) {
@@ -258,7 +259,7 @@ const index = ({navigation}) => {
         placeholderText={'Search for the nearby labs'}
         value={searchText}
         onPressFilter={() => navigation.navigate('NearByLabFilter')}
-        filterVisible={true}
+        filterVisible={false}
         onChangeText={val => setSearchValue(val)}
         title={'Find Nearby Labs'}
       />

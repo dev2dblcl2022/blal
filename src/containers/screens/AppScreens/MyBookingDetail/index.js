@@ -258,11 +258,14 @@ const index = ({navigation, route}) => {
     // return <PrescriptionViewer url={url} />;
   };
 
-  const onDownloadInvoice = () => {
-    const fileUrl = getProductionReportURL(
-      `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=LAB`,
+  const onDownloadInvoice = async () => {
+    const testType = bookingDetailData?.booking_member_tests?.map(test => {
+      return test.test_type === 'Package' ? 'PACKAGE' : 'LAB';
+    });
+    const fileUrl = await getProductionReportURL(
+      `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=${testType}`,
     );
-    console.log('fileUrl1', fileUrl);
+
     checkPermission(fileUrl);
   };
 
@@ -485,7 +488,8 @@ const index = ({navigation, route}) => {
                           ? imagesConstants.started
                           : bookingDetailData.status === 'Successful'
                           ? imagesConstants.collectionDone
-                          : bookingDetailData.status === 'Batch Received'
+                          : bookingDetailData.status === 'Batch Received' ||
+                            bookingDetailData.status === 'Registered'
                           ? imagesConstants.sampleAtLab
                           : bookingDetailData.status === 'Approved'
                           ? imagesConstants.reportApproved
@@ -772,8 +776,7 @@ const index = ({navigation, route}) => {
                   <View>
                     {bookingDetailData.status === 'Accepted' ||
                     bookingDetailData.status === 'Started' ||
-                    bookingDetailData.status === 'Successful' ||
-                    bookingDetailData.status === 'Approved' ? (
+                    bookingDetailData.status === 'Successful' ? (
                       <View style={styles.PROSection}>
                         <View style={styles.BookingCard}>
                           <View

@@ -66,7 +66,7 @@ const index = ({navigation}) => {
     {label: 'Husband', value: 'Husband'},
     {label: 'Mother', value: 'Mother'},
     {label: 'Relative', value: 'Relative'},
-    {label: 'Sibling', value: 'Sibling'},
+    {label: 'Sibling', value: 'Siblings'},
     {label: 'Sister', value: 'Sister'},
     {label: 'Wife', value: 'Wife'},
   ]);
@@ -174,8 +174,12 @@ const index = ({navigation}) => {
         } else {
           null;
         }
+
         setLoader(false);
-        Toast(response.message, 1);
+        Toast(
+          response.message,
+          response.message === 'Member added successfully!' ? 1 : 0,
+        );
       }
     } catch (error) {
       setLoader(false);
