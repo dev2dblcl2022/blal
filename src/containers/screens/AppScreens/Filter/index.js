@@ -56,7 +56,7 @@ const index = ({navigation, route}) => {
   ]);
 
   const [testByCondition, setTestByCondition] = useState([]);
-  const [resetFilter, setResetFilter] = useState(0);
+  const [resetFilter, setResetFilter] = useState([]);
   const [testByBodyParts, setTestByBodyPart] = useState([]);
 
   useEffect(() => {
@@ -66,13 +66,6 @@ const index = ({navigation, route}) => {
     });
     return unsubscribe;
   }, []);
-
-  useEffect(() => {
-    if (resetFilter) {
-      getTestByBodyParts();
-      getTestByCondition();
-    }
-  }, [resetFilter]);
 
   const getTestByBodyParts = async () => {
     try {
@@ -105,7 +98,7 @@ const index = ({navigation, route}) => {
             );
 
             setTestByBodyPart(output);
-            setResetFilter(0);
+            setResetFilter(output);
           } else {
             setTestByBodyPart(response.data);
           }
@@ -152,6 +145,7 @@ const index = ({navigation, route}) => {
             );
 
             setTestByCondition(output);
+            setResetFilter(output);
           } else {
             setTestByCondition(response.data);
           }
@@ -194,7 +188,24 @@ const index = ({navigation, route}) => {
   const onResetFilter = async () => {
     await AsyncStorage.removeItem('filterDataBodyParts');
     await AsyncStorage.removeItem('filterDataConditions');
-    setResetFilter(1);
+    const newData = testByBodyParts.map(item => {
+      if (item.selected === true) {
+        item.selected = false;
+        return item;
+      } else {
+        return item;
+      }
+    });
+    const newData1 = testByCondition.map(item => {
+      if (item.selected === true) {
+        item.selected = false;
+        return item;
+      } else {
+        return item;
+      }
+    });
+    setTestByBodyPart(newData);
+    setTestByCondition(newData1);
   };
 
   const onApplyFilter = async () => {

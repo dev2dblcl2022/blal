@@ -227,7 +227,7 @@ const index = ({navigation}) => {
       };
 
       const response = await NetworkRequestBlal(requestConfig);
-      console.log('response.data', response.data);
+
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {

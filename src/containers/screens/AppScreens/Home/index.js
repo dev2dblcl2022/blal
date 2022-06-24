@@ -146,6 +146,7 @@ const index = ({navigation}) => {
     const unsubscribe = navigation.addListener('focus', () => {
       callAllHomeApi();
     });
+
     return unsubscribe;
   }, [navigation]);
 
@@ -1027,6 +1028,11 @@ const index = ({navigation}) => {
     }
   };
 
+  const removeAsyncItem = () => {
+    AsyncStorage.removeItem('filterDataBodyParts');
+    AsyncStorage.removeItem('filterDataConditions');
+  };
+
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
@@ -1040,12 +1046,13 @@ const index = ({navigation}) => {
           notificationCount={notificationCount}
           cartCount={cartCount}
           onPressLocation={() => setHomeSelectAddress(true)}
-          onPressSearchBar={() =>
+          onPressSearchBar={() => {
             navigation.navigate('SearchLab', {
               searchable: true,
               bodyPartsCondition: false,
-            })
-          }
+            });
+            removeAsyncItem();
+          }}
         />
         {/* <MainContainer> */}
 
@@ -1074,13 +1081,14 @@ const index = ({navigation}) => {
                 onUploadPrescription={() =>
                   navigation.navigate(`UploadPrescription`)
                 }
-                browseLabTest={() =>
+                browseLabTest={() => {
                   navigation.navigate('SearchLab', {
                     type: 'Test',
                     searchable: true,
                     bodyPartsCondition: true,
-                  })
-                }
+                  });
+                  removeAsyncItem();
+                }}
                 onMyReports={() => navigation.navigate('MyReports')}
                 onPharmacy={() => navigation.navigate('AddInquiry')}
               />
@@ -1098,14 +1106,15 @@ const index = ({navigation}) => {
                 horizontal={true}
                 listTitle={'Health Packages'}
                 seeAll={true}
-                onPressSeeAll={() =>
+                onPressSeeAll={() => {
                   navigation.navigate('SearchLab', {
                     type: 'Package',
 
                     bodyPartsCondition: false,
                     // imageType: 'Package',
-                  })
-                }
+                  });
+                  removeAsyncItem();
+                }}
                 extraData={healthPackages}
                 renderItem={({item}) => {
                   let testPackageData = {
@@ -1136,25 +1145,27 @@ const index = ({navigation}) => {
               <HomeHorizontalList
                 data={testByBodyParts}
                 horizontal={true}
-                onPressSeeAll={({item}) =>
+                onPressSeeAll={({item}) => {
                   navigation.navigate('SearchLab', {
                     bodyPartsCondition: true,
                     testIdBodyParts: Number(item.Id),
-                  })
-                }
+                  });
+                  removeAsyncItem();
+                }}
                 seeAll={false}
                 listTitle={'Test by Body Parts'}
                 extraData={testByBodyParts}
                 renderItem={({item}) => {
                   return (
                     <TestByBodyPartsCard
-                      onPress={() =>
+                      onPress={() => {
                         navigation.navigate('SearchLab', {
                           bodyPartsCondition: true,
 
                           testIdBodyParts: Number(item.Id),
-                        })
-                      }
+                        });
+                        removeAsyncItem();
+                      }}
                       blogs={false}
                       data={item}
                     />
@@ -1171,26 +1182,28 @@ const index = ({navigation}) => {
                 ItemSeparatorComponent={() => {
                   return <View style={styles.listSepVertical} />;
                 }}
-                onPressSeeAll={({item}) =>
+                onPressSeeAll={({item}) => {
                   navigation.navigate('SearchLab', {
                     bodyPartsCondition: true,
                     testIdCondition: Number(item.Id),
-                  })
-                }
+                  });
+                  removeAsyncItem();
+                }}
                 seeAll={false}
                 listTitle={'Test by Condition'}
                 extraData={testByCondition}
                 renderItem={({item}) => {
                   return (
                     <TestByConditionCard
-                      onPress={() =>
+                      onPress={() => {
                         navigation.navigate('SearchLab', {
                           testByConditionType: 'test',
                           // imageType: 'Test',
                           bodyPartsCondition: true,
                           testIdCondition: Number(item.Id),
-                        })
-                      }
+                        });
+                        removeAsyncItem();
+                      }}
                       data={item}
                     />
                   );
@@ -1256,7 +1269,7 @@ const index = ({navigation}) => {
                 onPressSeeAll={() =>
                   navigation.navigate('SeeAllList', {title: 'News & Events'})
                 }
-                // listTitle={'News and Events'}
+                listTitle={'News and Events'}
                 extraData={newsEvent}
                 seeAll={true}
                 renderItem={({item}) => {
