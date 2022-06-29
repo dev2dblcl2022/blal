@@ -5,7 +5,6 @@ import {BoldText, RegularText} from '../Common';
 import styles from './styles';
 
 export const SubmitButton = props => {
-  console.log('props', props);
   return (
     <TouchableOpacity
       disabled={props.disabled}

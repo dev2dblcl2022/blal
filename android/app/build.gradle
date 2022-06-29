@@ -139,8 +139,11 @@ android {
         applicationId "com.blal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "3.0"
+         versionCode 11
+        versionName "3.2"
+            ndk {
+                debugSymbolLevel 'SYMBOL_TABLE'
+            }
     }
     splits {
         abi {
