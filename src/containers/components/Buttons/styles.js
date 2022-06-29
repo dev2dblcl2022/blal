@@ -20,7 +20,13 @@ export default StyleSheet.create({
     backgroundColor: colors.app_theme_light_green,
     height: hp('5%'),
   },
-
+  disabledSubmitButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    backgroundColor: colors.purplishGrey,
+    height: hp('5%'),
+  },
   BackButton: {
     backgroundColor: '#fff',
     height: hp('5%'),

@@ -8,7 +8,8 @@ import axios from 'axios';
 // URL config
 // const DOMAIN = 'ht:tps://lims.blallab.com:443/LISWebAPI/';
 // const DOMAIN = 'https://silverapi.blallab.com/SecureAPI';
-const DOMAIN = 'https://api.blallab.com';
+const DOMAIN = 'https://silverapi.blallab.com';
+// const DOMAIN = 'https://api.blallab.com';
 
 export const API_BASE_URL = DOMAIN;
 
@@ -27,6 +28,10 @@ export const blalServicesPoints = {
     CreateNewMembershipCard: 'CreateNewMembershipCard',
     reports: 'GetMyReports',
     getInvestigationsList: 'GetInvestigationsList',
+    getState: 'GetState',
+    CentrebyGroupId: 'CentrebyGroupId',
+    getCity: 'api/City',
+    getFacility: 'GetFacility',
   },
 };
 // Api call Methods
@@ -53,7 +58,7 @@ const NetworkRequestBlal = async requestConfig => {
     const resToken = await axios.post(
       `${API_BASE_URL}/api/login?UserName=1234&Password=abcd`,
     );
-
+    console.log(resToken.data.Result.AccessToken);
     if (resToken.status === 200) {
       const _data = resToken.data.Result.AccessToken;
       const response = await axios

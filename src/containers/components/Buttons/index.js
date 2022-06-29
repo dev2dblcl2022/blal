@@ -5,10 +5,15 @@ import {BoldText, RegularText} from '../Common';
 import styles from './styles';
 
 export const SubmitButton = props => {
+  console.log('props', props);
   return (
     <TouchableOpacity
+      disabled={props.disabled}
       onPress={props.onPress}
-      style={[styles.SubmitButton, props.style]}>
+      style={[
+        props.disabled ? styles.disabledSubmitButton : styles.SubmitButton,
+        props.style,
+      ]}>
       <BoldText title={props.title} />
     </TouchableOpacity>
   );

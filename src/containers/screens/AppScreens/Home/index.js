@@ -628,11 +628,13 @@ const index = ({navigation}) => {
         CityId: newCityId ? newCityId : cityId,
         Type: 'Package',
       };
+
       const requestConfig = {
         method: blalMethod.post,
         data: data,
         url: `${blalServicesPoints.blalUserServices.packages}?PanelId=${data.PanelId}&CityId=${data.CityId}&Type=${data.Type}`,
       };
+
       const response = await NetworkRequestBlal(requestConfig);
 
       if (response) {

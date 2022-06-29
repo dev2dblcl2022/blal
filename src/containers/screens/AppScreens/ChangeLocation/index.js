@@ -82,7 +82,7 @@ const index = ({navigation}) => {
               marginTop: hp('1%'),
               color: colors.purplishGrey,
             }}
-            title={'Add new Address that you wish to  have'}
+            title={'Add new Address that you wish to have'}
           />
           <View style={{marginTop: hp('2%')}}>
             <ScrollView keyboardShouldPersistTaps="always">

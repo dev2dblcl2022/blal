@@ -31,7 +31,7 @@ import {BoldText, RegularText} from '../../../components/Common';
 import {SubmitButton} from '../../../components/Buttons';
 import colors from '../../../../constants/colors';
 
-const index = ({navigation}) => {
+const index = ({navigation, route}) => {
   const [aState, setAppState] = useState(AppState.currentState);
   const [nearsLabs, setNearLabs] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -240,7 +240,51 @@ const index = ({navigation}) => {
       }
     }
   };
+  const getFilterData = async val => {
+    var data = {
+      id: route.params.id,
+      FacilityId: route.params.FacilityId,
+      StateId: route.params.StateId,
+      lat: latitude,
+      lon: longitude,
+      SearchKeyword: val,
+    };
+    let requestConfig = {};
+    if (!val) {
+      requestConfig = {
+        method: blalMethod.post,
+        data: data,
+        url: `${blalServicesPoints.blalUserServices.CentrebyGroupId}?id=${data.id}&lat=${data.lat}&lon=${data.lon}&StateId=${data.StateId}&FacilityId=${data.FacilityId}`,
+      };
+    } else {
+      requestConfig = {
+        method: blalMethod.post,
+        data: data,
+        url: `${blalServicesPoints.blalUserServices.CentrebyGroupId}?id=${data.id}&lat=${data.lat}&lon=${data.lon}&StateId=${data.StateId}&FacilityId=${data.FacilityId}&SearchKeyword=${data.SearchKeyword}`,
+      };
+    }
 
+    const response = await NetworkRequestBlal(requestConfig);
+
+    if (response) {
+      const {status_Code} = response;
+      if (status_Code === 200) {
+        setNearLabs(response.data);
+        setLoader(false);
+      } else {
+        setLoader(false);
+      }
+    }
+  };
+  useEffect(() => {
+    if (
+      route?.params?.StateId ||
+      route?.params?.id ||
+      route?.params?.FacilityId
+    ) {
+      getFilterData();
+    }
+  }, [route?.params]);
   const setSearchValue = async val => {
     await setSearchText(val);
 
@@ -259,7 +303,7 @@ const index = ({navigation}) => {
         placeholderText={'Search for the nearby labs'}
         value={searchText}
         onPressFilter={() => navigation.navigate('NearByLabFilter')}
-        filterVisible={false}
+        filterVisible={true}
         onChangeText={val => setSearchValue(val)}
         title={'Find Nearby Labs'}
       />

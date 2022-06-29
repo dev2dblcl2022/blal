@@ -18,7 +18,9 @@ import {
 var axios = require('axios');
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import Autocomplete from '@material-ui/lab/Autocomplete';
+// import TextField from '@material-ui/core/TextField';
+// import {MultiSelectDropdown} from 'react-native-multiselect-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DefaultHeader from '../../../components/DefaultHeader';
 import {textConstants} from '../../../../constants/textConstants';
@@ -53,7 +55,8 @@ import {
 } from '../../../../config/Setting';
 import colors from '../../../../constants/colors';
 // test
-
+// import MultiSelect from 'react-multiple-select-dropdown-lite';
+import MultiSelect from 'react-native-multiple-select';
 const orderId = 'ORDERID_98766';
 const merchantId = Pay_tmMerchantId;
 const txnToken = '19d8f9353a83437a9c2c8abb360deaf31638774945508';
@@ -87,13 +90,13 @@ const index = ({navigation, route}) => {
   const [patientsOpens, setPatientsOpens] = useState(false);
   const [patientsValues, setPatientsValues] = useState(null);
   const [dependentPatientsOpen, setDependentPatientsOpen] = useState(false);
-  const [dependentPatientsValues, setDependentPatientsValues] = useState(null);
+  const [dependentPatientsValues, setDependentPatientsValues] = useState([]);
   const [transactionToken, setTransactionToken] = useState('');
   const [allRelation, setAllRelation] = useState([
     {label: 'Apple', value: 'apple'},
     {label: 'Banana', value: 'banana'},
   ]);
-
+  const [patientDependent, setPatientDependent] = useState([]);
   const [validateForm, setValidateForm] = useState({
     name: '',
     nameError: '',
@@ -339,7 +342,7 @@ const index = ({navigation, route}) => {
           TransactionId: transaction_id,
           Amount: membershipCardData.Amount,
           CityId: cityId,
-          DependentId: dependentPatientsValues.toString(),
+          DependentId: dependentPatientsValues.join(','),
         };
       }
 
@@ -443,6 +446,23 @@ const index = ({navigation, route}) => {
     );
   };
 
+  const onSelectedItemsChange = selectedItems => {
+    if (selectedItems.length < 4) {
+      setDependentPatientsValues(selectedItems);
+    } else {
+      Toast('You can not select dependent patient more than 3', 0);
+    }
+  };
+
+  useEffect(() => {
+    const allDependentPatients = allPatients.filter(item => {
+      if (item.value !== patientsValues) {
+        return item;
+      }
+    });
+    setPatientDependent(allDependentPatients);
+  }, [patientsValues]);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <DefaultHeader
@@ -470,6 +490,7 @@ const index = ({navigation, route}) => {
                 placeholder={'Full Name'}
               />
             </View> */}
+
             <View style={styles.dropDownView}>
               <DropDownPicker
                 open={patientsOpens}
@@ -483,14 +504,13 @@ const index = ({navigation, route}) => {
                 setValue={setPatientsValues}
               />
             </View>
-
             {membershipCardData.No_of_dependant >= '2' ? (
               <View
                 style={[
                   styles.dropDownView,
                   {marginTop: patientsOpens ? hp('30%') : 20},
                 ]}>
-                <DropDownPicker
+                {/* <DropDownPicker
                   open={dependentPatientsOpen}
                   placeholder="Select Dependent Patients"
                   value={dependentPatientsValues}
@@ -500,10 +520,44 @@ const index = ({navigation, route}) => {
                   zIndex={3000}
                   setOpen={setDependentPatientsOpen}
                   setValue={setDependentPatientsValues}
+                /> */}
+
+                <MultiSelect
+                  hideTags={false}
+                  items={patientDependent}
+                  uniqueKey="value"
+                  onSelectedItemsChange={onSelectedItemsChange}
+                  selectedItems={dependentPatientsValues}
+                  tagContainerStyle={{
+                    borderColor: colors.purplishGrey,
+                    borderWidth: 1,
+                  }}
+                  styleItemsContainer={{
+                    borderColor: colors.purplishGrey,
+                    borderWidth: 1,
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10,
+                  }}
+                  styleInputGroup={{
+                    borderWidth: 1,
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                  }}
+                  selectText="Select Dependent Patients"
+                  searchInputPlaceholderText="Select Dependent Patients"
+                  zIndex={3000}
+                  altFontFamily="ProximaNova-Light"
+                  tagBorderColor="#CCC"
+                  tagTextColor="#000"
+                  itemTextColor="#000"
+                  onChangeInput={text => console.log(text)}
+                  displayKey="label"
+                  checkBoxCheckedColor="black"
+                  hideSubmitButton={true}
+                  hideDropdown={true}
                 />
               </View>
             ) : null}
-
             {/* 
             <TouchableOpacity
               onPress={() => navigation.navigate('AddFamilyMember')}
