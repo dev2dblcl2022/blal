@@ -693,8 +693,8 @@ const index = ({navigation, props}) => {
         onBack={() => navigation.goBack()}
         title={'Booking Details'}
       />
+   <ScrollView contentContainerStyle={{flexGrow: 1}}>
       <View style={styles.mainContainer}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.selfSection}>
             {/* <View style={styles.rowHeader}>
               <View style={styles.headerNameSection}>
@@ -893,7 +893,7 @@ const index = ({navigation, props}) => {
                   //   />
 
                   // </View>
-                  <View style={[styles.tabsContainer, {height: hp('30%')}]}>
+                  <View style={[styles.tabsContainer, {height: hp('27%')}]}>
                     {/* <TabView
                      navigationState={{index, routes}}
                      renderScene={renderScene}
@@ -979,7 +979,6 @@ const index = ({navigation, props}) => {
               </View>
             )}
           </View>
-        </ScrollView>
         {!selectedType ? (
           <View style={{padding: hp('2%')}}>
             <SubmitButton
@@ -1002,6 +1001,7 @@ const index = ({navigation, props}) => {
         ) : null}
         <Loader display={loader} />
       </View>
+    </ScrollView>
     </SafeAreaView>
   );
 };

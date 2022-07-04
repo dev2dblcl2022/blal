@@ -142,6 +142,28 @@ const index1 = ({navigation, route}) => {
     }
   }, [patientValues, timeValues, statusValue]);
 
+// const getGroupedBookingData = async (finalBookingList) => {
+//   try {
+//     let groupedBookingData = []
+//   let uniqueBookings=[];
+//   finalBookingList.map(item => {
+//     if(!uniqueBookings.includes(item.unique_booking_id)){
+//       uniqueBookings.push(item.unique_booking_id);
+//       groupedBookingData.push({
+//         "unique_booking_id": item.unique_booking_id,
+//         "data" : [item]
+//       })
+//     }else{
+//     let index = groupedBookingData.findIndex(data => data.unique_booking_id === item.unique_booking_id)
+//       groupedBookingData[index].data.push(item);
+//   }
+//   });
+//   return groupedBookingData;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+
   const getAllBookingsStarting = async val => {
     setLoader(true);
 
@@ -166,8 +188,22 @@ const index1 = ({navigation, route}) => {
             });
             return booking;
           });
-
-          setBookings(finalBookingList);
+        //  const bookingData = getGroupedBookingData(finalBookingList)
+          let newData = []
+  let uniqueBookings=[];
+  finalBookingList.map(item => {
+    if(!uniqueBookings.includes(item.unique_booking_id)){
+      uniqueBookings.push(item.unique_booking_id);
+      newData.push({
+        "unique_booking_id": item.unique_booking_id,
+        "data" : [item]
+      })
+    }else{
+     let index = newData.findIndex(data => data.unique_booking_id === item.unique_booking_id)
+      newData[index].data.push(item);
+  }
+  });
+          setBookings(newData);
           setLoader(false);
           getMyFamilyMembers();
 
@@ -212,7 +248,7 @@ const index1 = ({navigation, route}) => {
     const arr = [];
     bookingData.map(_data => {
       _data.bookingAmount = (
-        parseInt(_data.total_member_amount) +
+        parseInt(_data.total_amount) +
         (parseInt(_data.pickup_charge) || 0)
       ).toFixed(2);
       // if (!arr.includes(_data.booking_hash)) {
@@ -244,7 +280,21 @@ const index1 = ({navigation, route}) => {
         const {success} = response;
         if (success) {
           const bookingNewData = refectorBookingData(response?.data?.docs);
-          setBookings(bookingNewData);
+          let newData = []
+          let uniqueBookings=[];
+          bookingNewData.map(item => {
+            if(!uniqueBookings.includes(item.unique_booking_id)){
+              uniqueBookings.push(item.unique_booking_id);
+              newData.push({
+                "unique_booking_id": item.unique_booking_id,
+                "data" : [item]
+              })
+            }else{
+             let index = newData.findIndex(data => data.unique_booking_id === item.unique_booking_id)
+              newData[index].data.push(item);
+          }
+          });
+          setBookings(newData);
           setRefreshing(false);
           getMyFamilyMembers();
         } else {
@@ -683,19 +733,19 @@ const index1 = ({navigation, route}) => {
                 renderItem={({item, index}) => {
                   return (
                     <MyBookingCard
-                      onCancelBooking={() => cancelBooking(item)}
+                      onCancelBooking={() => cancelBooking(item.data[0])}
                       index={index}
                       onViewMore={() =>
                         navigation.navigate('MyBookingDetail', {
                           screen: 'MyBookingTab',
-                          myBookingData: item,
+                          myBookingData: item.data[0],
                         })
                       }
-                      onPrescriptionPay={() => onInitiateTransaction(item)}
+                      onPrescriptionPay={() => onInitiateTransaction(item.data[0])}
                       onPressRate={() =>
-                        navigation.navigate('Rating', {myBookingData: item})
+                        navigation.navigate('Rating', {myBookingData: item.data[0]})
                       }
-                      data={item}
+                      data={item.data[0]}
                     />
                   );
                 }}
