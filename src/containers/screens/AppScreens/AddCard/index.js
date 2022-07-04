@@ -49,18 +49,19 @@ import NetworkRequestBlal, {
 } from '../../../../services/NetworkRequestBlal';
 import AllInOneSDKManager from 'paytm_allinone_react-native';
 import {
-  Api_Live_Url,
   Hash_Id_Membership_Card_Purchase,
   Pay_tmMerchantId,
 } from '../../../../config/Setting';
+
 import colors from '../../../../constants/colors';
 // test
 // import MultiSelect from 'react-multiple-select-dropdown-lite';
 import MultiSelect from 'react-native-multiple-select';
+import {getRelease} from '../../../../env';
 const orderId = 'ORDERID_98766';
 const merchantId = Pay_tmMerchantId;
 const txnToken = '19d8f9353a83437a9c2c8abb360deaf31638774945508';
-
+const releaseEnvironment = getRelease();
 const index = ({navigation, route}) => {
   let membershipCardData = route.params.data;
 
@@ -154,13 +155,18 @@ const index = ({navigation, route}) => {
         data: data,
       };
       const response = await NetworkRequest(requestConfig);
+
       if (response) {
         const {success} = response;
         if (success) {
           let test = response.data;
           let newData = [];
           test.map(item => {
-            newData.push({label: item.fullname, value: item.uhid});
+            newData.push({
+              label: item.fullname,
+              value: item.uhid,
+              age: item.age,
+            });
             // return {label: item.fullname, value: item.id};
           });
           setAllPatients(newData);
@@ -270,7 +276,7 @@ const index = ({navigation, route}) => {
         membershipCardData.Amount.toString(), //Total Amount
         // 'https://www.npmjs.com/package/paytm_allinone_react-native',
 
-        `${Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderId}`,
+        `${releaseEnvironment.Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderId}`,
         false,
         false,
         `${'paytm'}${merchantId}`,
@@ -290,7 +296,7 @@ const index = ({navigation, route}) => {
         membershipCardData.Amount.toString(), //Total Amount
         // '1', //Total Amount
         // 'https://www.npmjs.com/package/paytm_allinone_react-native',
-        `${Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderId}`,
+        `${releaseEnvironment.Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderId}`,
         false,
         false,
         `${'paytm'}${merchantId}`,
@@ -462,6 +468,11 @@ const index = ({navigation, route}) => {
     });
     setPatientDependent(allDependentPatients);
   }, [patientsValues]);
+  const seniorPatient = allPatients.filter(item => {
+    if (item.age >= '60 Years') {
+      return item;
+    }
+  });
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -492,17 +503,31 @@ const index = ({navigation, route}) => {
             </View> */}
 
             <View style={styles.dropDownView}>
-              <DropDownPicker
-                open={patientsOpens}
-                placeholder="Select Patients"
-                value={patientsValues}
-                listChildContainerStyle={{position: 'absolute'}}
-                style={{borderColor: colors.purplishGrey, borderWidth: 1}}
-                items={allPatients}
-                zIndex={3000}
-                setOpen={setPatientsOpens}
-                setValue={setPatientsValues}
-              />
+              {membershipCardData.NAME === 'SENIOR CITIZEN CARE CARD' ? (
+                <DropDownPicker
+                  open={patientsOpens}
+                  placeholder="Select Patients"
+                  value={patientsValues}
+                  listChildContainerStyle={{position: 'absolute'}}
+                  style={{borderColor: colors.purplishGrey, borderWidth: 1}}
+                  items={seniorPatient}
+                  zIndex={3000}
+                  setOpen={setPatientsOpens}
+                  setValue={setPatientsValues}
+                />
+              ) : (
+                <DropDownPicker
+                  open={patientsOpens}
+                  placeholder="Select Patients"
+                  value={patientsValues}
+                  listChildContainerStyle={{position: 'absolute'}}
+                  style={{borderColor: colors.purplishGrey, borderWidth: 1}}
+                  items={allPatients}
+                  zIndex={3000}
+                  setOpen={setPatientsOpens}
+                  setValue={setPatientsValues}
+                />
+              )}
             </View>
             {membershipCardData.No_of_dependant >= '2' ? (
               <View

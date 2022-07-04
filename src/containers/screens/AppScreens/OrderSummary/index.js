@@ -35,15 +35,11 @@ import NetworkRequest, {
   servicesPoints,
 } from '../../../../services/NetworkRequest';
 import {AuthContext} from '../../../../../context/context';
-import {
-  Api_Live_Url,
-  Api_Local_Url,
-  Date_Format,
-  Pay_tmMerchantId,
-} from '../../../../config/Setting';
+import {Date_Format, Pay_tmMerchantId} from '../../../../config/Setting';
 import axios from 'axios';
 
 import {useNavigation} from '@react-navigation/native';
+import {getRelease} from '../../../../env';
 const orderId = 'ORDERID_98766';
 const merchantId = Pay_tmMerchantId;
 const txnToken = '19d8f9353a83437a9c2c8abb360deaf31638774945508';
@@ -102,6 +98,7 @@ const index = ({navigation, route}) => {
   const [sub_Total, set_SubTotal] = useState('');
   const [totalAmountCart, setTotalAmountCart] = useState('');
   const [handleConnectionState, setHandleConnectionState] = useState(false);
+  const releaseEnvironment = getRelease();
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -614,7 +611,7 @@ const index = ({navigation, route}) => {
         token, // Txn token provided by backend
         finalAmount.toString(), //Total Amount
 
-        `${Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
+        `${releaseEnvironment.Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
         false,
 
         false,
@@ -637,7 +634,7 @@ const index = ({navigation, route}) => {
         token,
         finalAmount.toString(),
         // 'https://www.npmjs.com/package/paytm_allinone_react-native',
-        `${Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
+        `${releaseEnvironment.Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
         false,
         false,
         `${'paytm'}${merchantId}`,

@@ -30,8 +30,9 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import {Api_Local_Url, SiteUrl} from '../config/Setting';
 
+import {getRelease} from '../env';
+const releaseEnvironment = getRelease();
 function parseError(messages) {
   // error
   // console.log('message',messages)
@@ -65,7 +66,7 @@ function parseBody(response) {
  */
 
 let instance = axios.create({
-  baseURL: Api_Local_Url,
+  baseURL: releaseEnvironment.Api_Local_Url,
   paramsSerializer: function (params) {
     return qs.stringify(params, {indices: false});
   },

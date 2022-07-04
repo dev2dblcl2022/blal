@@ -70,13 +70,28 @@ const index = ({navigation, route, props}) => {
   //     RNOtpVerify.removeListener();
   //   };
   // }, []);
+  // useEffect(() => {
+  //   RNOtpVerify.getHash().then(console.log).catch(console.log);
+  //   RNOtpVerify.getOtp()
+  //     .then(p => RNOtpVerify.addListener(otpHandler))
+  //     .catch(p => console.log(p));
+  //   return () => RNOtpVerify.removeListener();
+  // }, []);
+  // const otpHandler = () => {
+  //   const getOtp = /\d+/g;
+  //   console.log('egetete', getOtp);
+  //   setOtp(getOtp);
+  //   console.log('getOtp', otp);
+  //   RNOtpVerify.removeListener();
+  //   Keyboard.dismiss();
+  // };
   // const otpHandler = message => {
   //   const regex = /\d+/g;
   //   console.log('message', message);
   //   const lOtp = message.match(regex); // creates array from matches
   //   // const lOtp = message[1];
   //   console.log(lOtp);
-  //   setOtp(parseInt(lOtp[0]));
+  //   setOtp(lOtp);
   //   RNOtpVerify.removeListener();
   //   Keyboard.dismiss();
   // };
@@ -254,7 +269,7 @@ const index = ({navigation, route, props}) => {
             style={styles.otpInputView}
             pinCount={6}
             keyboardType={'number-pad'}
-            // code={otp}
+            // code={otp ? otp : ''}
             // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
             onCodeChanged={text => onChangeText('otp', text, 'required')}
             autoFocusOnLoad

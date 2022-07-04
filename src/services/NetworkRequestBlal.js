@@ -1,17 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-// import {store} from '../Redux/Store';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {AuthAction, ProfileAction} from '../Redux/Action/AuthAction';
-// import {PROFILE_SETUP, TOKEN} from '../Redux/ActionConstant/AuthConstant';
+import {getRelease} from '../env';
 
-// URL config
-// const DOMAIN = 'ht:tps://lims.blallab.com:443/LISWebAPI/';
-// const DOMAIN = 'https://silverapi.blallab.com/SecureAPI';
-const DOMAIN = 'https://silverapi.blallab.com';
-// const DOMAIN = 'https://api.blallab.com';
-
-export const API_BASE_URL = DOMAIN;
+const releaseEnvironment = getRelease();
+export const API_BASE_URL = releaseEnvironment.DOMAIN;
 
 // services points config
 export const blalServicesPoints = {
@@ -58,7 +50,7 @@ const NetworkRequestBlal = async requestConfig => {
     const resToken = await axios.post(
       `${API_BASE_URL}/api/login?UserName=1234&Password=abcd`,
     );
-    console.log(resToken.data.Result.AccessToken);
+
     if (resToken.status === 200) {
       const _data = resToken.data.Result.AccessToken;
       const response = await axios

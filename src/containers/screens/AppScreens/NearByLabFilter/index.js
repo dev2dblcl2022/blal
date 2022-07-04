@@ -42,14 +42,10 @@ const index = ({navigation, route}) => {
   const [getState, setGetState] = useState([]);
   const [getCity, setGetCity] = useState([]);
   const [getFacility, setGetFacility] = useState([]);
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
   const onResetFilter = async () => {
-    // setDateStart('Start Date');
-    // setDateEnd('End Date');
-    await AsyncStorage.removeItem('startDate');
-    await AsyncStorage.removeItem('endDate');
-    navigation.pop();
+    setSatateValues('');
+    setCityValues('');
+    setFacilityValue('');
   };
 
   useEffect(() => {
@@ -73,32 +69,7 @@ const index = ({navigation, route}) => {
 
   //   navigation.goBack();
   // };
-  const success = pos => {
-    const crd = pos.coords;
 
-    setLatitude(crd.latitude);
-    setLongitude(crd.longitude);
-  };
-  const error = err => {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
-  };
-  async function getCurrentLocation() {
-    request(
-      Platform.select({
-        android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-        ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
-      }),
-    ).then(response => {
-      if (response === 'granted') {
-        Geolocation.getCurrentPosition(success, error, {
-          showLocationDialog: true,
-          enableHighAccuracy: true,
-          timeout: 20000,
-          maximumAge: 0,
-        });
-      }
-    });
-  }
   const fetchState = async () => {
     const requestConfig = {
       method: blalMethod.post,
@@ -153,15 +124,11 @@ const index = ({navigation, route}) => {
   useEffect(() => {
     fetchState();
   }, []);
-  // useEffect(() => {
-  //   fetchCity();
-  // }, []);
+
   useEffect(() => {
     fetchFacility();
   }, []);
-  useEffect(() => {
-    getCurrentLocation();
-  }, []);
+
   useEffect(() => {
     if (stateValues) {
       fetchCity();

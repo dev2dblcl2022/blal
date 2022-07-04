@@ -44,7 +44,7 @@ import {
   RESULTS,
 } from 'react-native-permissions';
 import axios from 'axios';
-import {Api_Live_Url, Date_Format} from '../../../../config/Setting';
+import {Date_Format} from '../../../../config/Setting';
 
 // test
 let age = 'Age';

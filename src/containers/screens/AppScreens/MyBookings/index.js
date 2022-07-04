@@ -38,7 +38,9 @@ import {useNavigation} from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import imagesConstants from '../../../../constants/imagesConstants';
 import {AuthContext} from '../../../../../context/context';
-import {Api_Live_Url, Pay_tmMerchantId} from '../../../../config/Setting';
+import {Pay_tmMerchantId} from '../../../../config/Setting';
+import {getRelease} from '../../../../env';
+
 const merchantId = Pay_tmMerchantId;
 const index1 = ({navigation, route}) => {
   const screen = route?.params?.screen;
@@ -81,6 +83,7 @@ const index1 = ({navigation, route}) => {
     {label: 'Yearly', value: '4'},
   ]);
   const [handleConnectionState, setHandleConnectionState] = useState(false);
+  const releaseEnvironment = getRelease();
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -394,7 +397,7 @@ const index1 = ({navigation, route}) => {
         data.final_amount, //Total Amount
         // 'https://www.npmjs.com/package/paytm_allinone_react-native',
 
-        `${Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
+        `${releaseEnvironment.Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
         false,
         false,
       )
@@ -413,7 +416,7 @@ const index1 = ({navigation, route}) => {
         // '1',
         data.final_amount,
         // 'https://www.npmjs.com/package/paytm_allinone_react-native',
-        `${Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
+        `${releaseEnvironment.Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
         false,
         false,
       )

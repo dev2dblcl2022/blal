@@ -34,8 +34,8 @@ import moment from 'moment';
 import {Date_Format} from '../../../../config/Setting';
 import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getProductionReportURL, getSilverapiURL} from '../../../../apis/env';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import {getRelease} from '../../../../env';
 const index = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const {signOut, signIn} = React.useContext(AuthContext);
@@ -288,11 +288,11 @@ const index = ({navigation}) => {
   };
 
   const onOpenPdfFile = reportsIds => {
-    const fileUrl = getProductionReportURL(
+    const fileUrl = getRelease(
       `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
     );
     navigation.navigate('PrescriptionViewer', {
-      url: fileUrl,
+      url: fileUrl.reportUrl,
       screenName: 'Report',
     });
   };
@@ -367,7 +367,7 @@ const index = ({navigation}) => {
     // const fileUrl = getStagingReportURL(
     //   `/Design/Finanace/SarojBothReceiptReport.aspx?LedgerTransactionNo=${mainReportItem.LedgerTransactionNo}&TYPE=LAB`,
     // );
-    const fileUrl = getProductionReportURL(
+    const fileUrl = getRelease(
       `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${
         mainReportItem.LedgerTransactionNo
       }&Status=0&TYPE=${
@@ -375,7 +375,7 @@ const index = ({navigation}) => {
       }`,
     );
 
-    checkPermission(fileUrl, 'Invoice', '');
+    checkPermission(fileUrl.reportUrl, 'Invoice', '');
   };
   const downloadReport = item => {
     if (selectAll) {
@@ -400,11 +400,11 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-    const fileUrl = getProductionReportURL(
+    const fileUrl = getRelease(
       `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
     );
 
-    checkPermission(fileUrl, 'Report');
+    checkPermission(fileUrl.reportUrl, 'Report');
   };
 
   const onDownloadSelectedReports = item => {
@@ -425,11 +425,11 @@ const index = ({navigation}) => {
       ids.push(item.id);
     });
     let reportsIds = ids.join(',');
-    const fileUrl = getProductionReportURL(
+    const fileUrl = getRelease(
       `/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${reportsIds}`,
     );
 
-    checkPermission(fileUrl, 'Report');
+    checkPermission(fileUrl.reportUrl, 'Report');
     // data.map(item => {
     //   const fileUrl = `https://lims.blallab.com/blal/Design/Lab/LabReportNew.aspx?PHead=1&TestID=${item.id}`;
     //   checkPermission(fileUrl, 'Report');

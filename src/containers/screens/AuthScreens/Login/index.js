@@ -40,7 +40,7 @@ const index = ({navigation}) => {
       navigation.navigate('ConnectionHandle');
     }
   }, [handleConnectionState]);
-  console.log('handleConnectionState', handleConnectionState);
+
   const {
     control,
     handleSubmit,

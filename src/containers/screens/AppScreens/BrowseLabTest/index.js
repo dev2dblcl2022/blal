@@ -247,7 +247,7 @@ const index = ({navigation, route}) => {
 
         url: url,
       };
-      console.log('requestConfigrequestConfig', requestConfig);
+
       const response = await NetworkRequestBlal(requestConfig);
 
       if (response) {

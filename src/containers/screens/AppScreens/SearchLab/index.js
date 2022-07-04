@@ -455,7 +455,7 @@ const index = ({navigation, route}) => {
         data: data,
         url: url,
       };
-      console.log(requestConfig, 'requestConfig');
+
       const response = await NetworkRequestBlal(requestConfig);
 
       if (response) {
@@ -558,12 +558,13 @@ const index = ({navigation, route}) => {
 
     return (
       <SearchLabCard
-        onPress={() =>
+        onPress={() => {
+          console.log('heelo');
           navigation.navigate('FullBodyCheckup', {
             testPackageData: testPackageData,
             comeFromMyCart: false,
-          })
-        }
+          });
+        }}
         data={item}
         imageType={imageType}
       />

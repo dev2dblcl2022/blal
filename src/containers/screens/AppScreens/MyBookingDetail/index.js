@@ -42,7 +42,7 @@ import colors from '../../../../constants/colors';
 import {CancelButton} from '../../../components/Buttons';
 import {AuthContext} from '../../../../../context/context';
 import PDFView from 'react-native-view-pdf';
-import {getProductionReportURL} from '../../../../apis/env';
+import {getRelease} from '../../../../env';
 let resources = {
   file:
     Platform.OS === 'ios'
@@ -262,11 +262,11 @@ const index = ({navigation, route}) => {
     const testType = bookingDetailData?.booking_member_tests?.map(test => {
       return test.test_type === 'Package' ? 'PACKAGE' : 'LAB';
     });
-    const fileUrl = await getProductionReportURL(
+    const fileUrl = await getRelease(
       `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=${testType}`,
     );
 
-    checkPermission(fileUrl);
+    checkPermission(fileUrl.reportUrl);
   };
 
   const checkPermissionFileOpen = async url => {

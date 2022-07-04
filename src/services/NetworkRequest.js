@@ -1,12 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-
-import {Api_Live_Url, Api_Local_Url} from '../config/Setting';
+import {getRelease} from '../env';
 
 // URL config
-const DOMAIN = Api_Live_Url;
-
-export const API_BASE_URL = DOMAIN;
+const releaseEnvironment = getRelease();
+export const API_BASE_URL = releaseEnvironment.Api_Live_Url;
 
 // services points config
 export const servicesPoints = {
@@ -105,6 +103,7 @@ async function NetworkRequest(requestConfig) {
   try {
     const token = await AsyncStorage.getItem('userToken');
     apiClient.defaults.headers.common.Authorization = token;
+
     const response = await apiClient.request(requestConfig);
 
     if (response) {

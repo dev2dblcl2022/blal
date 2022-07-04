@@ -50,7 +50,7 @@ import {useNavigation} from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import imagesConstants from '../../../../constants/imagesConstants';
 import {AuthContext} from '../../../../../context/context';
-import {Api_Live_Url, Pay_tmMerchantId} from '../../../../config/Setting';
+import {Pay_tmMerchantId} from '../../../../config/Setting';
 const merchantId = Pay_tmMerchantId;
 const index = ({navigation, route}) => {
   const screen = route?.params?.screen;
