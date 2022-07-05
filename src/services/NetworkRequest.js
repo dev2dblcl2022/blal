@@ -48,6 +48,7 @@ export const servicesPoints = {
     cartCount: 'bookings/api/my_cart_count',
     myreports: 'bookings/api/myreports',
     cancelBooking: 'bookings/api/cancelled_booking',
+    cancelFullCheckout: 'bookings/api/cancelled_checkout_booking',
     booking_time_slots: 'bookings/api/booking_time_slots',
 
     myNotifications: 'bookings/api/my_notifications',

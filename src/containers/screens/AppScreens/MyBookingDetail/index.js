@@ -92,12 +92,12 @@ const index = ({navigation, route}) => {
     try {
       let data = {
         task_id: myBookingData.task_id,
-        booking_id: myBookingData.id,
+        bookingId: myBookingData.unique_booking_id,
       };
       const requestConfig = {
         method: method.post,
         data: data,
-        url: `${servicesPoints.bookingServices.cancelBooking}`,
+        url: `${servicesPoints.bookingServices.cancelFullCheckout}`,
       };
 
       const response = await NetworkRequest(requestConfig);
@@ -399,20 +399,20 @@ const index = ({navigation, route}) => {
                       <BoldText
                         style={styles.successText}
                         title={
-                          bookingDetailData.status === 'Confirmed'
+                          myBookingData[0].status === 'Confirmed'
                             ? 'Booking Confirmed'
-                            : bookingDetailData.status === 'Accepted'
+                            : myBookingData[0].status === 'Accepted'
                             ? 'Booking Pro Accepted'
-                            : bookingDetailData.status === 'Started' ||
-                              bookingDetailData.status === 'Arrived'
+                            : myBookingData[0].status === 'Started' ||
+                              myBookingData[0].status === 'Arrived'
                             ? 'Booking Pro Started'
-                            : bookingDetailData.status === 'Successful'
+                            : myBookingData[0].status === 'Successful'
                             ? 'Booking Successful'
-                            : bookingDetailData.status === 'Registered'
+                            : myBookingData[0].status === 'Registered'
                             ? 'Booking Registered'
-                            : bookingDetailData.status === 'Cancelled'
+                            : myBookingData[0].status === 'Cancelled'
                             ? 'Booking Cancelled'
-                            : bookingDetailData.status === 'Upcoming'
+                            : myBookingData[0].status === 'Upcoming'
                             ? 'Booking Upcoming'
                             : 'Booking Report Approved'
                         }
@@ -424,24 +424,24 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
-                {bookingDetailData.collection_type === 'Home' ? (
+                {myBookingData[0].collection_type === 'Home' ? (
                   <View style={styles.bookingStatus}>
                     <Image
                       style={styles.statusImage}
                       source={
-                        bookingDetailData.status === 'Confirmed'
+                        myBookingData[0].status === 'Confirmed'
                           ? imagesConstants.bookingConfirmed
-                          : bookingDetailData.status === 'Accepted'
+                          : myBookingData[0].status === 'Accepted'
                           ? imagesConstants.proAssign
-                          : bookingDetailData.status === 'Started' ||
-                            bookingDetailData.status === 'Arrived'
+                          : myBookingData[0].status === 'Started' ||
+                            myBookingData[0].status === 'Arrived'
                           ? imagesConstants.started
-                          : bookingDetailData.status === 'Successful'
+                          : myBookingData[0].status === 'Successful'
                           ? imagesConstants.collectionDone
-                          : bookingDetailData.status === 'Batch Received' ||
-                            bookingDetailData.status === 'Registered'
+                          : myBookingData[0].status === 'Batch Received' ||
+                            myBookingData[0].status === 'Registered'
                           ? imagesConstants.sampleAtLab
-                          : bookingDetailData.status === 'Approved'
+                          : myBookingData[0].status === 'Approved'
                           ? imagesConstants.reportApproved
                           : imagesConstants.bookingConfirmed
                       }
@@ -451,7 +451,7 @@ const index = ({navigation, route}) => {
                         <LightText
                           style={styles.bookingConfirmedText}
                           title={
-                            bookingDetailData.status === 'Cancelled'
+                            myBookingData[0].status === 'Cancelled'
                               ? 'Booking Cancelled'
                               : 'Booking Confirmed'
                           }
@@ -1034,11 +1034,11 @@ const index = ({navigation, route}) => {
                     </View>
                   ) : null}
 
-                {bookingDetailData.collection_type === 'Home' ? (
+                {myBookingData[0].collection_type === 'Home' ? (
                   <View>
-                    {bookingDetailData.status === 'Accepted' ||
-                    bookingDetailData.status === 'Started' ||
-                    bookingDetailData.status === 'Successful' ? (
+                    {myBookingData[0].status === 'Accepted' ||
+                    myBookingData[0].status === 'Started' ||
+                    myBookingData[0].status === 'Successful' ? (
                       <View style={styles.PROSection}>
                         <View style={styles.BookingCard}>
                           <View
@@ -1069,10 +1069,10 @@ const index = ({navigation, route}) => {
                                       borderRadius: hp('2.5%'),
                                     }}
                                     source={{
-                                      uri: bookingDetailData?.fleet_image?.includes(
+                                      uri: myBookingData[0]?.fleet_image?.includes(
                                         'https',
                                       )
-                                        ? bookingDetailData?.fleet_image
+                                        ? myBookingData[0]?.fleet_image
                                         : 'https://tookan.s3.amazonaws.com/fleet_profile/user.png',
                                     }}
                                   />
@@ -1100,7 +1100,7 @@ const index = ({navigation, route}) => {
                                 }}>
                                 <TouchableOpacity
                                   onPress={() =>
-                                    dialCall(bookingDetailData.fleet_phone)
+                                    dialCall(myBookingData[0].fleet_phone)
                                   }
                                   style={{
                                     justifyContent: 'center',
@@ -1112,12 +1112,12 @@ const index = ({navigation, route}) => {
                                     title={'Call'}
                                   />
                                 </TouchableOpacity>
-                                {bookingDetailData.status === 'Accepted' ||
-                                bookingDetailData.status === 'Started' ? (
+                                {myBookingData[0].status === 'Accepted' ||
+                                myBookingData[0].status === 'Started' ? (
                                   <TouchableOpacity
                                     onPress={() =>
                                       navigation.navigate('TrackProScreen', {
-                                        url: bookingDetailData.full_tracking_link,
+                                        url: myBookingData[0].full_tracking_link,
                                       })
                                     }
                                     style={{
@@ -1139,9 +1139,9 @@ const index = ({navigation, route}) => {
                     ) : null}
                   </View>
                 ) : null}
-                {bookingDetailData.collection_type === 'Home' ? (
+                {myBookingData[0].collection_type === 'Home' ? (
                   <View>
-                    {bookingDetailData.status === 'Confirmed' ? (
+                    {myBookingData[0].status === 'Confirmed' ? (
                       <View style={styles.PROSection}>
                         <View style={styles.BookingCard}>
                           <View
@@ -1176,7 +1176,7 @@ const index = ({navigation, route}) => {
                     ) : null}
                   </View>
                 ) : null}
-                {bookingDetailData.collection_type === 'Lab' ? (
+                {myBookingData[0].collection_type === 'Lab' ? (
                   <View style={styles.PROSection}>
                     <View style={styles.BookingCard}>
                       <View
@@ -1209,7 +1209,7 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 ) : null}
-                {bookingDetailData.prescriptions_id ? (
+                {myBookingData[0].prescriptions_id ? (
                   <View style={[styles.uploadedPrescription]}>
                     <View style={styles.BookingCard}>
                       <View style={styles.uploadBookingCard}>
@@ -1224,9 +1224,9 @@ const index = ({navigation, route}) => {
                         <View style={{marginTop: 20}}>
                           <FlatList
                             horizontal
-                            data={bookingDetailData.prescription_attachments}
+                            data={myBookingData[0].prescription_attachments}
                             extraData={
-                              bookingDetailData.prescription_attachments
+                              myBookingData[0].prescription_attachments
                             }
                             renderItem={({item}) => {
                               return (
@@ -1277,7 +1277,7 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 ) : null}
-                {bookingDetailData.collection_type === 'Home' ? (
+                {myBookingData[0].collection_type === 'Home' ? (
                   <View style={styles.pickupAddress}>
                     <RegularText
                       style={styles.pickupAddLabel}
@@ -1291,23 +1291,23 @@ const index = ({navigation, route}) => {
                               <Image
                                 style={styles.profilePic}
                                 source={
-                                  bookingDetailData.address_type === 'Home'
+                                  myBookingData[0].address_type === 'Home'
                                     ? imagesConstants.house
-                                    : bookingDetailData === 'Office'
+                                    : myBookingData[0] === 'Office'
                                     ? imagesConstants.office
                                     : imagesConstants.other
                                 }
                               />
                             </View>
 
-                            {bookingDetailData.address_type ? (
+                            {myBookingData[0].address_type ? (
                               <RegularText
                                 style={{
                                   marginTop: hp('1%'),
                                   color: colors.app_theme_light_green,
                                   fontSize: hp('1.8%'),
                                 }}
-                                title={bookingDetailData.address_type}
+                                title={myBookingData[0].address_type}
                               />
                             ) : null}
                           </View>
@@ -1315,19 +1315,19 @@ const index = ({navigation, route}) => {
                             <View>
                               <RegularText
                                 style={styles.addNameText}
-                                title={bookingDetailData?.address_name}
+                                title={myBookingData[0]?.address_name}
                               />
 
                               <RegularText
                                 style={[
                                   styles.addressText,
                                   {
-                                    marginTop: bookingDetailData?.address_name
+                                    marginTop: myBookingData[0]?.address_name
                                       ? hp('1.6%')
                                       : 0,
                                   },
                                 ]}
-                                title={bookingDetailData.address_id}
+                                title={myBookingData[0].address_id}
                               />
                             </View>
                           </View>
@@ -1347,8 +1347,8 @@ const index = ({navigation, route}) => {
                         <RegularText
                           style={styles.paidText}
                           title={
-                            bookingDetailData.payment_mode === 'Online'
-                              ? `Paid (${bookingDetailData.payment_mode})`
+                            myBookingData[0].payment_mode === 'Online'
+                              ? `Paid (${myBookingData[0].payment_mode})`
                               : 'Amount'
                           }
                         />
@@ -1377,7 +1377,7 @@ const index = ({navigation, route}) => {
                         />
                         )
                       </View> */}
-                      {Number(bookingDetailData.total_member_discounted) ? (
+                      {Number(myBookingData[0].total_member_discounted) ? (
                         <View style={styles.testPriceSection}>
                           <RegularText
                             style={styles.testPrice}
@@ -1386,13 +1386,13 @@ const index = ({navigation, route}) => {
                           <RegularText
                             style={styles.rateText}
                             title={`(-) ${'\u20B9'} ${
-                              bookingDetailData.total_member_discounted
+                              myBookingData[0].total_member_discounted
                             }`}
                           />
                         </View>
                       ) : null}
 
-                      {Number(bookingDetailData.pickup_charge) ? (
+                      {Number(myBookingData[0].pickup_charge) ? (
                         <View style={styles.testPriceSection}>
                           <RegularText
                             style={styles.testPrice}
@@ -1401,7 +1401,7 @@ const index = ({navigation, route}) => {
                           <RegularText
                             style={styles.rateText}
                             title={`(+) ${'\u20B9'} ${
-                              bookingDetailData.pickup_charge
+                              myBookingData[0].pickup_charge
                             }`}
                           />
                         </View>
@@ -1415,12 +1415,12 @@ const index = ({navigation, route}) => {
                           style={styles.rateText}
                           title={`${'\u20B9'} ${
                             parseFloat(myBookingData[0].total_amount) +
-                            (bookingDetailData.pickup_charge
-                              ? parseFloat(bookingDetailData.pickup_charge)
+                            (myBookingData[0].pickup_charge
+                              ? parseFloat(myBookingData[0].pickup_charge)
                               : 0) -
-                            (bookingDetailData.total_member_discounted
+                            (myBookingData[0].total_member_discounted
                               ? parseFloat(
-                                  bookingDetailData.total_member_discounted,
+                                myBookingData[0].total_member_discounted,
                                 )
                               : 0)
                           }`}
@@ -1430,7 +1430,7 @@ const index = ({navigation, route}) => {
                         <BoldText
                           style={styles.payableText}
                           title={`Total (${
-                            bookingDetailData.payment_mode === 'Online'
+                            myBookingData[0].payment_mode === 'Online'
                               ? 'Paid'
                               : 'You Need to Pay'
                           })`}
@@ -1439,12 +1439,12 @@ const index = ({navigation, route}) => {
                           style={styles.payableText}
                           title={`${'\u20B9'} ${
                             parseFloat(myBookingData[0].total_amount) +
-                            (bookingDetailData.pickup_charge
-                              ? parseFloat(bookingDetailData.pickup_charge)
+                            (myBookingData[0].pickup_charge
+                              ? parseFloat(myBookingData[0].pickup_charge)
                               : 0) -
-                            (bookingDetailData.total_member_discounted
+                            (myBookingData[0].total_member_discounted
                               ? parseFloat(
-                                  bookingDetailData.total_member_discounted,
+                                myBookingData[0].total_member_discounted,
                                 )
                               : 0)
                           }`}
@@ -1453,7 +1453,7 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
-                {bookingDetailData.LedgerTransactionNo ? (
+                {myBookingData[0].LedgerTransactionNo ? (
                   <View style={styles.downloadBtnView}>
                     <TouchableOpacity
                       onPress={onDownloadInvoice}
@@ -1470,8 +1470,8 @@ const index = ({navigation, route}) => {
                   </View>
                 ) : null}
                 <View style={styles.separator} />
-                {bookingDetailData.status === 'Confirmed' ||
-                bookingDetailData.status === 'Accepted' ? (
+                {myBookingData[0].status === 'Confirmed' ||
+                myBookingData[0].status === 'Accepted' ? (
                   <View style={styles.cancelBookingBtn}>
                     <CancelButton
                       onPress={cancelBooking}

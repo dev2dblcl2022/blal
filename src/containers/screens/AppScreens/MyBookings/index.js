@@ -315,12 +315,12 @@ const index1 = ({navigation, route}) => {
     try {
       let data = {
         task_id: item.task_id,
-        booking_id: item.id,
+        bookingId: item.unique_booking_id,
       };
       const requestConfig = {
         method: method.post,
         data: data,
-        url: `${servicesPoints.bookingServices.cancelBooking}`,
+        url: `${servicesPoints.bookingServices.cancelFullCheckout}`,
       };
 
       const response = await NetworkRequest(requestConfig);
