@@ -60,7 +60,7 @@ const index = ({navigation, route}) => {
   const screen = route.params.screen;
 
   const [familyMembersData, setFamilyMembersData] = useState([]);
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
   const [bookingDetailData, setBookingDetailData] = useState({});
   const [prescriptionShown, setPrescriptionShown] = useState(false);
 
@@ -72,13 +72,6 @@ const index = ({navigation, route}) => {
       navigation.navigate('ConnectionHandle');
     }
   }, [handleConnectionState]);
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getMyBookingDetail();
-    });
-    return unsubscribe;
-  }, [navigation]);
-
   // useEffect(() => {
   //   BackHandler.addEventListener('hardwareBackPress', onClearNavigation);
   //   return () => {
@@ -93,50 +86,6 @@ const index = ({navigation, route}) => {
   //     navigation.pop();
   //   }
   // };
-
-  const getMyBookingDetail = async () => {
-    try {
-      const requestConfig = {
-        method: method.get,
-
-        url: `${servicesPoints.bookingServices.booking_details}/${myBookingData.id}`,
-      };
-
-      const response = await NetworkRequest(requestConfig);
-
-      if (response) {
-        const {success} = response;
-        if (success) {
-          setBookingDetailData(response.data);
-          if (response?.data?.collection_type === 'Lab') {
-            let address = response.data.address_id.split('#');
-            if (address.length) {
-              setLabName(address[0]);
-              setLabAddress(address[1]);
-            }
-          }
-
-          setLoader(false);
-        } else {
-          Toast(response.message, 0);
-          if (response === 'Network Error') {
-            Toast('Network Error', 0);
-            setHandleConnectionState(true);
-            setLoader(false);
-          } else if (response.status === 401) {
-            signOut();
-          } else {
-            null;
-          }
-          setLoader(false);
-        }
-      } else {
-        setLoader(false);
-      }
-    } catch (err) {
-      console.log('err', err);
-    }
-  };
 
   const cancelBooking = async val => {
     setLoader(true);
@@ -397,7 +346,8 @@ const index = ({navigation, route}) => {
 
     Linking.openURL(CallNumber);
   };
-
+  let allMemberAmount = myBookingData.reduce((total, currentObject) => total + parseInt(currentObject.booking_member_tests[0].test_price), 0
+  );
   return (
     <>
       {prescriptionShown ? (
@@ -431,7 +381,7 @@ const index = ({navigation, route}) => {
         <SafeAreaView style={styles.safeArea}>
           <DefaultHeader
             onBack={() => navigation.goBack()}
-            title={`My Booking #${bookingDetailData.LisBookId}`}
+            title={`My Booking #${myBookingData[0].unique_booking_id}`}
           />
           <MainContainer>
             <ScrollView style={styles.scroll}>
@@ -604,22 +554,38 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 )}
+                  {myBookingData.map((bookingDetailData) => {
+                    return (
+                      <ScrollView style={styles.scroll}>
+
                 <View style={styles.BookingCard}>
                   <View style={styles.bookingCard}>
                     <View style={styles.bookingCardPartOne}>
-                      <View style={{flex: 1}}>
-                        <RegularText
+                              <View style={{ flex: 1 }}>
+                                <View style={{ paddingHorizontal: hp('3%') }}>
+                                  <View style={styles.parentSection}>
+                                    <View style={styles.selfTestList}>
+                                      <FlatList
+                                        data={[bookingDetailData]}
+                                        showsVerticalScrollIndicator={false}
+                                        extraData={[bookingDetailData]}
+                                        renderItem={({ item }) => renderSelfTextCard(item)}
+                                      />
+                                    </View>
+                                  </View>
+                                </View>
+                                {/* <RegularText
                           style={styles.bookingIdText}
-                          title={`#${bookingDetailData.LisBookId}`}
-                        />
-                        <View style={{marginTop: hp('1%')}}>
+                          title={`#${bookingDetailData.id}`}
+                        /> */}
+                                {/* <View style={{marginTop: hp('1%')}}>
                           <LightText
                             style={styles.bookingIdLabel}
                             title={'Booking ID'}
                           />
+                        </View> */}
                         </View>
-                      </View>
-                      <View style={{flex: 1}}>
+                       <View style={{ flex: 1 }}>
                         <View style={styles.btnView}>
                           <RegularText
                             style={styles.btnViewText}
@@ -760,18 +726,314 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
-                <View style={{paddingHorizontal: hp('3%')}}>
-                  <View style={styles.parentSection}>
-                    <View style={styles.selfTestList}>
+                        {bookingDetailData.collection_type === 'Home' ? (
+                          <View>
+                            {bookingDetailData.status === 'Accepted' ||
+                              bookingDetailData.status === 'Started' ||
+                              bookingDetailData.status === 'Successful' ? (
+                              <View style={styles.PROSection}>
+                                <View style={styles.BookingCard}>
+                                  <View
+                                    style={[
+                                      styles.bookingCard,
+                                      { paddingTop: hp('3%') },
+                                    ]}>
+                                    <RegularText
+                                      style={styles.bookingIdText}
+                                      title={`Phlebotomist(PRO) Details`}
+                                    />
+
+                                    <View style={styles.cardPartTwo}>
+                                      <View style={{ flex: 0.2 }}>
+                                        <View
+                                          style={{
+                                            height: hp('7%'),
+                                            width: hp('7%'),
+                                            borderRadius: hp('3.5%'),
+                                            justifyContent: 'center',
+                                            overflow: 'hidden',
+                                            alignItems: 'center',
+                                          }}>
+                                          <Image
+                                            style={{
+                                              height: '100%',
+                                              width: '100%',
+                                              borderRadius: hp('2.5%'),
+                                            }}
+                                            source={{
+                                              uri: bookingDetailData?.fleet_image?.includes(
+                                                'https',
+                                              )
+                                                ? bookingDetailData?.fleet_image
+                                                : 'https://tookan.s3.amazonaws.com/fleet_profile/user.png',
+                                            }}
+                                          />
+                                        </View>
+                                      </View>
+
+                                      <View
+                                        style={{
+                                          flex: 0.6,
+                                          paddingLeft: hp('2%'),
+                                          justifyContent: 'center',
+                                        }}>
+                                        <LightText
+                                          style={[styles.addressText, { marginTop: 0 }]}
+                                          title={bookingDetailData.fleet_name}
+                                        />
+                                      </View>
+                                      <View
+                                        style={{
+                                          flex: 0.4,
+                                          flexDirection: 'row',
+
+                                          justifyContent: 'space-between',
+                                          alignItems: 'center',
+                                        }}>
+                                        <TouchableOpacity
+                                          onPress={() =>
+                                            dialCall(bookingDetailData.fleet_phone)
+                                          }
+                                          style={{
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                          }}>
+                                          <Image source={imagesConstants.callBooking} />
+                                          <RegularText
+                                            style={{ fontSize: hp('1.5%') }}
+                                            title={'Call'}
+                                          />
+                                        </TouchableOpacity>
+                                        {bookingDetailData.status === 'Accepted' ||
+                                          bookingDetailData.status === 'Started' ? (
+                                          <TouchableOpacity
+                                            onPress={() =>
+                                              navigation.navigate('TrackProScreen', {
+                                                url: bookingDetailData.full_tracking_link,
+                                              })
+                                            }
+                                            style={{
+                                              justifyContent: 'center',
+                                              alignItems: 'center',
+                                            }}>
+                                            <Image source={imagesConstants.trackPro} />
+                                            <RegularText
+                                              style={{ fontSize: hp('1.5%') }}
+                                              title={'Track Pro'}
+                                            />
+                                          </TouchableOpacity>
+                                        ) : null}
+                                      </View>
+                                    </View>
+                                  </View>
+                                </View>
+                              </View>
+                            ) : null}
+                          </View>
+                        ) : null}
+                        {bookingDetailData.collection_type === 'Home' ? (
+                          <View>
+                            {bookingDetailData.status === 'Confirmed' ? (
+                              <View style={styles.PROSection}>
+                                <View style={styles.BookingCard}>
+                                  <View
+                                    style={[
+                                      styles.bookingCard,
+                                      { paddingTop: hp('3%') },
+                                    ]}>
+                                    <View style={styles.bookingCardPartOne}>
+                                      <View style={{ flex: 1 }}>
+                                        <RegularText
+                                          style={styles.bookingIdText}
+                                          title={`Phlebotomist(PRO) Details`}
+                                        />
+                                      </View>
+                                    </View>
+                                    <View style={styles.cardPartTwo}>
+                                      <View style={{ flex: 0.1 }}>
+                                        <Image source={imagesConstants.timer} />
+                                      </View>
+
+                                      <View
+                                        style={{ flex: 0.7, justifyContent: 'center' }}>
+                                        <LightText
+                                          style={[styles.addressText, { marginTop: 0 }]}
+                                          title={'Waiting for the PRO assignment'}
+                                        />
+                                      </View>
+                                    </View>
+                                  </View>
+                                </View>
+                </View>
+                            ) : null}
+                          </View>
+                        ) : null}
+                        {bookingDetailData.collection_type === 'Lab' ? (
+                          <View style={styles.PROSection}>
+                            <View style={styles.BookingCard}>
+                              <View
+                                style={[styles.bookingCard, { paddingTop: hp('3%') }]}>
+                                <View style={styles.bookingCardPartOne}>
+                                  <View style={{ flex: 1 }}>
+                                    <RegularText
+                                      style={styles.bookingIdText}
+                                      title={`Lab Details`}
+                                    />
+                                  </View>
+                </View>
+
+                                <View style={styles.cardPartTwo}>
+                                  <View style={{ flex: 0.1 }}>
+                                    <Image source={imagesConstants.labtool} />
+                </View>
+                                  <View style={{ flex: 0.7, justifyContent: 'center' }}>
+                                    <RegularText
+                                      style={[styles.addressText, { marginTop: 0 }]}
+                                      title={labName}
+                                    />
+                                    <LightText
+                                      style={[styles.addressText, { marginTop: 0 }]}
+                                      title={labAddress}
+                                    />
+                </View>
+                                </View>
+                </View>
+                            </View>
+                          </View>
+                        ) : null}
+                        {bookingDetailData.prescriptions_id ? (
+                          <View style={[styles.uploadedPrescription]}>
+                            <View style={styles.BookingCard}>
+                              <View style={styles.uploadBookingCard}>
+                                <View style={styles.bookingCardPartOne}>
+                                  <View style={{ flex: 1 }}>
+                                    <RegularText
+                                      style={styles.bookingIdText}
+                                      title={`Uploaded Prescription`}
+                                    />
+                                  </View>
+                                </View>
+                                <View style={{ marginTop: 20 }}>
                       <FlatList
-                        data={[bookingDetailData]}
-                        showsVerticalScrollIndicator={false}
-                        extraData={[bookingDetailData]}
-                        renderItem={({item}) => renderSelfTextCard(item)}
+                                    horizontal
+                                    data={bookingDetailData.prescription_attachments}
+                                    extraData={
+                                      bookingDetailData.prescription_attachments
+                                    }
+                                    renderItem={({ item }) => {
+                                      return (
+                                        <TouchableOpacity
+                                          onPress={() => checkPermissionFileOpen(item)}
+                                          style={{
+                                            height: hp('10%'),
+                                            width: hp('10%'),
+                                            marginHorizontal: hp('1%'),
+                                            backgroundColor: 'white',
+                                            borderColor: colors.app_theme_dark_green,
+                                            borderStyle: 'dashed',
+                                            borderWidth: 1,
+                                            borderRadius: 5,
+                                          }}>
+                                          <Image
+                                            style={{
+                                              height: hp('9%'),
+                                              width: hp('9%'),
+                                              borderRadius: 5,
+                                            }}
+                                            source={imagesConstants.pdf}
+                                          />
+                                        </TouchableOpacity>
+                                      );
+                                    }}
+                                  />
+                </View>
+
+                                {/* <View style={styles.cardPartTwo}>
+                          <TouchableOpacity
+                            // onPress={checkPermissionFileOpen}
+                            onPress={() => alert('Under Development')}
+                            style={{flex: 0.3, justifyContent: 'center'}}>
+                            <LightText
+                              style={styles.uploadedFile}
+                              title={'Prescription.pdf'}
+                            />
+                          </TouchableOpacity>
+                          <View style={{flex: 0.7, justifyContent: 'center'}}>
+                            <Image
+                              style={{tintColor: colors.app_theme_dark_green}}
+                              source={imagesConstants.download}
+                            />
+                          </View>
+                        </View> */}
+                </View>
+                </View>
+                          </View>
+                        ) : null}
+
+                      </ScrollView>
+
+                    )
+                  })}
+                  {myBookingData[0].collection_type === 'Home' ? (
+                    <View style={styles.pickupAddress}>
+                      <RegularText
+                        style={styles.pickupAddLabel}
+                        title={'Pickup Address'}
+                      />
+                      <View>
+                        <View style={styles.itemContainer}>
+                          <View style={styles.itemContainerInner}>
+                            <View style={styles.profilePicSection}>
+                              <View style={styles.profilePicView}>
+                                <Image
+                                  style={styles.profilePic}
+                                  source={
+                                    bookingDetailData.address_type === 'Home'
+                                      ? imagesConstants.house
+                                      : bookingDetailData === 'Office'
+                                        ? imagesConstants.office
+                                        : imagesConstants.other
+                                  }
+                                />
+                </View>
+
+                              {myBookingData[0].address_type ? (
+                                <RegularText
+                                  style={{
+                                    marginTop: hp('1%'),
+                                    color: colors.app_theme_light_green,
+                                    fontSize: hp('1.8%'),
+                                  }}
+                                  title={myBookingData[0].address_type}
+                                />
+                              ) : null}
+                </View>
+                            <View style={styles.dataSection}>
+                              <View>
+                                <RegularText
+                                  style={styles.addNameText}
+                                  title={myBookingData[0]?.address_name}
+                                />
+
+                                <RegularText
+                                  style={[
+                                    styles.addressText,
+                                    {
+                                      marginTop: myBookingData[0]?.address_name
+                                        ? hp('1.6%')
+                                        : 0,
+                                    },
+                                  ]}
+                                  title={myBookingData[0].address_id}
                       />
                     </View>
                   </View>
                 </View>
+                        </View>
+                      </View>
+                    </View>
+                  ) : null}
+
                 {bookingDetailData.collection_type === 'Home' ? (
                   <View>
                     {bookingDetailData.status === 'Accepted' ||
@@ -1099,7 +1361,7 @@ const index = ({navigation, route}) => {
                         <RegularText
                           style={styles.rateText}
                           title={`${'\u20B9'} ${
-                            bookingDetailData.total_member_amount
+                            allMemberAmount
                           }`}
                         />
                       </View>
@@ -1152,7 +1414,7 @@ const index = ({navigation, route}) => {
                         <RegularText
                           style={styles.rateText}
                           title={`${'\u20B9'} ${
-                            parseFloat(bookingDetailData.total_member_amount) +
+                            parseFloat(myBookingData[0].total_amount) +
                             (bookingDetailData.pickup_charge
                               ? parseFloat(bookingDetailData.pickup_charge)
                               : 0) -
@@ -1176,7 +1438,7 @@ const index = ({navigation, route}) => {
                         <BoldText
                           style={styles.payableText}
                           title={`${'\u20B9'} ${
-                            parseFloat(bookingDetailData.total_member_amount) +
+                            parseFloat(myBookingData[0].total_amount) +
                             (bookingDetailData.pickup_charge
                               ? parseFloat(bookingDetailData.pickup_charge)
                               : 0) -
@@ -1191,7 +1453,6 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
-
                 {bookingDetailData.LedgerTransactionNo ? (
                   <View style={styles.downloadBtnView}>
                     <TouchableOpacity

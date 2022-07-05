@@ -128,7 +128,7 @@ export default props => {
           </View>
         </View>
       </View>
-      <View style={styles.cardPartTwo}>
+      {/* <View style={styles.cardPartTwo}>
         {collection_type === 'Home' ? (
           <View style={{flex: 1}}>
             <RegularText style={styles.bookingDateText} title={''} />
@@ -161,7 +161,7 @@ export default props => {
               </View>
             ) : null}
           </View>
-        )}
+        )} */}
         <View style={{flex: 1, alignItems: 'flex-end'}}>
           {final_amount ? (
             <RegularText
@@ -219,7 +219,7 @@ export default props => {
             </TouchableOpacity>
           ) : null}
         </View>
-      </View>
+      {/* </View> */}
       {status === 'Successful' && user_rating_number === null ? (
         <View
           hitSlop={{left: 15, right: 15, top: 15, bottom: 15}}

@@ -704,7 +704,7 @@ const index1 = ({navigation, route}) => {
                       onViewMore={() =>
                         navigation.navigate('MyBookingDetail', {
                           screen: 'MyBookingTab',
-                          myBookingData: item.data[0],
+                          myBookingData: item.data,
                         })
                       }
                       onPrescriptionPay={() => onInitiateTransaction(item.data[0])}
