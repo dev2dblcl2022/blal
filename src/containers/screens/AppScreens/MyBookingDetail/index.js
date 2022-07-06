@@ -91,8 +91,8 @@ const index = ({navigation, route}) => {
     setLoader(true);
     try {
       let data = {
-        task_id: myBookingData.task_id,
-        bookingId: myBookingData.unique_booking_id,
+        task_id: myBookingData[0].task_id,
+        bookingId: myBookingData[0].unique_booking_id,
       };
       const requestConfig = {
         method: method.post,
@@ -1139,7 +1139,7 @@ const index = ({navigation, route}) => {
                     ) : null}
                   </View>
                 ) : null}
-                {myBookingData[0].collection_type === 'Home' ? (
+                {/* {myBookingData[0].collection_type === 'Home' ? (
                   <View>
                     {myBookingData[0].status === 'Confirmed' ? (
                       <View style={styles.PROSection}>
@@ -1175,7 +1175,7 @@ const index = ({navigation, route}) => {
                       </View>
                     ) : null}
                   </View>
-                ) : null}
+                ) : null} */}
                 {myBookingData[0].collection_type === 'Lab' ? (
                   <View style={styles.PROSection}>
                     <View style={styles.BookingCard}>
@@ -1277,7 +1277,7 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 ) : null}
-                {myBookingData[0].collection_type === 'Home' ? (
+                {/* {myBookingData[0].collection_type === 'Home' ? (
                   <View style={styles.pickupAddress}>
                     <RegularText
                       style={styles.pickupAddLabel}
@@ -1334,8 +1334,8 @@ const index = ({navigation, route}) => {
                         </View>
                       </View>
                     </View>
-                  </View>
-                ) : null}
+                  </View> */}
+                {/* ) : null} */}
                 <View style={styles.amountSection}>
                   <View style={styles.paymentDetailSection}>
                     <View style={styles.paymentRatesSection}>
