@@ -562,7 +562,7 @@ const index = ({navigation, route}) => {
                       <View style={styles.emptyView}>
                         <Image
                           source={
-                            bookingDetailData.status === 'Batch Received'
+                            bookingDetailData.status === 'Registered'
                               ? imagesConstants.marker
                               : imagesConstants.point
                           }

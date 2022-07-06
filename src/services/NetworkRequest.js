@@ -35,6 +35,7 @@ export const servicesPoints = {
     deleteAddress: 'users/api/delete_address',
     editAddress: 'users/api/update_address',
     my_prescriptions: 'users/api/my_prescriptions',
+    membership_card: 'users/api/membershipcard_leadsequared',
   },
   bookingServices: {
     add: 'bookings/api/add',
@@ -50,7 +51,7 @@ export const servicesPoints = {
 
     myNotifications: 'bookings/api/my_notifications',
     tests_by_member: 'bookings/api/tests_by_member',
-    my_smart_reports: 'bookings/api/my_smart_reports',
+    my_smart_reports: 'GetSmartViews',
     check_time_slot_availability: 'bookings/api/check_time_slot_availability',
     check_top_test_in_cart: 'bookings/api/check_top_test_in_cart',
     clear_my_cart: 'bookings/api/clear_my_cart',

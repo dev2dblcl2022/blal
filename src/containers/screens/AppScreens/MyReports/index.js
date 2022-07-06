@@ -910,7 +910,7 @@ const index = ({navigation}) => {
           }>
           <BoldText
             style={styles.heading}
-            title={'Select the Paitent for whom you want to see the report'}
+            title={'Select the Patient for whom you want to see the report'}
           />
         </View>
 

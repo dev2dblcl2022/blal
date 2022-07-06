@@ -400,6 +400,25 @@ const index = ({navigation, route}) => {
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
+          let patientName = '';
+          allPatients.forEach(patient => {
+            if (patient.value === patientsValues) {
+              patientName = patient.label;
+            }
+          });
+          let sampleData = {
+            name: patientName,
+            cardType: membershipCardData.NAME,
+            cardAmount: data.Amount,
+            mobileNumber: data.Mobile,
+          };
+          const requestConfigLead = {
+            method: method.post,
+            data: sampleData,
+            url: servicesPoints.userServices.membership_card,
+          };
+
+          await NetworkRequest(requestConfigLead);
           setLoader(false);
           navigation.pop(2);
         } else {

@@ -325,7 +325,7 @@ const index = ({navigation}) => {
             <View
               style={[
                 styles.headingSection,
-                // {marginTop: patientOpens ? hp('25%') : 0},
+                {marginTop: patientOpens ? hp('24%') : 0},
               ]}>
               <BoldText
                 style={styles.heading}

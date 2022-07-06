@@ -31,6 +31,7 @@ import moment from 'moment';
 import colors from '../../../../constants/colors';
 import RNOtpVerify from 'react-native-otp-verify';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SmsRetriever from 'react-native-sms-retriever';
 const index = ({navigation, route, props}) => {
   const {signIn, signOut} = React.useContext(AuthContext);
   const phone_number = route.params.phoneNumber;
@@ -51,6 +52,7 @@ const index = ({navigation, route, props}) => {
       navigation.navigate('ConnectionHandle');
     }
   }, [handleConnectionState]);
+
   // const onSubmit = () => {
   //   signIn('dfd', 'dd');
   // };
@@ -86,8 +88,8 @@ const index = ({navigation, route, props}) => {
   //   Keyboard.dismiss();
   // };
   // const otpHandler = message => {
-  //   const regex = /\d+/g;
   //   console.log('message', message);
+  //   const regex = /\d+/g;
   //   const lOtp = message.match(regex); // creates array from matches
   //   // const lOtp = message[1];
   //   console.log(lOtp);
@@ -96,6 +98,43 @@ const index = ({navigation, route, props}) => {
   //   Keyboard.dismiss();
   // };
   // console.log(otp, 'otpp');
+  // const onSmsListenerPressed = async () => {
+  //   try {
+  //     SmsRetriever.startSmsRetriever().then(registered => {
+  //       console.log('hehehehe', registered);
+  //       if (registered) {
+  //         SmsRetriever.removeSmsListener();
+  //         setTimeout(() => {
+  //           SmsRetriever.addSmsListener(event => {
+  //             console.log('hahahaha', event);
+  //             if (
+  //               typeof event === 'object' &&
+  //               event.message !== undefined &&
+  //               typeof event.message === 'string' &&
+  //               event.message !== null &&
+  //               event.message !== ''
+  //             ) {
+  //               let messageFind = event.message;
+  //               console.log('messageFind', messageFind);
+  //               if (messageFind.includes('verify')) {
+  //                 messageFind = messageFind.split(' ');
+  //                 if (messageFind.length > 0) {
+  //                   setOtp(messageFind[0]);
+  //                 }
+  //               }
+  //             }
+  //             console.log('check', event.message);
+  //           });
+  //         }, 200);
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.log(JSON.stringify(error));
+  //   }
+  // };
+  // useEffect(() => {
+  //   onSmsListenerPressed();
+  // }, []);
   function useInterval(callback, delay) {
     const savedCallback = useRef();
     useEffect(() => {
@@ -269,7 +308,7 @@ const index = ({navigation, route, props}) => {
             style={styles.otpInputView}
             pinCount={6}
             keyboardType={'number-pad'}
-            // code={otp ? otp : ''}
+            // code={OTTP ? OTTP : ''}
             // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
             onCodeChanged={text => onChangeText('otp', text, 'required')}
             autoFocusOnLoad

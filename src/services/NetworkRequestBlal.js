@@ -53,6 +53,10 @@ const NetworkRequestBlal = async requestConfig => {
 
     if (resToken.status === 200) {
       const _data = resToken.data.Result.AccessToken;
+      console.log(
+        'resToken.data.Result.AccessToken',
+        resToken.data.Result.AccessToken,
+      );
       const response = await axios
         .create({
           baseURL: API_BASE_URL,

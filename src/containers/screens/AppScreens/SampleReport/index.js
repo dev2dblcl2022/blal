@@ -154,18 +154,23 @@ const index = ({navigation, route}) => {
     calculateDateDifference();
   }, [timeValues]);
 
-  useEffect(() => {
-    onGetSmartReport(2);
-  }, [apiStartDate, apiEndDate]);
-
   // useEffect(() => {
-  //   if (timeValues && patientTestValues) {
-  //     onGetSmartReport();
-  //   } else {
-  //     null;
-  //   }
-  // }, [timeValues, patientTestValues]);
+  //   onGetSmartReport(2);
+  // }, [apiStartDate, apiEndDate]);
 
+  useEffect(() => {
+    if (timeValues && patientTestValues) {
+      onGetSmartReport();
+    } else {
+      null;
+    }
+  }, [timeValues, patientTestValues]);
+
+  useEffect(() => {
+    if (patientTestValues) {
+      onCheck(patientTestValues);
+    }
+  }, [patientTestValues]);
   const getMyFamilyMembers = async () => {
     const requestConfig = {
       method: method.get,
@@ -350,31 +355,27 @@ const index = ({navigation, route}) => {
   const onGetSmartReport = async val => {
     setLoader(true);
     // let splitString = patientTestValues.split(',');
+
     try {
+      const MONTH_START = moment().subtract(1, 'month').format(Date_Format);
+
       let data = {
         Patient_ID: memberId,
         Investigation_ID: patientTestValues,
         ObservationId: patientSubTestValues,
 
-        FromDate: apiStartDate,
-        ToDate: apiEndDate,
+        FromDate: MONTH_START,
+        ToDate: currentDate,
       };
-      // let data = {
-      //   Patient_ID: 'LSHHI3385990',
-      //   Investigation_ID: 'LSHHI764',
-      //   ObservationId: 'LSHHI16',
-
-      //   FromDate: '2022-01-01',
-      //   ToDate: '2022-01-10',
-      // };
 
       const requestConfig = {
         method: method.post,
         data: data,
-        url: `${servicesPoints.bookingServices.my_smart_reports}`,
+        url: `${servicesPoints.bookingServices.my_smart_reports}?Patient_ID=${data.Patient_ID}&Investigation_ID=${data.Investigation_ID}&Observation_ID=${data.ObservationId}&FromDate=${data.FromDate}&ToDate=${data.ToDate}`,
       };
-
+      console.log('requestConfig', requestConfig);
       const response = await NetworkRequest(requestConfig);
+      console.log('responseresponse', response);
       if (response) {
         const {success} = response;
         if (success) {
@@ -453,13 +454,17 @@ const index = ({navigation, route}) => {
         <View style={styles.headingSection}>
           <BoldText
             style={styles.heading}
-            title={'Select the Paitent for whom you want to see the report'}
+            title={'Select the Patient for whom you want to see the report'}
           />
         </View>
         <View style={{zIndex: 2000}}>
           <View style={[styles.dropDownSections]}>
             <View style={styles.patientSection}>
-              <View style={[styles.dropDownView]}>
+              <View
+                style={
+                  ([styles.dropDownView],
+                  {marginBottom: patientTestOpens ? hp('10%') : 0})
+                }>
                 <DropDownPicker
                   open={patientTestOpens}
                   placeholder="Test"
@@ -475,12 +480,19 @@ const index = ({navigation, route}) => {
           </View>
           <View style={[styles.dropDownSections]}>
             <View style={styles.patientSection}>
-              <View style={styles.dropDownView}>
+              <View
+                style={
+                  ([styles.dropDownView],
+                  {marginBottom: patientSubTestOpens ? hp('25%') : 0})
+                }>
                 <DropDownPicker
                   open={patientSubTestOpens}
                   placeholder="Observation"
                   value={patientSubTestValues}
-                  style={{borderColor: colors.purplishGrey, borderWidth: 1}}
+                  style={{
+                    borderColor: colors.purplishGrey,
+                    borderWidth: 1,
+                  }}
                   dropDownContainerStyle={styles.dropDownContainer}
                   items={membersSubTest}
                   setOpen={setPatientSubTestOpens}
@@ -496,7 +508,12 @@ const index = ({navigation, route}) => {
                   open={timeOpens}
                   placeholder="Time"
                   value={timeValues}
-                  style={{borderColor: colors.purplishGrey, borderWidth: 1}}
+                  style={{
+                    borderColor: colors.purplishGrey,
+                    borderWidth: 1,
+                    zIndex: 999,
+                  }}
+                  zIndex={999}
                   items={times}
                   dropDownContainerStyle={styles.dropDownContainer}
                   setOpen={setTimeOpens}
