@@ -11,7 +11,6 @@ import colors from '../../../constants/colors';
 
 export default props => {
   let {
-    unique_booking_id,
     payment_mode,
     address_id,
     total_amount,
@@ -43,7 +42,7 @@ export default props => {
             <>
               <RegularText
                 style={styles.bookingIdText}
-                title={`#${unique_booking_id ? unique_booking_id : LisBookId}`}
+                title={`#${LisBookId}`}
               />
               <View style={{marginTop: hp('1%')}}>
                 <LightText style={styles.bookingIdLabel} title={'Booking ID'} />

@@ -7,6 +7,7 @@ import colors from '../../../constants/colors';
 import styles from './style';
 
 function LineGraph(props) {
+  console.log('props', props);
   const {statistics} = props;
   const {netWorth, data} = statistics;
   // const [valueSet, setValueSet] = useState([]);

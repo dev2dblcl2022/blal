@@ -262,10 +262,11 @@ const index = ({navigation, route}) => {
     const testType = bookingDetailData?.booking_member_tests?.map(test => {
       return test.test_type === 'Package' ? 'PACKAGE' : 'LAB';
     });
+    console.log('testType', testType);
     const fileUrl = await getRelease(
-      `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=${testType}`,
+      `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=${testType[0]}`,
     );
-
+    console.log('fileUrl', fileUrl);
     checkPermission(fileUrl.reportUrl);
   };
 

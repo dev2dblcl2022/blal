@@ -83,59 +83,60 @@ const index = ({navigation, route}) => {
   ]);
 
   const [isUpdateGraphData, setUpdateGraphData] = useState(false);
-  let [graphData, setGraphData] = useState({
-    // netWorth: 12000,
-    // data: [
-    //   {
-    //     value: 1000,
-    //     label: 'Jan',
-    //   },
-    //   {
-    //     value: 2000,
-    //     label: 'Feb',
-    //   },
-    //   {
-    //     value: 500,
-    //     label: 'Mar',
-    //   },
-    //   {
-    //     value: 500,
-    //     label: 'Apr',
-    //   },
-    //   {
-    //     value: 500,
-    //     label: 'May',
-    //   },
-    //   {
-    //     value: 500,
-    //     label: 'Jun',
-    //   },
-    //   {
-    //     value: 2000,
-    //     label: 'Jul',
-    //   },
-    //   {
-    //     value: 500,
-    //     label: 'Aug',
-    //   },
-    //   {
-    //     value: 500,
-    //     label: 'Sep',
-    //   },
-    //   {
-    //     value: 1000,
-    //     label: 'Oct',
-    //   },
-    //   {
-    //     value: 500,
-    //     label: 'Nov',
-    //   },
-    //   {
-    //     value: 500,
-    //     label: 'Dec',
-    //   },
-    // ],
-  });
+  const [graphData, setGraphData] = useState([]);
+  // let [graphData, setGraphData] = useState({
+  // netWorth: 12000,
+  // data: [
+  //   {
+  //     value: 1000,
+  //     label: 'Jan',
+  //   },
+  //   {
+  //     value: 2000,
+  //     label: 'Feb',
+  //   },
+  //   {
+  //     value: 500,
+  //     label: 'Mar',
+  //   },
+  //   {
+  //     value: 500,
+  //     label: 'Apr',
+  //   },
+  //   {
+  //     value: 500,
+  //     label: 'May',
+  //   },
+  //   {
+  //     value: 500,
+  //     label: 'Jun',
+  //   },
+  //   {
+  //     value: 2000,
+  //     label: 'Jul',
+  //   },
+  //   {
+  //     value: 500,
+  //     label: 'Aug',
+  //   },
+  //   {
+  //     value: 500,
+  //     label: 'Sep',
+  //   },
+  //   {
+  //     value: 1000,
+  //     label: 'Oct',
+  //   },
+  //   {
+  //     value: 500,
+  //     label: 'Nov',
+  //   },
+  //   {
+  //     value: 500,
+  //     label: 'Dec',
+  //   },
+  // ],
+  // });
   const [handleConnectionState, setHandleConnectionState] = useState(false);
   useEffect(() => {
     if (handleConnectionState) {
@@ -363,34 +364,37 @@ const index = ({navigation, route}) => {
         Patient_ID: memberId,
         Investigation_ID: patientTestValues,
         ObservationId: patientSubTestValues,
-
         FromDate: MONTH_START,
         ToDate: currentDate,
       };
 
       const requestConfig = {
-        method: method.post,
+        method: blalMethod.post,
         data: data,
-        url: `${servicesPoints.bookingServices.my_smart_reports}?Patient_ID=${data.Patient_ID}&Investigation_ID=${data.Investigation_ID}&Observation_ID=${data.ObservationId}&FromDate=${data.FromDate}&ToDate=${data.ToDate}`,
+        url: `${servicesPoints.bookingServices.my_smart_reports}?Patient_ID=${data.Patient_ID}&Investigation_ID=${data.Investigation_ID}&Observation_ID=${data.ObservationId}&FromDate=${data.FromDate}&ToDate=${data.ToDate} 23:59:59`,
       };
-      console.log('requestConfig', requestConfig);
-      const response = await NetworkRequest(requestConfig);
+
+      const response = await NetworkRequestBlal(requestConfig);
       console.log('responseresponse', response);
       if (response) {
-        const {success} = response;
-        if (success) {
+        const {status_Code} = response;
+
+        if (status_Code === 200) {
+          let netWorth = response.data.map(item => {
+            return item.Value;
+          });
           var Obj = {
-            netWorth: response.data.netWorth,
+            netWorth: netWorth.toString(),
             data: response.data.data,
           };
 
-          if (response.data.data.length > 0) {
-            setGraphData(Obj);
-            setUpdateGraphData(true);
-            setGraphTitle(response.data.title);
-          } else {
-            null;
-          }
+          // if (response.data.data.length > 0) {
+          setGraphData(Obj);
+          //   setUpdateGraphData(true);
+          //   setGraphTitle(response.data.title);
+          // } else {
+          //   null;
+          // }
 
           setLoader(false);
         } else {
@@ -399,6 +403,7 @@ const index = ({navigation, route}) => {
             setHandleConnectionState(true);
             setLoader(false);
           }
+
           setLoader(false);
         }
       } else {
@@ -550,12 +555,11 @@ const index = ({navigation, route}) => {
             ) : null}
           </View>
         </View>
-
         <View style={styles.chartNameSection}>
           <RegularText style={styles.testText} title={graphTitle} />
           {/* <BoldText style={styles.testDate} title={'15 April - 21 April'} /> */}
         </View>
-
+        {console.log('graphData', graphData)}
         {graphData?.data ? (
           <View style={styles.chartSection}>
             <LineGraph
@@ -575,7 +579,7 @@ const index = ({navigation, route}) => {
               style={{height: 50, width: 50}}
               source={imagesConstants.noReports}
             />
-            <RegularText style={{marginTop: 20}} title={'No Record Found'} />
+            {/* <RegularText style={{marginTop: 20}} title={'No Record Found'} /> */}
           </View>
         )}
       </View>
