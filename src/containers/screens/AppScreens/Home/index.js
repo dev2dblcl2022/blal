@@ -138,8 +138,6 @@ const index = ({navigation}) => {
     } else {
       if (label === '0' || label === null) {
         getCurrentLocation();
-      }else{
-        Toast('Service Not Provided! Set to Default location .',1);
       }
     }
   };
