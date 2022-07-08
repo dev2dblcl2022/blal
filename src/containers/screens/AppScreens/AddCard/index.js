@@ -395,7 +395,7 @@ const index = ({navigation, route}) => {
       //     console.log(error);
       //   });
       const response = await NetworkRequestBlal(requestConfig);
-      console.log('responsee', response);
+
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
@@ -423,7 +423,7 @@ const index = ({navigation, route}) => {
             1,
           );
           setLoader(false);
-          // navigation.pop(2);
+          navigation.pop(2);
         } else {
           setLoader(false);
         }
