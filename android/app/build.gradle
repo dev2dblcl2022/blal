@@ -139,7 +139,7 @@ android {
         applicationId "com.blal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1.2
+        versionCode 12
         versionName "3.5"
             ndk {
                 debugSymbolLevel 'SYMBOL_TABLE'

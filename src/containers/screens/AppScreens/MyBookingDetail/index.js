@@ -519,8 +519,7 @@ const index = ({navigation, route}) => {
                           : bookingDetailData.status === 'Started' ||
                             bookingDetailData.status === 'Arrived'
                           ? imagesConstants.started
-                          : bookingDetailData.status === 'Successful' ||
-                            bookingDetailData.status === 'Registered'
+                          : bookingDetailData.status === 'Successful'
                           ? imagesConstants.collectionDone
                           : bookingStatus === 'Sample reached at lab'
                           ? imagesConstants.sampleAtLab
