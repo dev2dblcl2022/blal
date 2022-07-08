@@ -165,7 +165,9 @@ export default props => {
           {final_amount ? (
             <RegularText
               style={styles.bookingRateText}
-              title={`${'\u20B9'} ${props.data.bookingAmount}`}
+              title={`${'\u20B9'} ${
+                props.data.bookingAmount - props.data.total_member_discounted
+              }`}
             />
           ) : null}
           <View

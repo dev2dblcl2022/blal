@@ -92,6 +92,12 @@ export default function index({navigation, route, props}) {
     }
   }, [cityId, panelId]);
 
+  useEffect(() => {
+    if (testPackageData.id && testPackageData.type) {
+      getPackageCartDetail();
+    }
+  }, [testPackageData]);
+
   const getPackageCartDetail = async () => {
     try {
       let data = {
@@ -105,7 +111,6 @@ export default function index({navigation, route, props}) {
 
         url: `${blalServicesPoints.blalUserServices.GetTestPackageDetails}?PanelId=${data.PanelId}&CityId=${data.CityId}&Id=${data.Id}&Type=${data.Type}`,
       };
-
       const response = await NetworkRequestBlal(requestConfig);
 
       if (response) {

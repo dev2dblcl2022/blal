@@ -868,7 +868,14 @@ const index = ({navigation}) => {
       if (response) {
         const {success} = response;
         if (success) {
-          Toast(response.message, 1);
+          console.log('response.message', response.message);
+          Toast(
+            response.message,
+            response.message ===
+              'Home Collection service is available for this location'
+              ? 1
+              : 0,
+          );
           setPincode('');
           addressLabel(pinCode);
           setAddressLabel(pinCode);

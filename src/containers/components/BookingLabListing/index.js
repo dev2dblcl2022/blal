@@ -42,7 +42,7 @@ export default props => {
   const [year, setYear] = useState('');
   const [selectedPreviewBookingRow, setSelectedPreviewBookingRow] =
     useState(false);
-  const [instruction, setInstuction] = useState([1, 2]);
+  const [instruction, setInstuction] = useState([1]);
   const [maximumDate, setMaximumDate] = useState('');
 
   const formatDate = date => {

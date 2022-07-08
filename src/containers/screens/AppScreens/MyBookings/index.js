@@ -234,7 +234,8 @@ const index1 = ({navigation, route}) => {
     const arr = [];
     bookingData.map(_data => {
       _data.bookingAmount = (
-        parseInt(_data.total_amount) + (parseInt(_data.pickup_charge) || 0)
+        parseInt(_data.total_member_amount) +
+        (parseInt(_data.pickup_charge) || 0)
       ).toFixed(2);
       // if (!arr.includes(_data.booking_hash)) {
       //   arr.push(_data.booking_hash);

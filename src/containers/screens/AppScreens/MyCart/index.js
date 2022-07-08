@@ -351,14 +351,14 @@ const index = ({navigation}) => {
       <AlsoAddCard
         data={item}
         onPressAdd={data => onPressAddNewItem(data)}
-        onPress={() =>
+        onPress={() => {
           navigation.navigate('FullBodyCheckup', {
             testPackageData: testPackageData,
             type: item.TestType,
             name: item.testName,
             comeFromMyCart: false,
-          })
-        }
+          });
+        }}
       />
     );
   };

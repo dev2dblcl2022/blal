@@ -43,6 +43,10 @@ import {CancelButton} from '../../../components/Buttons';
 import {AuthContext} from '../../../../../context/context';
 import PDFView from 'react-native-view-pdf';
 import {getRelease} from '../../../../env';
+import NetworkRequestBlal, {
+  blalMethod,
+  blalServicesPoints,
+} from '../../../../services/NetworkRequestBlal';
 let resources = {
   file:
     Platform.OS === 'ios'
@@ -63,7 +67,7 @@ const index = ({navigation, route}) => {
   const [loader, setLoader] = useState(true);
   const [bookingDetailData, setBookingDetailData] = useState({});
   const [prescriptionShown, setPrescriptionShown] = useState(false);
-
+  const [bookingStatus, setBookingStatus] = useState({});
   const [labAddress, setLabAddress] = useState('');
   const [labName, setLabName] = useState('');
   const [handleConnectionState, setHandleConnectionState] = useState(false);
@@ -92,8 +96,35 @@ const index = ({navigation, route}) => {
   //   } else {
   //     navigation.pop();
   //   }
-  // };
 
+  // };
+  const getMyBookingDetailStatus = async () => {
+    try {
+      const requestConfig = {
+        method: blalMethod.post,
+
+        url: `${blalServicesPoints.blalUserServices.GetBookingStatus}?LabNo=${bookingDetailData?.LedgerTransactionNo}`,
+      };
+
+      const response = await NetworkRequestBlal(requestConfig);
+
+      if (response) {
+        const {status_Code} = response;
+        if (status_Code === 200) {
+          setBookingStatus(response.data);
+        }
+      } else {
+        setLoader(false);
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
+  useEffect(() => {
+    if (bookingDetailData.LedgerTransactionNo) {
+      getMyBookingDetailStatus();
+    }
+  }, [bookingDetailData]);
   const getMyBookingDetail = async () => {
     try {
       const requestConfig = {
@@ -262,11 +293,11 @@ const index = ({navigation, route}) => {
     const testType = bookingDetailData?.booking_member_tests?.map(test => {
       return test.test_type === 'Package' ? 'PACKAGE' : 'LAB';
     });
-    console.log('testType', testType);
+
     const fileUrl = await getRelease(
       `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=${testType[0]}`,
     );
-    console.log('fileUrl', fileUrl);
+
     checkPermission(fileUrl.reportUrl);
   };
 
@@ -475,6 +506,7 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
+
                 {bookingDetailData.collection_type === 'Home' ? (
                   <View style={styles.bookingStatus}>
                     <Image
@@ -487,18 +519,28 @@ const index = ({navigation, route}) => {
                           : bookingDetailData.status === 'Started' ||
                             bookingDetailData.status === 'Arrived'
                           ? imagesConstants.started
-                          : bookingDetailData.status === 'Successful'
-                          ? imagesConstants.collectionDone
-                          : bookingDetailData.status === 'Batch Received' ||
+                          : bookingDetailData.status === 'Successful' ||
                             bookingDetailData.status === 'Registered'
+                          ? imagesConstants.collectionDone
+                          : bookingStatus === 'Sample reached at lab'
                           ? imagesConstants.sampleAtLab
                           : bookingDetailData.status === 'Approved'
                           ? imagesConstants.reportApproved
                           : imagesConstants.bookingConfirmed
                       }
                     />
+
                     <View style={styles.bookingStatusSection}>
-                      <View style={styles.section1}>
+                      <View
+                        style={
+                          bookingStatus === 'Sample reached at lab'
+                            ? styles.section11
+                            : bookingDetailData.status === 'Accepted'
+                            ? styles.section12
+                            : bookingDetailData.status === 'Approved'
+                            ? styles.section01
+                            : styles.section1
+                        }>
                         <LightText
                           style={styles.bookingConfirmedText}
                           title={
@@ -508,25 +550,59 @@ const index = ({navigation, route}) => {
                           }
                         />
                       </View>
-                      <View style={styles.section2}>
+                      <View
+                        style={
+                          bookingStatus === 'Sample reached at lab'
+                            ? styles.section22
+                            : bookingDetailData.status === 'Accepted'
+                            ? styles.section12
+                            : bookingDetailData.status === 'Approved'
+                            ? styles.section02
+                            : styles.section2
+                        }>
                         <LightText
                           style={styles.proAssignText}
                           title={'Pro Assigned'}
                         />
                       </View>
-                      <View style={styles.section3}>
+                      <View
+                        style={
+                          bookingStatus === 'Sample reached at lab'
+                            ? styles.section33
+                            : bookingDetailData.status === 'Accepted'
+                            ? styles.section13
+                            : bookingDetailData.status === 'Approved'
+                            ? styles.section03
+                            : styles.section3
+                        }>
                         <LightText
                           style={styles.proAssignText}
                           title={'Started'}
                         />
                       </View>
-                      <View style={styles.section4}>
+                      <View
+                        style={
+                          bookingStatus === 'Sample reached at lab'
+                            ? styles.section44
+                            : bookingDetailData.status === 'Accepted'
+                            ? styles.section14
+                            : bookingDetailData.status === 'Approved'
+                            ? styles.section04
+                            : styles.section4
+                        }>
                         <LightText
                           style={styles.collectionDoneText}
                           title={'Collection Done'}
                         />
                       </View>
-                      <View style={styles.section5}>
+                      <View
+                        style={
+                          bookingStatus === 'Sample reached at lab'
+                            ? styles.section55
+                            : bookingDetailData.status === 'Accepted'
+                            ? styles.section15
+                            : styles.section5
+                        }>
                         <LightText
                           style={styles.collectionDoneText}
                           title={'Sample reached at the lab (LIS)'}
@@ -563,7 +639,7 @@ const index = ({navigation, route}) => {
                       <View style={styles.emptyView}>
                         <Image
                           source={
-                            bookingDetailData.status === 'Registered'
+                            bookingStatus === 'Sample reached at lab'
                               ? imagesConstants.marker
                               : imagesConstants.point
                           }

@@ -365,8 +365,8 @@ const index = ({navigation, route}) => {
         data: {},
         url:
           membershipCardData.No_of_dependant === '1'
-            ? `https://silverapi.blallab.com/CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}`
-            : `https://silverapi.blallab.com/CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}&DependentId=${data.DependentId}`,
+            ? `CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}`
+            : `CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}&DependentId=${data.DependentId}`,
       };
 
       // var config = {
@@ -394,9 +394,8 @@ const index = ({navigation, route}) => {
       //   .catch(function (error) {
       //     console.log(error);
       //   });
-
       const response = await NetworkRequestBlal(requestConfig);
-
+      console.log('responsee', response);
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
@@ -419,8 +418,12 @@ const index = ({navigation, route}) => {
           };
 
           await NetworkRequest(requestConfigLead);
+          Toast(
+            `Your card number for ${membershipCardData.NAME} is ${response.data}`,
+            1,
+          );
           setLoader(false);
-          navigation.pop(2);
+          // navigation.pop(2);
         } else {
           setLoader(false);
         }

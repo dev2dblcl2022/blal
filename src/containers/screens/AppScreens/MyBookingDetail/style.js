@@ -382,51 +382,138 @@ export default StyleSheet.create({
     color: colors.purplishGrey,
   },
   bookingStatusSection: {
-    height: hp('53%'),
+    height: hp('58%'),
     width: '100%',
     marginLeft: hp('2%'),
   },
-
+  section11: {
+    flex: 1,
+    position: 'relative',
+    // top: '1.8%',
+    alignItems: 'flex-start',
+  },
+  section12: {
+    flex: 1,
+    position: 'relative',
+    top: '0.1%',
+    alignItems: 'flex-start',
+  },
+  section13: {
+    flex: 1,
+    position: 'relative',
+    top: '2.5%',
+    alignItems: 'flex-start',
+  },
+  section14: {
+    flex: 1,
+    position: 'relative',
+    top: '4%',
+    alignItems: 'flex-start',
+  },
+  section15: {
+    flex: 1,
+    position: 'relative',
+    top: '5.5%',
+    alignItems: 'flex-start',
+  },
+  section01: {
+    flex: 1,
+    position: 'relative',
+    top: '0.1%',
+    alignItems: 'flex-start',
+  },
+  section02: {
+    flex: 1,
+    position: 'relative',
+    top: '1%',
+    alignItems: 'flex-start',
+  },
+  section03: {
+    flex: 1,
+    position: 'relative',
+    top: '2.5%',
+    alignItems: 'flex-start',
+  },
+  section04: {
+    flex: 1,
+    position: 'relative',
+    top: '3.8%',
+    alignItems: 'flex-start',
+  },
+  section05: {
+    flex: 1,
+    position: 'relative',
+    top: '3.8%',
+    alignItems: 'flex-start',
+  },
   section1: {
     flex: 1,
-
+    position: 'relative',
+    top: '1.8%',
+    alignItems: 'flex-start',
+  },
+  section22: {
+    flex: 1,
+    position: 'relative',
+    bottom: '5%',
+    justifyContent: 'center',
     alignItems: 'flex-start',
   },
   section2: {
     flex: 1,
-    paddingTop: hp('1.5%'),
-
-    // justifyContent: 'center',
-
+    position: 'relative',
+    bottom: '3%',
+    justifyContent: 'center',
     alignItems: 'flex-start',
+  },
+  section33: {
+    flex: 1,
+    position: 'relative',
+    bottom: '3.5%',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   section3: {
     flex: 1,
-    // paddingTop: hp('3%'),
-
+    position: 'relative',
+    bottom: '2.2%',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  section44: {
+    flex: 1,
+    position: 'relative',
+    bottom: '2%',
     alignItems: 'flex-start',
     justifyContent: 'center',
   },
   section4: {
     flex: 1,
-    // paddingTop: hp('5%'),
-
+    position: 'relative',
+    bottom: '1.2%',
     alignItems: 'flex-start',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+  },
+  section55: {
+    flex: 1,
+    position: 'relative',
+    bottom: '0.8%',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   section5: {
     flex: 1,
-
-    // paddingTop: hp('3%'),
+    position: 'relative',
+    bottom: '0.1%',
     alignItems: 'flex-start',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   section6: {
     flex: 1,
-
-    paddingTop: hp('2%'),
     alignItems: 'flex-start',
-    justifyContent: 'flex-end',
+    position: 'relative',
+    top: '1%',
+    justifyContent: 'center',
   },
   pdf: {
     flex: 1,
