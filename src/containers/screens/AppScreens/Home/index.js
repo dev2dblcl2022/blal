@@ -83,7 +83,7 @@ const index = ({navigation}) => {
   const [cartCount, setCartCount] = useState(0);
   const [notificationCount, setNotificationCount] = useState(0);
   const [whyDrBlal, setWhyDrBlal] = useState([]);
-
+  // const [addresses,setAddresses] = useState([])
   const [homePinCodeModal, setHomePinCodeModal] = useState(false);
   const [pinCode, setPincode] = useState('');
   const [panelId, setPanelId] = useState('');
@@ -121,7 +121,7 @@ const index = ({navigation}) => {
       navigation.navigate('ConnectionHandle');
     }
   }, [handleConnectionState]);
-  useEffect(() => {
+  useEffect(async() => {
     getLocation();
   }, []);
 
@@ -138,6 +138,8 @@ const index = ({navigation}) => {
     } else {
       if (label === '0' || label === null) {
         getCurrentLocation();
+      }else{
+        Toast('Service Not Provided! Set to Default location .',1);
       }
     }
   };
@@ -279,6 +281,7 @@ const index = ({navigation}) => {
 
         setLocationName(addressComponent);
         getZipCode(json, dummyCity);
+        Toast('Service Not Provided! Set to Default location .',1);
       })
       .catch(error => console.warn(error));
   }
@@ -391,7 +394,25 @@ const index = ({navigation}) => {
     await AsyncStorage.setItem('cityId', Blal_City_Id);
     await AsyncStorage.setItem('panelId', Blal_Panel_Id);
   };
+  // const getPrimaryAddresses = async () => {
+  //   const requestConfig = {
+  //     method: method.get,
+  //     url: servicesPoints.userServices.get_User_Address,
+  //   };
+  //   const response = await NetworkRequest(requestConfig);
 
+  //   if (response) {
+  //     const {success} = response;
+  //     if (success) {
+  //       setAddresses(response.data);
+  //     } else {
+  //       if (response === 'Network Error') {
+  //         Toast('Network Error', 0);
+  //         setHandleConnectionState(true);
+  //       }
+  //     }
+  //   }
+  // };
   function getLocationName(data) {
     Geocoder.init('AIzaSyBvrwNiJMMmne5aMGkQUMCpb-rafOYdT4g');
     Geocoder.from(data.coords.latitude, data.coords.longitude)
@@ -412,6 +433,15 @@ const index = ({navigation}) => {
             }
           }
         }
+        // getPrimaryAddresses();
+        // addresses.forEach((addressData)=>{
+        // if  (addressData.primary_address===true){
+        //   addressLabel(addressData);
+        //   setAddressLabel(addressData);
+        //   setLocationName(addressData);
+        //   // getZipCode(json, dummyCity);
+        // }   
+        // })
         addressLabel(addressComponent);
         setAddressLabel(addressComponent);
 
@@ -482,22 +512,32 @@ const index = ({navigation}) => {
               response.status === 400 ||
               response.message === 'Service not available for selected city.'
             ) {
+              let coords = {
+                latitude: DefaultLatitude,
+                longitude: DefaultLongitude,
+              };
+              
               Alert.alert(
                 `Service not available for current location`,
-                `Please choose other current location or Add new Address`,
-                [
-                  {
-                    text: 'Add New Address',
-                    onPress: () =>
-                      navigation.navigate('MyAddresses', {location: false}),
-                  },
-                  {
-                    text: 'Current Location',
-                    onPress: () =>
-                      navigation.navigate('MyAddresses', {location: false}),
-                  },
-                ],
-                {cancelable: false},
+                'We have set your location to default city Jaipur',
+               [getLocationNameDefaultMalviyaBlal(coords)], 
+                // `Please choose other current location or Add new Address`,
+                // [
+                //   {
+                //     text: 'Add New Address',
+                //     onPress: () =>
+                //       navigation.navigate('MyAddresses', {location: false}),
+                //   },
+                //   // {
+                //   //   text: 'Current Location',
+                //   //   onPress: () => getLocation()
+                //   // },
+                //   {
+                //     text: 'Default City ',
+                //     onPress: () => 
+                //   }
+                // ],
+                {cancelable: true},
               );
             }
           }
