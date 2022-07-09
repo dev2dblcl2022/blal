@@ -139,8 +139,8 @@ android {
         applicationId "com.blal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 12
-        versionName "3.5"
+        versionCode 13
+        versionName "3.5s"
             ndk {
                 debugSymbolLevel 'SYMBOL_TABLE'
             }
@@ -193,7 +193,7 @@ android {
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
-                        defaultConfig.versionCode + versionCodes.get(abi)
+                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
             }
 
         }
