@@ -562,9 +562,17 @@ const index = ({navigation, route}) => {
                   <View style={styles.bookingCard}>
                     <View style={styles.bookingCardPartOne}>
                               <View style={{ flex: 1 }}>
-                                <View style={{ paddingHorizontal: hp('3%') }}>
+                                <View>
                                   <View style={styles.parentSection}>
                                     <View style={styles.selfTestList}>
+                                    <View style={{width: '100%'}}>
+                                      <View style={styles.btnView}>
+                                        <RegularText
+                                          style={styles.btnViewText}
+                                          title={bookingDetailData.status}
+                                        />
+                                      </View>
+                                    </View>
                                       <FlatList
                                         data={[bookingDetailData]}
                                         showsVerticalScrollIndicator={false}
@@ -585,14 +593,7 @@ const index = ({navigation, route}) => {
                           />
                         </View> */}
                         </View>
-                       <View style={{ flex: 1 }}>
-                        <View style={styles.btnView}>
-                          <RegularText
-                            style={styles.btnViewText}
-                            title={bookingDetailData.status}
-                          />
-                        </View>
-                      </View>
+
                     </View>
                     <View
                       style={[
@@ -611,60 +612,7 @@ const index = ({navigation, route}) => {
                           />
                         </View>
                       </View> */}
-                      <View style={{flex: 1}}></View>
-                    </View>
-                    <View style={styles.cardPartTwo}>
-                      <View style={{flex: 1}}>
-                        <View>
-                          <LightText
-                            style={styles.bookingIdLabel}
-                            title={'Date & Time'}
-                          />
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <RegularText
-                            style={styles.booingDateText}
-                            title={bookingDetailData.created_at}
-                          />
-                        </View>
-                      </View>
-
-                      <View style={{flex: 1}}>
-                        <View>
-                          <LightText
-                            style={styles.bookingIdLabel}
-                            title={'Appointment Date and Time'}
-                          />
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <RegularText
-                            style={styles.booingDateText}
-                            title={bookingDetailData.booking_date_time}
-                          />
-                        </View>
-                      </View>
-
-                      <View style={{flex: 1, alignItems: 'flex-end'}}>
-                        <View style={{paddingRight: hp('2%')}}>
-                          <LightText
-                            style={styles.bookingIdLabel}
-                            title={'Collection Type'}
-                          />
-                        </View>
-                        <View
-                          style={{marginTop: hp('1%'), paddingRight: hp('2%')}}>
-                          <RegularText
-                            style={styles.booingDateText}
-                            title={
-                              bookingDetailData.collection_type === 'Home'
-                                ? 'Home'
-                                : 'Lab'
-                            }
-                          />
-                        </View>
-                      </View>
+                            <View style={{ flex: 1 }}></View>
                     </View>
                     <View style={styles.cardPartTwo}>
                       {/* <View style={{flex: 1}}>
@@ -974,6 +922,59 @@ const index = ({navigation, route}) => {
 
                     )
                   })}
+                <View style={styles.cardPartTwo}>
+                  <View style={{ flex: 1 }}>
+                    <View>
+                      <LightText
+                        style={styles.bookingIdLabel}
+                        title={'Date & Time'}
+                      />
+                    </View>
+
+                    <View style={{ marginTop: hp('1%') }}>
+                      <RegularText
+                        style={styles.booingDateText}
+                        title={myBookingData[0].created_at}
+                      />
+                    </View>
+                  </View>
+
+                  <View style={{ flex: 1 }}>
+                    <View>
+                      <LightText
+                        style={styles.bookingIdLabel}
+                        title={'Appointment Date and Time'}
+                      />
+                    </View>
+
+                    <View style={{ marginTop: hp('1%') }}>
+                      <RegularText
+                        style={styles.booingDateText}
+                        title={myBookingData[0].booking_date_time}
+                      />
+                    </View>
+                  </View>
+
+                  <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                    <View style={{ paddingRight: hp('2%') }}>
+                      <LightText
+                        style={styles.bookingIdLabel}
+                        title={'Collection Type'}
+                      />
+                    </View>
+                    <View
+                      style={{ marginTop: hp('1%'), paddingRight: hp('2%') }}>
+                      <RegularText
+                        style={styles.booingDateText}
+                        title={
+                          myBookingData[0].collection_type === 'Home'
+                            ? 'Home'
+                            : 'Lab'
+                        }
+                      />
+                    </View>
+                  </View>
+                </View>
                   {myBookingData[0].collection_type === 'Home' ? (
                     <View style={styles.pickupAddress}>
                       <RegularText

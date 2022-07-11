@@ -150,6 +150,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.app_theme_dark_green,
+    width: 200,
+    marginLeft: hp('15%')
   },
   btnViewText: {
     fontSize: hp('1.5%'),
@@ -157,7 +159,7 @@ export default StyleSheet.create({
   },
   cardPartTwo: {
     flexDirection: 'row',
-    marginTop: hp('3%'),
+    margin: hp('2%'),
   },
   bookingDateText: {
     color: colors.app_theme_light_green,

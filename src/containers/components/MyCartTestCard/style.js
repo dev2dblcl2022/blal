@@ -7,7 +7,7 @@ import colors from '../../../constants/colors';
 export default StyleSheet.create({
   itemContainer: {
     // alignItems: 'center',
-    marginTop: hp('1%'),
+    marginTop: hp('2%'),
 
     borderColor: colors.gray,
     // height: hp('10%'),
@@ -48,11 +48,11 @@ export default StyleSheet.create({
   profilePic: {height: 50, width: 50, borderRadius: 25},
   dataSection: {
     flex: 0.4,
-
+    
     alignItems: 'center',
   },
   nameText: {fontSize: hp('1.4%'), color: colors.app_theme_dark_green},
-  amountText: {fontSize: hp('1.3%'), color: colors.app_theme_dark_green},
+  amountText: {fontSize: hp('1.3%'), color: colors.app_theme_dark_green,marginLeft:hp('8%')},
   amountTextTwo: {fontSize: hp('1.3%'), color: colors.purplishGrey},
   emailText: {
     fontSize: hp('1.3%'),
