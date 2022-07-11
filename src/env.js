@@ -1,5 +1,5 @@
-// const releaseName = 'prod';
-const releaseName = 'staging';
+const releaseName = 'prod';
+// const releaseName = 'staging';
 
 export function getRelease(path) {
   if (releaseName === 'prod') {
