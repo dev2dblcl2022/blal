@@ -7,8 +7,8 @@ import colors from '../../../constants/colors';
 export default StyleSheet.create({
   cardBoxRow: {
     margin: hp('1%'),
-    position: 'relative',
-    bottom: hp('13%'),
+    // position: 'relative',
+    // bottom: hp('15%'),
     borderColor: colors.app_theme_dark_green,
     borderWidth: 1,
     borderRadius: 10,

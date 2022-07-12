@@ -506,7 +506,10 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
-
+                {console.log(
+                  'bookingDetailData.status',
+                  bookingDetailData.status,
+                )}
                 {bookingDetailData.collection_type === 'Home' ? (
                   <View style={styles.bookingStatus}>
                     <Image

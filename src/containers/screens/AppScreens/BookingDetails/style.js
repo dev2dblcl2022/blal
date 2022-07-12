@@ -96,7 +96,10 @@ export default StyleSheet.create({
     marginLeft: hp('0.5%'),
   },
 
-  dataSection: {flex: 1},
+  dataSection: {
+    flex: 1,
+    marginBottom: hp('10%'),
+  },
   searchingListSection: {
     flex: 1,
     paddingTop: hp('1%'),

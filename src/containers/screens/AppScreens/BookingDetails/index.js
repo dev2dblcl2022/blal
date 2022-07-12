@@ -623,6 +623,7 @@ const index = ({navigation, props}) => {
 
   const onPreviewBooking = () => {
     const even = element => element.selected;
+
     let selectedTimeSlot = bookingSlotsTime.some(even);
     let arr = [];
     if (selectedTimeSlot) {
@@ -693,8 +694,8 @@ const index = ({navigation, props}) => {
         onBack={() => navigation.goBack()}
         title={'Booking Details'}
       />
-   <ScrollView contentContainerStyle={{flexGrow: 1}}>
-      <View style={styles.mainContainer}>
+      <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <View style={styles.mainContainer}>
           <View style={styles.selfSection}>
             {/* <View style={styles.rowHeader}>
               <View style={styles.headerNameSection}>
@@ -979,29 +980,29 @@ const index = ({navigation, props}) => {
               </View>
             )}
           </View>
-        {!selectedType ? (
-          <View style={{padding: hp('2%')}}>
-            <SubmitButton
-              onPress={onPreviewBooking}
-              title={'Preview Booking'}
+          {!selectedType ? (
+            <View style={{padding: hp('2%')}}>
+              <SubmitButton
+                onPress={onPreviewBooking}
+                title={'Preview Booking'}
+              />
+            </View>
+          ) : null}
+          {datePicker ? (
+            <DateTimePickerModal
+              date={selectedDate}
+              isVisible={datePicker}
+              mode="date"
+              display={'spinner'}
+              minimumDate={new Date()}
+              maximumDate={maximumDate}
+              onConfirm={handleDatePickerConfirm}
+              onCancel={handleDatePickerCancel}
             />
-          </View>
-        ) : null}
-        {datePicker ? (
-          <DateTimePickerModal
-            date={selectedDate}
-            isVisible={datePicker}
-            mode="date"
-            display={'spinner'}
-            minimumDate={new Date()}
-            maximumDate={maximumDate}
-            onConfirm={handleDatePickerConfirm}
-            onCancel={handleDatePickerCancel}
-          />
-        ) : null}
-        <Loader display={loader} />
-      </View>
-    </ScrollView>
+          ) : null}
+          <Loader display={loader} />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
