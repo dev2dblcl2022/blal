@@ -559,7 +559,6 @@ const index = ({navigation, route}) => {
     return (
       <SearchLabCard
         onPress={() => {
-          console.log('heelo');
           navigation.navigate('FullBodyCheckup', {
             testPackageData: testPackageData,
             comeFromMyCart: false,

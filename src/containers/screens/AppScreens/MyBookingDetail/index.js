@@ -1267,7 +1267,6 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
-
                 {bookingDetailData.LedgerTransactionNo ? (
                   <View style={styles.downloadBtnView}>
                     <TouchableOpacity

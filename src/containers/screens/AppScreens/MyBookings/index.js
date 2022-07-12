@@ -417,12 +417,13 @@ const index1 = ({navigation, route}) => {
         orderID, // Booking Id
         merchantId, // Merchant Id
         token, // Txn token provided by backend
-        data.final_amount, //Total Amount
-        // 'https://www.npmjs.com/package/paytm_allinone_react-native',
+        data.final_amount.toString(), //Total Amount
 
         `${releaseEnvironment.Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
         false,
+
         false,
+        `${'paytm'}${merchantId}`,
       )
         .then(res => {
           paymentSuccess(res, data, orderID);
@@ -436,12 +437,12 @@ const index1 = ({navigation, route}) => {
         orderID,
         merchantId,
         token,
-        // '1',
-        data.final_amount,
+        data.final_amount.toString(),
         // 'https://www.npmjs.com/package/paytm_allinone_react-native',
         `${releaseEnvironment.Api_Live_Url}${servicesPoints.paymentServices.transaction_callback}?orderid=${orderID}`,
         false,
         false,
+        `${'paytm'}${merchantId}`,
       )
         .then(res => {
           console.log('res caught ', res);
@@ -611,7 +612,11 @@ const index1 = ({navigation, route}) => {
                     }}
                     dropDownContainerStyle={styles.dropDownContainer}
                     items={patients}
-                    setOpen={setPatientOpens}
+                    setOpen={() => {
+                      setPatientOpens(!patientOpens);
+                      setStatusOpen(false);
+                      setTimeOpens(false);
+                    }}
                     setValue={setPatientValues}
                     setItems={setPatients}
                   />
@@ -632,7 +637,11 @@ const index1 = ({navigation, route}) => {
                     }}
                     dropDownContainerStyle={styles.dropDownContainer}
                     items={status}
-                    setOpen={setStatusOpen}
+                    setOpen={() => {
+                      setStatusOpen(!statusOpen);
+                      setPatientOpens(false);
+                      setTimeOpens(false);
+                    }}
                     setValue={setStatusValue}
                     setItems={setStatus}
                   />
@@ -653,7 +662,11 @@ const index1 = ({navigation, route}) => {
                     items={times}
                     textStyle={{fontSize: hp('1.5%')}}
                     dropDownContainerStyle={styles.dropDownContainer}
-                    setOpen={setTimeOpens}
+                    setOpen={() => {
+                      setTimeOpens(!timeOpens);
+                      setPatientOpens(false);
+                      setStatusOpen(false);
+                    }}
                     setValue={setTimeValues}
                     setItems={setTimes}
                   />

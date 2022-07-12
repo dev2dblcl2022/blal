@@ -375,7 +375,7 @@ const index = ({navigation, route}) => {
       };
 
       const response = await NetworkRequestBlal(requestConfig);
-      console.log('responseresponse', response);
+
       if (response) {
         const {status_Code} = response;
 
@@ -559,7 +559,7 @@ const index = ({navigation, route}) => {
           <RegularText style={styles.testText} title={graphTitle} />
           {/* <BoldText style={styles.testDate} title={'15 April - 21 April'} /> */}
         </View>
-        {console.log('graphData', graphData)}
+
         {graphData?.data ? (
           <View style={styles.chartSection}>
             <LineGraph

@@ -121,7 +121,7 @@ const index = ({navigation}) => {
       navigation.navigate('ConnectionHandle');
     }
   }, [handleConnectionState]);
-  useEffect(async() => {
+  useEffect(async () => {
     getLocation();
   }, []);
 
@@ -279,7 +279,7 @@ const index = ({navigation}) => {
 
         setLocationName(addressComponent);
         getZipCode(json, dummyCity);
-        Toast('Service Not Provided! Set to Default location .',1);
+        Toast('Service Not Provided! Set to Default location .', 1);
       })
       .catch(error => console.warn(error));
   }
@@ -438,7 +438,7 @@ const index = ({navigation}) => {
         //   setAddressLabel(addressData);
         //   setLocationName(addressData);
         //   // getZipCode(json, dummyCity);
-        // }   
+        // }
         // })
         addressLabel(addressComponent);
         setAddressLabel(addressComponent);
@@ -514,11 +514,11 @@ const index = ({navigation}) => {
                 latitude: DefaultLatitude,
                 longitude: DefaultLongitude,
               };
-              
+
               Alert.alert(
                 `Service not available for current location`,
                 'We have set your location to default city Jaipur',
-               [getLocationNameDefaultMalviyaBlal(coords)], 
+                [getLocationNameDefaultMalviyaBlal(coords)],
                 // `Please choose other current location or Add new Address`,
                 // [
                 //   {
@@ -532,7 +532,7 @@ const index = ({navigation}) => {
                 //   // },
                 //   {
                 //     text: 'Default City ',
-                //     onPress: () => 
+                //     onPress: () =>
                 //   }
                 // ],
                 {cancelable: true},
@@ -906,7 +906,6 @@ const index = ({navigation}) => {
       if (response) {
         const {success} = response;
         if (success) {
-          console.log('response.message', response.message);
           Toast(
             response.message,
             response.message ===

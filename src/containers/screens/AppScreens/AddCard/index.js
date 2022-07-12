@@ -219,7 +219,10 @@ const index = ({navigation, route}) => {
       }
     }
   };
-
+  console.log(
+    'membershipCardData.No_of_dependant',
+    membershipCardData.No_of_dependant,
+  );
   const onInitiateTransaction = async () => {
     setLoader(true);
     let orderId = `${membershipCardData.Id}_${Date.now()}`;
@@ -324,6 +327,10 @@ const index = ({navigation, route}) => {
 
   const apiAddCard = async transaction_id => {
     setLoader(true);
+    console.log(
+      'membershipCardData.No_of_dependant',
+      membershipCardData.No_of_dependant,
+    );
     try {
       var data = {};
       if (
@@ -351,7 +358,14 @@ const index = ({navigation, route}) => {
           DependentId: dependentPatientsValues.join(','),
         };
       }
-
+      console.log('data.hash', data.hash);
+      console.log('data.Mobile', data.Mobile);
+      console.log('data.PatientID', data.PatientID);
+      console.log('data.MembershipCardId', data.MembershipCardId);
+      console.log('data.TransactionId', data.TransactionId);
+      console.log('data.Amount', data.Amount);
+      console.log('data.CityId', data.CityId);
+      console.log('data.DependentId', data.DependentId);
       // let url = ``;
 
       // if (membershipCardData.No_of_dependant === '1') {
@@ -394,8 +408,9 @@ const index = ({navigation, route}) => {
       //   .catch(function (error) {
       //     console.log(error);
       //   });
+      console.log('requestConfig', requestConfig);
       const response = await NetworkRequestBlal(requestConfig);
-
+      console.log('response', response);
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
@@ -411,19 +426,22 @@ const index = ({navigation, route}) => {
             cardAmount: data.Amount,
             mobileNumber: data.Mobile,
           };
+          console.log('sampleData', sampleData);
           const requestConfigLead = {
             method: method.post,
             data: sampleData,
             url: servicesPoints.userServices.membership_card,
           };
-
+          console.log('requestConfigLead', requestConfigLead);
+          console.log('membershipCardData.NAME', membershipCardData.NAME);
+          console.log('response.data', response.data);
           await NetworkRequest(requestConfigLead);
           Toast(
             `Your card number for ${membershipCardData.NAME} is ${response.data}`,
             1,
           );
           setLoader(false);
-          navigation.pop(2);
+          // navigation.pop(2);
         } else {
           setLoader(false);
         }
@@ -491,7 +509,7 @@ const index = ({navigation, route}) => {
     setPatientDependent(allDependentPatients);
   }, [patientsValues]);
   const seniorPatient = allPatients.filter(item => {
-    if (item.age >= '60 Years') {
+    if (parseInt(item.age.split(' ')[0]) >= 60) {
       return item;
     }
   });

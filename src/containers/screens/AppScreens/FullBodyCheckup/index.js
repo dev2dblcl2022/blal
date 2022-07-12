@@ -111,6 +111,7 @@ export default function index({navigation, route, props}) {
 
         url: `${blalServicesPoints.blalUserServices.GetTestPackageDetails}?PanelId=${data.PanelId}&CityId=${data.CityId}&Id=${data.Id}&Type=${data.Type}`,
       };
+
       const response = await NetworkRequestBlal(requestConfig);
 
       if (response) {
@@ -364,6 +365,7 @@ export default function index({navigation, route, props}) {
                             title={`${'\u20B9'} ${packageData?.TotalMRP}`}
                           />
                         ) : null}
+
                         {packageData?.DiscountPercentage ? (
                           <RegularText
                             style={styles.offText}
