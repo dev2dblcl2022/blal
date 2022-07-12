@@ -465,6 +465,7 @@ const index = ({navigation, route}) => {
             onBack={() => navigation.goBack()}
             title={`My Booking #${bookingDetailData.LisBookId}`}
           />
+          {console.log('bookingDetailDataa', bookingDetailData)}
           <MainContainer>
             <ScrollView style={styles.scroll}>
               <View style={styles.fullContainer}>

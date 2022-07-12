@@ -28,7 +28,7 @@ export default props => {
     booking_date_time,
     pickup_charge,
   } = props?.data;
-
+  console.log('props?.data', props?.data);
   let discount = Number(total_discount).toFixed(0);
   // const num1 = parseInt(total_member_amount);
   // const num2 = parseInt(pickup_charge);

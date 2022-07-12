@@ -360,14 +360,20 @@ const index = ({navigation, route}) => {
       // } else {
       //   url = `${blalServicesPoints.blalUserServices.CreateNewMembershipCard}?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}&DependentId=${data.DependentId}`;
       // }
-
-      const requestConfig = {
-        method: blalMethod.post,
-        data: {},
-        url:
+      let url =
+        membershipCardData.No_of_dependant === '1'
+          ? `CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}`
+          : `CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}`;
+      if (data.DependentId) {
+        url =
           membershipCardData.No_of_dependant === '1'
             ? `CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}`
-            : `CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}&DependentId=${data.DependentId}`,
+            : `CreateNewMembershipCard?Hash=${data.Hash}&Mobile=${data.Mobile}&PatientID=${data.PatientID}&MembershipCardId=${data.MembershipCardId}&TransactionId=${data.TransactionId}&Amount=${data.Amount}&CityId=${data.CityId}&DependentId=${data.DependentId}`;
+      }
+      let requestConfig = {
+        method: blalMethod.post,
+        data: {},
+        url: url,
       };
 
       // var config = {
