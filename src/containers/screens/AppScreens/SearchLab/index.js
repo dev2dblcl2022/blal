@@ -241,7 +241,7 @@ const index = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    if (pageData.EndPage != pageData.TotalPages) {
+    if (pageData.TotalItems >= page) {
       getTest('', page);
     }
   }, [page]);
@@ -655,9 +655,7 @@ const index = ({navigation, route}) => {
 
   const renderFooter = () => (
     <View style={styles.loaderArea}>
-      {test.length >= 10 &&
-      test.length < pageData.TotalItems &&
-      pageData.EndPage != pageData.TotalPages ? (
+      {pageData.TotalItems >= page ? (
         <Text>Loading...</Text>
       ) : null}
     </View>
