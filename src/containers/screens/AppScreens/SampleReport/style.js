@@ -86,7 +86,9 @@ export default StyleSheet.create({
     marginTop: hp('2.5%'),
     color: colors.purplishGrey,
   },
-  chartSection: {flex: 1, paddingVertical: hp('4%')},
+  chartSection: {
+    flexGrow: 1,
+  },
   dateBirthContainer: {
     height: 50,
     flex: 1,

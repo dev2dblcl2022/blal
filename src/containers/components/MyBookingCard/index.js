@@ -28,7 +28,7 @@ export default props => {
     booking_date_time,
     pickup_charge,
   } = props?.data;
-  console.log('props?.data', props?.data);
+
   let discount = Number(total_discount).toFixed(0);
   // const num1 = parseInt(total_member_amount);
   // const num2 = parseInt(pickup_charge);
@@ -102,7 +102,11 @@ export default props => {
           <View style={{marginTop: hp('1%')}}>
             <RegularText
               style={styles.booingDateText}
-              title={booking_date_time}
+              title={
+                collection_type === 'Lab'
+                  ? booking_date_time.split(' ')[0]
+                  : booking_date_time
+              }
             />
           </View>
           <View>
@@ -221,7 +225,7 @@ export default props => {
           ) : null}
         </View>
       </View>
-      {status === 'Successful' && user_rating_number === null ? (
+      {status === 'Confirmed' && user_rating_number === null ? (
         <View
           hitSlop={{left: 15, right: 15, top: 15, bottom: 15}}
           style={{
@@ -229,7 +233,7 @@ export default props => {
 
             alignItems: 'center',
           }}>
-          {/* <TouchableOpacity onPress={props.onPressRate}>
+          <TouchableOpacity onPress={props.onPressRate}>
             <LightText
               style={{
                 fontSize: hp('2.5%'),
@@ -243,7 +247,7 @@ export default props => {
               }}
               title={'Rate Us'}
             />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       ) : null}
     </TouchableOpacity>

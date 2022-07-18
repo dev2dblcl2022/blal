@@ -81,12 +81,12 @@ const DrawerScreen = ({navigation}) => {
       screen: 'UploadedPrescriptionsStack',
     },
     {id: 6, screenName: 'My Reports', screen: 'MyReports'},
-    // {id: 7, screenName: 'Smart Reports', screen: 'SampleReport'},
-    {id: 7, screenName: 'Addresses', screen: 'MyAddresses'},
-    {id: 8, screenName: 'Blogs', screen: 'BlogStack'},
-    {id: 9, screenName: 'Need Help ?', screen: 'NeedHelp'},
-    {id: 10, screenName: 'About Dr. B Lal Lab', screen: 'AboutDrBlal'},
-    {id: 11, screenName: 'Logout', screen: 'xyz'},
+    {id: 7, screenName: 'Smart Reports', screen: 'SampleReport'},
+    {id: 8, screenName: 'Addresses', screen: 'MyAddresses'},
+    {id: 9, screenName: 'Blogs', screen: 'BlogStack'},
+    {id: 10, screenName: 'Need Help ?', screen: 'NeedHelp'},
+    {id: 11, screenName: 'About Dr. B Lal Lab', screen: 'AboutDrBlal'},
+    {id: 12, screenName: 'Logout', screen: 'xyz'},
   ]);
 
   const onNext = async item => {
@@ -108,13 +108,13 @@ const DrawerScreen = ({navigation}) => {
         {cancelable: false},
       );
     } else {
-      if (item.id === 11) {
+      if (item.id === 12) {
         await AsyncStorage.removeItem('LocationStatus');
         addressLabel('');
         signOut();
 
         // Logout();
-      } else if (item.id === 9) {
+      } else if (item.id === 10) {
         if (Platform.OS === 'ios') {
           navigation.navigate(item.screen);
         } else {
@@ -125,7 +125,7 @@ const DrawerScreen = ({navigation}) => {
             Linking.openURL(`whatsapp://send?phone=${'+91-9166125555'}`);
           }
         }
-      } else if (item.id === 7) {
+      } else if (item.id === 8) {
         navigation.navigate(item.screen, {location: true});
       } else {
         navigation.navigate(item.screen);

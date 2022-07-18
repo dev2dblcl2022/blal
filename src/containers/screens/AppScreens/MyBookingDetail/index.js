@@ -465,7 +465,7 @@ const index = ({navigation, route}) => {
             onBack={() => navigation.goBack()}
             title={`My Booking #${bookingDetailData.LisBookId}`}
           />
-          {console.log('bookingDetailDataa', bookingDetailData)}
+
           <MainContainer>
             <ScrollView style={styles.scroll}>
               <View style={styles.fullContainer}>
@@ -507,10 +507,7 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
-                {console.log(
-                  'bookingDetailData.status',
-                  bookingDetailData.status,
-                )}
+
                 {bookingDetailData.collection_type === 'Home' ? (
                   <View style={styles.bookingStatus}>
                     <Image
@@ -755,7 +752,13 @@ const index = ({navigation, route}) => {
                         <View style={{marginTop: hp('1%')}}>
                           <RegularText
                             style={styles.booingDateText}
-                            title={bookingDetailData.booking_date_time}
+                            title={
+                              bookingDetailData.collection_type === 'Lab'
+                                ? bookingDetailData.booking_date_time.split(
+                                    ' ',
+                                  )[0]
+                                : bookingDetailData.booking_date_time
+                            }
                           />
                         </View>
                       </View>

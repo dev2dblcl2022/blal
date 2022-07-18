@@ -5,18 +5,19 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from 'react-native';
 import styles from './style';
 import DefaultHeader from '../../../components/DefaultHeader';
 import {Loader, Toast} from '../../../components';
-// import {
-//   LineChart,
-//   BarChart,
-//   PieChart,
-//   ProgressChart,
-//   ContributionGraph,
-//   StackedBarChart,
-// } from 'react-native-chart-kit';
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart,
+} from 'react-native-chart-kit';
 import LineGraph from '../../../components/ChartReport/LineGraph';
 import colors from '../../../../constants/colors';
 import {BoldText, RegularText} from '../../../components/Common';
@@ -35,6 +36,9 @@ import moment from 'moment';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {Date_Format} from '../../../../config/Setting';
 import imagesConstants from '../../../../constants/imagesConstants';
+import {Dimensions} from 'react-native';
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 const index = ({navigation, route}) => {
   var OBJ = {};
   let [loader, setLoader] = useState(false);
@@ -160,12 +164,12 @@ const index = ({navigation, route}) => {
   // }, [apiStartDate, apiEndDate]);
 
   useEffect(() => {
-    if (timeValues && patientTestValues) {
+    if (timeValues) {
       onGetSmartReport();
     } else {
       null;
     }
-  }, [timeValues, patientTestValues]);
+  }, [timeValues]);
 
   useEffect(() => {
     if (patientTestValues) {
@@ -179,7 +183,6 @@ const index = ({navigation, route}) => {
     };
 
     const response = await NetworkRequest(requestConfig);
-
     if (response) {
       const {success} = response;
       if (success) {
@@ -385,7 +388,9 @@ const index = ({navigation, route}) => {
           });
           var Obj = {
             netWorth: netWorth.toString(),
-            data: response.data.data,
+            data: response.data.map(item => {
+              return item;
+            }),
           };
 
           // if (response.data.data.length > 0) {
@@ -412,6 +417,13 @@ const index = ({navigation, route}) => {
       console.log('err', err);
     }
   };
+
+  let labelSet = [];
+  let valueSet = [];
+  graphData?.data?.forEach(item => {
+    valueSet.push(parseFloat(item?.Value));
+    labelSet.push(item.Date.split(' ')[0]);
+  });
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -468,7 +480,7 @@ const index = ({navigation, route}) => {
               <View
                 style={
                   ([styles.dropDownView],
-                  {marginBottom: patientTestOpens ? hp('10%') : 0})
+                  {marginBottom: patientTestOpens ? hp('25%') : 0})
                 }>
                 <DropDownPicker
                   open={patientTestOpens}
@@ -477,7 +489,10 @@ const index = ({navigation, route}) => {
                   style={{borderColor: colors.purplishGrey, borderWidth: 1}}
                   dropDownContainerStyle={styles.dropDownContainer}
                   items={membersTest}
-                  setOpen={setPatientTestOpens}
+                  setOpen={() => {
+                    setPatientTestOpens(!patientTestOpens);
+                    setTimeOpens(false);
+                  }}
                   setValue={setPatientTestValues}
                 />
               </View>
@@ -506,27 +521,8 @@ const index = ({navigation, route}) => {
               </View>
             </View>
           </View>
-          <View style={[styles.dropDownSections]}>
-            <View style={styles.timeSection}>
-              <View style={styles.dropDownView}>
-                <DropDownPicker
-                  open={timeOpens}
-                  placeholder="Time"
-                  value={timeValues}
-                  style={{
-                    borderColor: colors.purplishGrey,
-                    borderWidth: 1,
-                    zIndex: 999,
-                  }}
-                  zIndex={999}
-                  items={times}
-                  dropDownContainerStyle={styles.dropDownContainer}
-                  setOpen={setTimeOpens}
-                  setValue={setTimeValues}
-                />
-              </View>
-            </View>
-            {timeValues === '5' ? (
+
+          {/* {timeValues === '5' ? (
               <View style={styles.timeSection}>
                 <TouchableOpacity
                   onPress={() => setStartDatePicker(true)}
@@ -552,20 +548,73 @@ const index = ({navigation, route}) => {
                   <View style={styles.calendarView}></View>
                 </TouchableOpacity>
               </View>
-            ) : null}
+            ) : null} */}
+        </View>
+        {/* <View style={styles.chartNameSection}> */}
+        {/* <RegularText style={styles.testText} title={graphTitle} /> */}
+        {/* <BoldText style={styles.testDate} title={'15 April - 21 April'} /> */}
+        {/* </View> */}
+        <View style={[styles.dropDownSections]}>
+          <View style={styles.timeSection}>
+            <View style={styles.dropDownView}>
+              <DropDownPicker
+                open={timeOpens}
+                placeholder="Time"
+                value={timeValues}
+                style={{
+                  borderColor: colors.purplishGrey,
+                  borderWidth: 1,
+                  // zIndex: 999,
+                }}
+                zIndex={3000}
+                items={times}
+                dropDownContainerStyle={styles.dropDownContainer}
+                setOpen={setTimeOpens}
+                setValue={setTimeValues}
+              />
+            </View>
           </View>
         </View>
-        <View style={styles.chartNameSection}>
-          <RegularText style={styles.testText} title={graphTitle} />
-          {/* <BoldText style={styles.testDate} title={'15 April - 21 April'} /> */}
-        </View>
-
         {graphData?.data ? (
           <View style={styles.chartSection}>
-            <LineGraph
-              statistics={graphData}
-              nav={navigation}
-              isFrom="MyProfile"
+            <LineChart
+              data={{
+                labels: labelSet,
+                datasets: [
+                  {
+                    data: valueSet,
+                  },
+                ],
+              }}
+              width={screenWidth} // from react-native
+              height={320}
+              verticalLabelRotation={25}
+              // yAxisLabel="$"
+              // yAxisSuffix="k"
+              yAxisInterval={1} // optional, defaults to 1
+              chartConfig={{
+                // backgroundColor: '#e26a00',
+                backgroundGradientFrom: '#ffffff',
+                backgroundGradientTo: '#ffffff',
+
+                // decimalPlaces: 2, // optional, defaults to 2dp
+                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                // labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                style: {
+                  borderRadius: 16,
+                  color: '#fff',
+                },
+                propsForDots: {
+                  r: '6',
+                  strokeWidth: '2',
+                  stroke: '#ffffff',
+                },
+              }}
+              bezier
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
+              }}
             />
           </View>
         ) : (
