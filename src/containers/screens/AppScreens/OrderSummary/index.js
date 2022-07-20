@@ -675,6 +675,7 @@ const index = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      {console.log('selectedAddress', selectedAddress)}
       <DefaultHeader onBack={onStoreData} title={'Order Summary'} />
 
       <View
@@ -805,10 +806,22 @@ const index = ({navigation, route}) => {
                   title={'Sample Collection Address'}
                 />
               </View>
+              {console.log('lab', lab)}
               <View style={styles.editIconRight}>
                 <RegularText
                   style={styles.selfAddressText}
-                  title={lab === 0 ? 'Home' : 'Lab'}
+                  // title={lab === 0 ? 'Home' : 'Lab'}
+                  title={
+                    lab === 1
+                      ? 'Lab'
+                      : selectedAddress.type === 'Home'
+                      ? 'Home'
+                      : selectedAddress.type === 'Office'
+                      ? 'Office'
+                      : selectedAddress.type === 'Others'
+                      ? 'Others'
+                      : ''
+                  }
                 />
                 <RegularText
                   style={styles.selfAddressData}

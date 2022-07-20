@@ -1289,7 +1289,7 @@ const index = ({navigation}) => {
               <HomeHorizontalList
                 data={whyDrBlal}
                 horizontal={true}
-                listTitle={'Why Choose Dr. B Lal Laboratory'}
+                listTitle={'Why Choose Dr. B Lal Clinical Laboratory'}
                 extraData={whyDrBlal}
                 renderItem={({item}) => {
                   return <WhyDrBlalCard data={item} />;

@@ -225,7 +225,7 @@ export default props => {
           ) : null}
         </View>
       </View>
-      {status === 'Confirmed' && user_rating_number === null ? (
+      {status === 'Successful' && user_rating_number === null ? (
         <View
           hitSlop={{left: 15, right: 15, top: 15, bottom: 15}}
           style={{

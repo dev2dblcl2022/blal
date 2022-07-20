@@ -157,7 +157,7 @@ const index = ({navigation}) => {
             placeholder={'Mobile number'}
           />
           {/* <Controller
-            defaultValue=""
+            defaultValue=""setHandleConnectionState
             control={control}
             render={({field: {onChange, value, onBlur}}) => (
               <TextInput

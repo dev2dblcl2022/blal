@@ -102,7 +102,9 @@ const index = ({navigation}) => {
         method: method.get,
         url: servicesPoints.bookingServices.myCart,
       };
+      console.log('requestConfig', requestConfig);
       const response = await NetworkRequest(requestConfig);
+      console.log('response', response);
       if (response) {
         const {success} = response;
         if (success) {
@@ -442,7 +444,7 @@ const index = ({navigation}) => {
           ) : null}
         </TouchableOpacity>
       </View>
-
+      {console.log('cartDataBookings', cartDataBookings)}
       {cartDataBookings.length ? (
         <View style={{flex: 1}}>
           <View style={{flex: 1}}>

@@ -72,13 +72,13 @@ const index = ({navigation, route, props}) => {
   //     RNOtpVerify.removeListener();
   //   };
   // }, []);
-  useEffect(() => {
-    RNOtpVerify.getHash().then(console.log).catch(console.log);
-    RNOtpVerify.getOtp()
-      .then(p => RNOtpVerify.addListener(otpHandler))
-      .catch(p => console.log(p));
-    return () => RNOtpVerify.removeListener();
-  }, []);
+  // useEffect(() => {
+  //   RNOtpVerify.getHash().then(console.log).catch(console.log);
+  //   RNOtpVerify.getOtp()
+  //     .then(p => RNOtpVerify.addListener(otpHandler))
+  //     .catch(p => console.log(p));
+  //   return () => RNOtpVerify.removeListener();
+  // }, []);
   // const otpHandler = () => {
   //   const getOtp = /\d+/g;
   //   console.log('egetete', getOtp);
@@ -87,17 +87,17 @@ const index = ({navigation, route, props}) => {
   //   RNOtpVerify.removeListener();
   //   Keyboard.dismiss();
   // };
-  const otpHandler = message => {
-    console.log('message', message);
-    const regex = /\d+/g;
-    const lOtp = message.match(regex); // creates array from matches
-    // const lOtp = message[1];
-    console.log(lOtp);
-    setOtp(lOtp);
-    RNOtpVerify.removeListener();
-    Keyboard.dismiss();
-  };
-  console.log(otp, 'otpp');
+  // const otpHandler = message => {
+  //   console.log('message', message);
+  //   const regex = /\d+/g;
+  //   const lOtp = message.match(regex); // creates array from matches
+  //   // const lOtp = message[1];
+  //   console.log(lOtp);
+  //   setOtp(lOtp);
+  //   RNOtpVerify.removeListener();
+  //   Keyboard.dismiss();
+  // };
+  // console.log(otp, 'otpp');
   // const onSmsListenerPressed = async () => {
   //   try {
   //     SmsRetriever.startSmsRetriever().then(registered => {

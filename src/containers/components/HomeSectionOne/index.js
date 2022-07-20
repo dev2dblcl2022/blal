@@ -44,7 +44,7 @@ export default props => {
           onPress={props.browseLabTest}
           style={styles.browseLabCard}>
           <Image source={imagesConstants.browseLabTest} />
-          <RegularText style={styles.browseLabText} title={'Browse Lab Test'} />
+          <RegularText style={styles.browseLabText} title={'Book a Test'} />
         </TouchableOpacity>
         <View style={{flex: 0.25}} />
         <TouchableOpacity
