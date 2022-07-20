@@ -164,12 +164,12 @@ const index = ({navigation, route}) => {
   // }, [apiStartDate, apiEndDate]);
 
   useEffect(() => {
-    if (timeValues) {
+    if (timeValues && patientSubTestValues) {
       onGetSmartReport();
     } else {
       null;
     }
-  }, [timeValues]);
+  }, [timeValues, patientSubTestValues]);
 
   useEffect(() => {
     if (patientTestValues) {
@@ -217,6 +217,9 @@ const index = ({navigation, route}) => {
     });
 
     setPatients(data);
+    setPatientTestValues('');
+    setPatientSubTestValues('');
+    setTimeValues('');
     onGetFamilyMemberTest(item);
   };
 
@@ -554,69 +557,87 @@ const index = ({navigation, route}) => {
         {/* <RegularText style={styles.testText} title={graphTitle} /> */}
         {/* <BoldText style={styles.testDate} title={'15 April - 21 April'} /> */}
         {/* </View> */}
-        <View style={[styles.dropDownSections]}>
-          <View style={styles.timeSection}>
-            <View style={styles.dropDownView}>
-              <DropDownPicker
-                open={timeOpens}
-                placeholder="Time"
-                value={timeValues}
-                style={{
-                  borderColor: colors.purplishGrey,
-                  borderWidth: 1,
-                  // zIndex: 999,
-                }}
-                zIndex={3000}
-                items={times}
-                dropDownContainerStyle={styles.dropDownContainer}
-                setOpen={setTimeOpens}
-                setValue={setTimeValues}
-              />
+
+        {patientSubTestValues && patientTestValues ? (
+          <View style={[styles.dropDownSections]}>
+            <View style={styles.timeSection}>
+              <View style={styles.dropDownView}>
+                <DropDownPicker
+                  open={timeOpens}
+                  placeholder="Time"
+                  value={timeValues}
+                  style={{
+                    borderColor: colors.purplishGrey,
+                    borderWidth: 1,
+                    // zIndex: 999,
+                  }}
+                  zIndex={3000}
+                  items={times}
+                  dropDownContainerStyle={styles.dropDownContainer}
+                  setOpen={setTimeOpens}
+                  setValue={setTimeValues}
+                />
+              </View>
             </View>
           </View>
-        </View>
-        {graphData?.data ? (
-          <View style={styles.chartSection}>
-            <LineChart
-              data={{
-                labels: labelSet,
-                datasets: [
-                  {
-                    data: valueSet,
-                  },
-                ],
-              }}
-              width={screenWidth} // from react-native
-              height={320}
-              verticalLabelRotation={25}
-              // yAxisLabel="$"
-              // yAxisSuffix="k"
-              yAxisInterval={1} // optional, defaults to 1
-              chartConfig={{
-                // backgroundColor: '#e26a00',
-                backgroundGradientFrom: '#ffffff',
-                backgroundGradientTo: '#ffffff',
+        ) : null}
+        {timeValues && patientTestValues && patientSubTestValues ? (
+          graphData?.data ? (
+            <View style={styles.chartSection}>
+              <LineChart
+                data={{
+                  labels: labelSet,
+                  datasets: [
+                    {
+                      data: valueSet,
+                    },
+                  ],
+                }}
+                width={screenWidth} // from react-native
+                height={320}
+                verticalLabelRotation={25}
+                // yAxisLabel="$"
+                // yAxisSuffix="k"
+                yAxisInterval={1} // optional, defaults to 1
+                chartConfig={{
+                  // backgroundColor: '#e26a00',
+                  backgroundGradientFrom: '#ffffff',
+                  backgroundGradientTo: '#ffffff',
 
-                // decimalPlaces: 2, // optional, defaults to 2dp
-                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                // labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                style: {
+                  // decimalPlaces: 2, // optional, defaults to 2dp
+                  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  // labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                  style: {
+                    borderRadius: 16,
+                    color: '#fff',
+                  },
+                  propsForDots: {
+                    r: '6',
+                    strokeWidth: '2',
+                    stroke: '#ffffff',
+                  },
+                }}
+                bezier
+                style={{
+                  marginVertical: 8,
                   borderRadius: 16,
-                  color: '#fff',
-                },
-                propsForDots: {
-                  r: '6',
-                  strokeWidth: '2',
-                  stroke: '#ffffff',
-                },
-              }}
-              bezier
+                }}
+              />
+            </View>
+          ) : (
+            <View
               style={{
-                marginVertical: 8,
-                borderRadius: 16,
-              }}
-            />
-          </View>
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingTop: hp('6%'),
+              }}>
+              <Image
+                style={{height: 50, width: 50}}
+                source={imagesConstants.noReports}
+              />
+              <RegularText style={{marginTop: 20}} title={'No Record Found'} />
+            </View>
+          )
         ) : (
           <View
             style={{
@@ -628,7 +649,7 @@ const index = ({navigation, route}) => {
               style={{height: 50, width: 50}}
               source={imagesConstants.noReports}
             />
-            {/* <RegularText style={{marginTop: 20}} title={'No Record Found'} /> */}
+            <RegularText style={{marginTop: 20}} title={'No Record Found'} />
           </View>
         )}
       </View>
