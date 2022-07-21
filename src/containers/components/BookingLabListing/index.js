@@ -183,7 +183,7 @@ export default props => {
               </TouchableOpacity>
             </View>
 
-            <View style={[styles.specialInstructionSection]}>
+            {/* <View style={[styles.specialInstructionSection]}>
               <View>
                 <BoldText
                   style={styles.selfNameText}
@@ -198,7 +198,7 @@ export default props => {
                   renderItem={renderSpecialInstruction}
                 />
               </View>
-            </View>
+            </View> */}
             <TouchableOpacity>
               <SubmitButton
                 onPress={() => clickPreviewButton()}

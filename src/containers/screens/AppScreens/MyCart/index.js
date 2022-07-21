@@ -444,7 +444,6 @@ const index = ({navigation}) => {
           ) : null}
         </TouchableOpacity>
       </View>
-      {console.log('cartDataBookings', cartDataBookings)}
       {cartDataBookings.length ? (
         <View style={{flex: 1}}>
           <View style={{flex: 1}}>

@@ -417,7 +417,7 @@ const validation = {
   },
   name: {
     presence: {
-      message: 'Your name is required',
+      message: 'Your Full Name is required',
     },
 
     format: {

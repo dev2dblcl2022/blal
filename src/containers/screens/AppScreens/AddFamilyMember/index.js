@@ -69,6 +69,7 @@ const index = ({navigation}) => {
     {label: 'Sibling', value: 'Siblings'},
     {label: 'Sister', value: 'Sister'},
     {label: 'Wife', value: 'Wife'},
+    {label: 'Others', value: 'Other'},
   ]);
   const [validateForm, setValidateForm] = useState({
     name: '',

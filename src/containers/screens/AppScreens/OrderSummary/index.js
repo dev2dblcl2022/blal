@@ -675,7 +675,6 @@ const index = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {console.log('selectedAddress', selectedAddress)}
       <DefaultHeader onBack={onStoreData} title={'Order Summary'} />
 
       <View
@@ -806,7 +805,7 @@ const index = ({navigation, route}) => {
                   title={'Sample Collection Address'}
                 />
               </View>
-              {console.log('lab', lab)}
+
               <View style={styles.editIconRight}>
                 <RegularText
                   style={styles.selfAddressText}
@@ -890,7 +889,10 @@ const index = ({navigation, route}) => {
             <View style={styles.paymentSection}>
               <View style={styles.couponCodeSection}>
                 <View style={styles.couponHeadingSection}>
-                  <BoldText style={styles.selfNameText} title={'Coupon Code'} />
+                  <BoldText
+                    style={styles.selfNameText}
+                    title={'Coupon Code / Membership Card ID'}
+                  />
                   <TouchableOpacity
                     onPress={() => {
                       setViewOfferClick(true);
