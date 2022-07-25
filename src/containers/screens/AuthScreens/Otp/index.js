@@ -98,38 +98,27 @@ const index = ({navigation, route, props}) => {
   //   Keyboard.dismiss();
   // };
   // console.log(otp, 'otpp');
+
   // const onSmsListenerPressed = async () => {
   //   try {
-  //     SmsRetriever.startSmsRetriever().then(registered => {
-  //       console.log('hehehehe', registered);
-  //       if (registered) {
+  //     const registered = await SmsRetriever.startSmsRetriever();
+  //     console.log('hehehehe', registered);
+  //     if (registered) {
+  //       SmsRetriever.addSmsListener(event => {
+  //         console.log('hahahaha', event);
   //         SmsRetriever.removeSmsListener();
-  //         setTimeout(() => {
-  //           SmsRetriever.addSmsListener(event => {
-  //             console.log('hahahaha', event);
-  //             if (
-  //               typeof event === 'object' &&
-  //               event.message !== undefined &&
-  //               typeof event.message === 'string' &&
-  //               event.message !== null &&
-  //               event.message !== ''
-  //             ) {
-  //               let messageFind = event.message;
-  //               console.log('messageFind', messageFind);
-  //               if (messageFind.includes('verify')) {
-  //                 messageFind = messageFind.split(' ');
-  //                 if (messageFind.length > 0) {
-  //                   setOtp(messageFind[0]);
-  //                 }
-  //               }
-  //             }
-  //             console.log('check', event.message);
-  //           });
-  //         }, 200);
-  //       }
-  //     });
+  //         var messageFind = event.message;
+
+  //         const regex = /\d+/g;
+  //         messageFind = messageFind?.match(regex);
+  //         console.log('messageFind', messageFind);
+
+  //         console.log('heelo', messageFind[0]);
+  //         setOtp(messageFind[0]);
+  //       });
+  //     }
   //   } catch (error) {
-  //     console.log(JSON.stringify(error));
+  //     console.log('error', JSON.stringify(error));
   //   }
   // };
   // useEffect(() => {

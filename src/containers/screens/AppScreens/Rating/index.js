@@ -44,10 +44,15 @@ const index = ({navigation, route}) => {
 
   const [ratingCount, setRatingCount] = useState(0);
   const [questions, setQuestions] = useState([]);
+  const [ratingQuestions, setRatingquestions] = useState([]);
   const [ratingNumbers, setRatingNumbers] = useState([]);
+  const [ratingNumberss, setRatingNumberss] = useState([]);
   const [loader, setLoader] = useState(true);
   const [bookingDetailData, setBookingDetailData] = useState({});
   const [subHeading, setSubHeading] = useState('');
+  const [subTitle, setSubTitle] = useState('');
+  const [bookingRating, setBookingRating] = useState([]);
+  const [ratingItemId, setRatingItemId] = useState([]);
   const [validateForm, setValidateForm] = useState({
     review: '',
     reviewError: '',
@@ -103,6 +108,55 @@ const index = ({navigation, route}) => {
     setRatingCount(rating);
     getQuestion(rating);
   };
+  const getQuestion1 = async val => {
+    try {
+      const requestConfig = {
+        method: method.get,
+
+        url: `${servicesPoints.rating.rating_by_booking_id}?bookingId=${myBookingData.id}`,
+      };
+
+      const response = await NetworkRequest(requestConfig);
+
+      if (response) {
+        const {success} = response;
+        if (success) {
+          if (response.data.length) {
+            getQuestion(response.data[0].ratings_number.number);
+          }
+
+          setBookingRating(response.data);
+
+          let newRatingArray = [];
+          response.data[0].user_rating_number_items.map(item => {
+            newRatingArray.push(item.item_id);
+          });
+          setRatingItemId(newRatingArray);
+          setLoader(false);
+        } else {
+          Toast(response.message, 0);
+          if (response === 'Network Error') {
+            Toast('Network Error', 0);
+            setHandleConnectionState(true);
+            setLoader(false);
+          } else if (response.status === 401) {
+            signOut();
+          } else {
+            null;
+          }
+          setLoader(false);
+        }
+      } else {
+        setLoader(false);
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
+
+  useEffect(() => {
+    getQuestion1();
+  }, []);
 
   const getQuestion = async val => {
     try {
@@ -263,49 +317,40 @@ const index = ({navigation, route}) => {
         onBack={() => navigation.goBack()}
         title={`My Booking #${myBookingData.LisBookId}`}
       />
-      <MainContainer>
-        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-          <View style={styles.fullContainer}>
-            {ratingCount ? (
-              <View
+      {bookingRating.length ? (
+        <MainContainer>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.scroll}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'row',
+                paddingVertical: hp('2%'),
+                paddingHorizontal: hp('2%'),
+              }}>
+              <BoldText
                 style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  paddingVertical: hp('2%'),
-                  paddingHorizontal: hp('2%'),
-                }}>
-                <BoldText
-                  style={{
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    color: colors.app_theme_dark_green,
-                    fontSize: hp('3%'),
-                  }}
-                  title={
-                    ratingCount === 1
-                      ? 'Terrible'
-                      : ratingCount === 2
-                      ? 'Bad'
-                      : ratingCount === 3
-                      ? 'Ok'
-                      : ratingCount === 4
-                      ? 'Good'
-                      : 'Excellent'
-                  }
-                />
-                <Image
-                  style={{height: 48, width: 48, marginLeft: 10}}
-                  source={{
-                    uri: ratingNumbers[0]?.gif_icon,
-                  }}
-                />
-              </View>
-            ) : null}
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  color: colors.app_theme_dark_green,
+                  fontSize: hp('3%'),
+                }}
+                title={bookingRating[0].ratings_number.title}
+              />
+              <Image
+                style={{height: 48, width: 48, marginLeft: 10}}
+                source={{
+                  uri: ratingNumbers[0]?.gif_icon,
+                }}
+              />
+            </View>
 
             <View style={styles.ratingView}>
               <AirbnbRating
                 count={5}
+                isDisabled={true}
                 // reviews={['Terrible', 'Bad', 'Ok', 'Good !', 'Excellent']}
                 reviewColor={colors.app_theme_dark_green}
                 selectedColor={colors.app_theme_dark_green}
@@ -314,9 +359,10 @@ const index = ({navigation, route}) => {
                 ratingContainerStyle={{
                   paddingVertical: hp('3%'),
                 }}
+                readonly={true}
                 jumpValue={0.5}
-                defaultRating={0}
-                onFinishRating={ratingCompleted}
+                defaultRating={bookingRating[0].ratings_number.number}
+                // onFinishRating={ratingCompleted}
                 starContainerStyle={{
                   marginTop: hp('2%'),
                   justifyContent: 'space-between',
@@ -326,11 +372,154 @@ const index = ({navigation, route}) => {
                 size={40}
               />
             </View>
-            {ratingCount ? (
-              <View style={{height: 10, backgroundColor: colors.gray}}></View>
-            ) : null}
-            {ratingCount ? (
-              <>
+            <View style={{height: 10, backgroundColor: colors.gray}}></View>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'row',
+                paddingVertical: hp('2%'),
+                paddingHorizontal: hp('2%'),
+              }}>
+              <RegularText
+                style={{textAlign: 'center'}}
+                title={bookingRating[0].ratings_number.subtitle}
+              />
+            </View>
+
+            <View style={{padding: hp('2%'), flexDirection: 'row'}}>
+              <TouchableOpacity style={styles.wrongSection}>
+                <View style={[styles.circleView]}>
+                  <Image
+                    style={{height: 48, width: 48}}
+                    source={{
+                      uri: ratingItemId.includes(ratingNumbers[0]?.id)
+                        ? ratingNumbers[0]?.gif_icon
+                        : ratingNumbers[0]?.icon,
+                    }}
+                  />
+                </View>
+                <View style={styles.textSection}>
+                  <RegularText
+                    style={styles.testLabel}
+                    title={ratingNumbers[0]?.text}
+                  />
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.wrongSection}>
+                <View
+                  style={[
+                    styles.circleView,
+                    // {
+                    //   backgroundColor: ratingNumbers[1]?.selected
+                    //     ? colors.app_theme_light_green
+                    //     : colors.purplishGrey,
+                    // },
+                  ]}>
+                  <Image
+                    style={{height: 48, width: 48}}
+                    source={{
+                      uri: ratingItemId.includes(ratingNumbers[1]?.id)
+                        ? ratingNumbers[1]?.gif_icon
+                        : ratingNumbers[1]?.icon,
+                    }}
+                  />
+                </View>
+                <View style={styles.textSection}>
+                  <RegularText
+                    style={styles.testLabel}
+                    title={ratingNumbers[1]?.text}
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.wrongSection}>
+                <View
+                  style={[
+                    styles.circleView,
+                    // {
+                    //   backgroundColor: ratingNumbers[2]?.selected
+                    //     ? colors.app_theme_light_green
+                    //     : colors.purplishGrey,
+                    // },
+                  ]}>
+                  <Image
+                    style={{height: 48, width: 48}}
+                    source={{
+                      uri: ratingItemId.includes(ratingNumbers[2]?.id)
+                        ? ratingNumbers[2]?.gif_icon
+                        : ratingNumbers[2]?.icon,
+                    }}
+                  />
+                </View>
+                <View style={styles.textSection}>
+                  <RegularText
+                    style={styles.testLabel}
+                    title={ratingNumbers[2]?.text}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={{height: 10, backgroundColor: colors.gray}}></View>
+            <View style={{padding: hp('2%')}}>
+              <FlatList
+                data={bookingRating[0].user_rating_number_questionairs}
+                extraData={bookingRating[0].user_rating_number_questionairs}
+                renderItem={({item}) => {
+                  return (
+                    <View style={{flexDirection: 'row'}}>
+                      <View
+                        style={{
+                          flex: 0.7,
+                          paddingVertical: hp('3%'),
+                          justifyContent: 'center',
+                        }}>
+                        <RegularText
+                          style={{color: colors.app_theme_dark_green}}
+                          title={item.ratings_questionnaire.question}
+                        />
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          flex: 0.3,
+                          alignItems: 'center',
+                          justifyContent: 'space-evenly',
+                        }}>
+                        <RegularText
+                          style={{
+                            color:
+                              item.ans === true
+                                ? colors.app_theme_dark_green
+                                : colors.black,
+                          }}
+                          title={'Yes'}
+                        />
+
+                        <RegularText
+                          style={{
+                            color:
+                              item.ans_value === 'No'
+                                ? colors.app_theme_dark_green
+                                : colors.black,
+                          }}
+                          title={'No'}
+                        />
+                      </View>
+                    </View>
+                  );
+                }}
+              />
+            </View>
+          </ScrollView>
+        </MainContainer>
+      ) : (
+        <MainContainer>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.scroll}>
+            <View style={styles.fullContainer}>
+              {ratingCount ? (
                 <View
                   style={{
                     justifyContent: 'center',
@@ -339,181 +528,239 @@ const index = ({navigation, route}) => {
                     paddingVertical: hp('2%'),
                     paddingHorizontal: hp('2%'),
                   }}>
-                  <RegularText
-                    style={{textAlign: 'center'}}
-                    title={subHeading}
+                  <BoldText
+                    style={{
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      color: colors.app_theme_dark_green,
+                      fontSize: hp('3%'),
+                    }}
+                    title={
+                      ratingCount === 1
+                        ? 'Terrible'
+                        : ratingCount === 2
+                        ? 'Bad'
+                        : ratingCount === 3
+                        ? 'Ok'
+                        : ratingCount === 4
+                        ? 'Good'
+                        : 'Excellent'
+                    }
+                  />
+                  <Image
+                    style={{height: 48, width: 48, marginLeft: 10}}
+                    source={{
+                      uri: ratingNumbers[0]?.gif_icon,
+                    }}
                   />
                 </View>
-                <View style={{padding: hp('2%'), flexDirection: 'row'}}>
-                  <TouchableOpacity
-                    onPress={() => onSelectCircle(ratingNumbers[0])}
-                    style={styles.wrongSection}>
-                    <View
-                      style={[
-                        styles.circleView,
-                        // {
-                        //   backgroundColor: ratingNumbers[0]?.selected
-                        //     ? colors.app_theme_light_green
-                        //     : colors.purplishGrey,
-                        // },
-                      ]}>
-                      <Image
-                        style={{height: 48, width: 48}}
-                        source={{
-                          uri: ratingNumbers[0]?.selected
-                            ? ratingNumbers[0]?.gif_icon
-                            : ratingNumbers[0]?.icon,
-                        }}
-                      />
-                    </View>
-                    <View style={styles.textSection}>
-                      <RegularText
-                        style={styles.testLabel}
-                        title={ratingNumbers[0]?.text}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => onSelectCircle(ratingNumbers[1])}
-                    style={styles.wrongSection}>
-                    <View
-                      style={[
-                        styles.circleView,
-                        // {
-                        //   backgroundColor: ratingNumbers[1]?.selected
-                        //     ? colors.app_theme_light_green
-                        //     : colors.purplishGrey,
-                        // },
-                      ]}>
-                      <Image
-                        style={{height: 48, width: 48}}
-                        source={{
-                          uri: ratingNumbers[1]?.selected
-                            ? ratingNumbers[1]?.gif_icon
-                            : ratingNumbers[1]?.icon,
-                        }}
-                      />
-                    </View>
-                    <View style={styles.textSection}>
-                      <RegularText
-                        style={styles.testLabel}
-                        title={ratingNumbers[1]?.text}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => onSelectCircle(ratingNumbers[2])}
-                    style={styles.wrongSection}>
-                    <View
-                      style={[
-                        styles.circleView,
-                        // {
-                        //   backgroundColor: ratingNumbers[2]?.selected
-                        //     ? colors.app_theme_light_green
-                        //     : colors.purplishGrey,
-                        // },
-                      ]}>
-                      <Image
-                        style={{height: 48, width: 48}}
-                        source={{
-                          uri: ratingNumbers[2]?.selected
-                            ? ratingNumbers[2]?.gif_icon
-                            : ratingNumbers[2]?.icon,
-                        }}
-                      />
-                    </View>
-                    <View style={styles.textSection}>
-                      <RegularText
-                        style={styles.testLabel}
-                        title={ratingNumbers[2]?.text}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              </>
-            ) : null}
+              ) : null}
 
-            {ratingCount ? (
-              <View style={{height: 10, backgroundColor: colors.gray}}></View>
-            ) : null}
-
-            {ratingCount ? (
-              <View style={{padding: hp('2%')}}>
-                <FlatList
-                  data={questions}
-                  extraData={questions}
-                  renderItem={({item}) => {
-                    return (
-                      <View style={{flexDirection: 'row'}}>
-                        <View
-                          style={{
-                            flex: 0.7,
-                            paddingVertical: hp('3%'),
-                            justifyContent: 'center',
-                          }}>
-                          <RegularText
-                            style={{color: colors.app_theme_dark_green}}
-                            title={item.question}
-                          />
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            flex: 0.3,
-                            alignItems: 'center',
-                            justifyContent: 'space-evenly',
-                          }}>
-                          <TouchableOpacity onPress={() => onSelectYes(item)}>
-                            <RegularText
-                              style={{
-                                color:
-                                  item.ans_value === 'Yes'
-                                    ? colors.app_theme_dark_green
-                                    : colors.black,
-                              }}
-                              title={'Yes'}
-                            />
-                          </TouchableOpacity>
-
-                          <TouchableOpacity onPress={() => onSelectNo(item)}>
-                            <RegularText
-                              style={{
-                                color:
-                                  item.ans_value === 'No'
-                                    ? colors.app_theme_dark_green
-                                    : colors.black,
-                              }}
-                              title={'No'}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    );
+              <View style={styles.ratingView}>
+                <AirbnbRating
+                  count={5}
+                  // reviews={['Terrible', 'Bad', 'Ok', 'Good !', 'Excellent']}
+                  reviewColor={colors.app_theme_dark_green}
+                  selectedColor={colors.app_theme_dark_green}
+                  style={{paddingVertical: 20}}
+                  reviewSize={0}
+                  ratingContainerStyle={{
+                    paddingVertical: hp('3%'),
                   }}
+                  jumpValue={0.5}
+                  defaultRating={0}
+                  onFinishRating={ratingCompleted}
+                  starContainerStyle={{
+                    marginTop: hp('2%'),
+                    justifyContent: 'space-between',
+
+                    width: '80%',
+                  }}
+                  size={40}
                 />
               </View>
-            ) : null}
+              {ratingCount ? (
+                <View style={{height: 10, backgroundColor: colors.gray}}></View>
+              ) : null}
+              {ratingCount ? (
+                <>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      paddingVertical: hp('2%'),
+                      paddingHorizontal: hp('2%'),
+                    }}>
+                    <RegularText
+                      style={{textAlign: 'center'}}
+                      title={subHeading}
+                    />
+                  </View>
+                  <View style={{padding: hp('2%'), flexDirection: 'row'}}>
+                    <TouchableOpacity
+                      onPress={() => onSelectCircle(ratingNumbers[0])}
+                      style={styles.wrongSection}>
+                      <View style={[styles.circleView]}>
+                        <Image
+                          style={{height: 48, width: 48}}
+                          source={{
+                            uri: ratingNumbers[0]?.selected
+                              ? ratingNumbers[0]?.gif_icon
+                              : ratingNumbers[0]?.icon,
+                          }}
+                        />
+                      </View>
+                      <View style={styles.textSection}>
+                        <RegularText
+                          style={styles.testLabel}
+                          title={ratingNumbers[0]?.text}
+                        />
+                      </View>
+                    </TouchableOpacity>
 
-            <View style={{padding: hp('2%')}}>
-              <RegularText title={'Other'} />
+                    <TouchableOpacity
+                      onPress={() => onSelectCircle(ratingNumbers[1])}
+                      style={styles.wrongSection}>
+                      <View
+                        style={[
+                          styles.circleView,
+                          // {
+                          //   backgroundColor: ratingNumbers[1]?.selected
+                          //     ? colors.app_theme_light_green
+                          //     : colors.purplishGrey,
+                          // },
+                        ]}>
+                        <Image
+                          style={{height: 48, width: 48}}
+                          source={{
+                            uri: ratingNumbers[1]?.selected
+                              ? ratingNumbers[1]?.gif_icon
+                              : ratingNumbers[1]?.icon,
+                          }}
+                        />
+                      </View>
+                      <View style={styles.textSection}>
+                        <RegularText
+                          style={styles.testLabel}
+                          title={ratingNumbers[1]?.text}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => onSelectCircle(ratingNumbers[2])}
+                      style={styles.wrongSection}>
+                      <View
+                        style={[
+                          styles.circleView,
+                          // {
+                          //   backgroundColor: ratingNumbers[2]?.selected
+                          //     ? colors.app_theme_light_green
+                          //     : colors.purplishGrey,
+                          // },
+                        ]}>
+                        <Image
+                          style={{height: 48, width: 48}}
+                          source={{
+                            uri: ratingNumbers[2]?.selected
+                              ? ratingNumbers[2]?.gif_icon
+                              : ratingNumbers[2]?.icon,
+                          }}
+                        />
+                      </View>
+                      <View style={styles.textSection}>
+                        <RegularText
+                          style={styles.testLabel}
+                          title={ratingNumbers[2]?.text}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              ) : null}
 
-              <InputField
-                value={validateForm.review}
-                error={validateForm.reviewError}
-                returnKeyType={'next'}
-                multiline={true}
-                blurOnSubmit={false}
-                onChangeText={text => onChangeText('review', text, 'review')}
-                style={{marginTop: 10}}
-                placeholder="Write your review here."
-              />
+              {ratingCount ? (
+                <View style={{height: 10, backgroundColor: colors.gray}}></View>
+              ) : null}
+
+              {ratingCount ? (
+                <View style={{padding: hp('2%')}}>
+                  <FlatList
+                    data={questions}
+                    extraData={questions}
+                    renderItem={({item}) => {
+                      return (
+                        <View style={{flexDirection: 'row'}}>
+                          <View
+                            style={{
+                              flex: 0.7,
+                              paddingVertical: hp('3%'),
+                              justifyContent: 'center',
+                            }}>
+                            <RegularText
+                              style={{color: colors.app_theme_dark_green}}
+                              title={item.question}
+                            />
+                          </View>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              flex: 0.3,
+                              alignItems: 'center',
+                              justifyContent: 'space-evenly',
+                            }}>
+                            <TouchableOpacity onPress={() => onSelectYes(item)}>
+                              <RegularText
+                                style={{
+                                  color:
+                                    item.ans_value === 'Yes'
+                                      ? colors.app_theme_dark_green
+                                      : colors.black,
+                                }}
+                                title={'Yes'}
+                              />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity onPress={() => onSelectNo(item)}>
+                              <RegularText
+                                style={{
+                                  color:
+                                    item.ans_value === 'No'
+                                      ? colors.app_theme_dark_green
+                                      : colors.black,
+                                }}
+                                title={'No'}
+                              />
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      );
+                    }}
+                  />
+                </View>
+              ) : null}
+
+              <View style={{padding: hp('2%')}}>
+                <RegularText title={'Other'} />
+
+                <InputField
+                  value={validateForm.review}
+                  error={validateForm.reviewError}
+                  returnKeyType={'next'}
+                  multiline={true}
+                  blurOnSubmit={false}
+                  onChangeText={text => onChangeText('review', text, 'review')}
+                  style={{marginTop: 10}}
+                  placeholder="Write your review here."
+                />
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
 
-        <Loader display={loader} />
-      </MainContainer>
-      {myBookingData.status !== 'Cancelled' ? (
+          <Loader display={loader} />
+        </MainContainer>
+      )}
+      {!bookingRating.length ? (
         <View style={styles.cancelBookingBtn}>
           <SubmitButton onPress={submitRating} title={'Submit Rating'} />
         </View>

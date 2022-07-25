@@ -225,12 +225,11 @@ export default props => {
           ) : null}
         </View>
       </View>
-      {status === 'Successfulth8c./n79hg6 ' && user_rating_number === null ? (
+      {status === 'Confirmed' ? (
         <View
           hitSlop={{left: 15, right: 15, top: 15, bottom: 15}}
           style={{
             marginTop: hp('2%'),
-
             alignItems: 'center',
           }}>
           <TouchableOpacity onPress={props.onPressRate}>

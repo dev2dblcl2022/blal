@@ -74,6 +74,7 @@ export const servicesPoints = {
   rating: {
     get_rating_data: 'ratings/api/details',
     give_rating: 'ratings/api/user_post_rating',
+    rating_by_booking_id: 'ratings/api/user_rating_by_booking_id',
   },
   blogs: {
     home_blogs: 'blogs/api/home_blogs',
@@ -104,7 +105,10 @@ async function NetworkRequest(requestConfig) {
   try {
     const token = await AsyncStorage.getItem('userToken');
     apiClient.defaults.headers.common.Authorization = token;
-
+    console.log(
+      'apiClient.defaults.headers.common.Authorization',
+      apiClient.defaults.headers.common.Authorization,
+    );
     const response = await apiClient.request(requestConfig);
 
     if (response) {

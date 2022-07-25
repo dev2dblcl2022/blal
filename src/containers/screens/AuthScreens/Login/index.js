@@ -29,7 +29,7 @@ const index = ({navigation}) => {
   const {signOut, signIn} = React.useContext(AuthContext);
   const [loader, setLoader] = useState(false);
   const [otp, setOtp] = useState('');
-  const [hashCode, setHashcoe] = useState('');
+  const [hashCode, setHashCode] = useState('');
   const [validateForm, setValidateForm] = useState({
     phoneNumber: '',
     phoneNumberError: '',
@@ -56,7 +56,7 @@ const index = ({navigation}) => {
   React.useEffect(() => {
     RNOtpVerify.getHash()
       .then(hash => {
-        setHashcoe(hash);
+        setHashCode(hash);
       })
       .catch(console.log);
   }, []);
