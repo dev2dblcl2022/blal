@@ -717,7 +717,6 @@ const index1 = ({navigation, route}) => {
                   );
                 }}
                 renderItem={({item, index}) => {
-                  console.log('hfhdsbhbxhj', item);
                   return (
                     <MyBookingCard
                       onCancelBooking={() => cancelBooking(item)}

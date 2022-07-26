@@ -804,6 +804,18 @@ const index = ({navigation, props}) => {
                       showsVerticalScrollIndicator={false}
                       extraData={labs}
                       renderItem={({item}) => renderLabCard(item)}
+                      ListEmptyComponent={() => {
+                        return (
+                          <View
+                            style={{
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              marginTop: hp('25%'),
+                            }}>
+                            <RegularText title={'No Record Found'} />
+                          </View>
+                        );
+                      }}
                     />
                   </View>
                 </View>

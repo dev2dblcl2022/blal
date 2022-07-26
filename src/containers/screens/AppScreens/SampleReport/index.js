@@ -557,7 +557,6 @@ const index = ({navigation, route}) => {
         {/* <RegularText style={styles.testText} title={graphTitle} /> */}
         {/* <BoldText style={styles.testDate} title={'15 April - 21 April'} /> */}
         {/* </View> */}
-
         {patientSubTestValues && patientTestValues ? (
           <View style={[styles.dropDownSections]}>
             <View style={styles.timeSection}>
@@ -581,8 +580,9 @@ const index = ({navigation, route}) => {
             </View>
           </View>
         ) : null}
-        {timeValues && patientTestValues && patientSubTestValues ? (
-          graphData?.data ? (
+
+        {patientTestValues && patientSubTestValues && timeValues ? (
+          graphData?.netWorth ? (
             <View style={styles.chartSection}>
               <LineChart
                 data={{

@@ -8,12 +8,9 @@ import {LineChart} from 'react-native-chart-kit';
 import styles from './style';
 
 function LineGraph(props) {
-  console.log('props', props);
-
   const {statistics} = props;
-  console.log('statistics', statistics);
+
   const {data} = statistics;
-  console.log('dataa', data);
 
   let valueSet: {y: number}[] = [];
   let labelSet: {x: number}[] = [];
@@ -28,7 +25,7 @@ function LineGraph(props) {
     ...item,
     Value: item.Value * 100,
   }));
-  console.log('tempDataPiaGraphSet', tempDataPiaGraphSet);
+
   const [legend] = useState({
     enabled: false,
     textSize: 14,
@@ -46,7 +43,7 @@ function LineGraph(props) {
   const [dataPiaGraphSet] = useState(tempDataPiaGraphSet);
 
   const [highlights] = useState([{x: 0}]);
-  console.log('dataObj', dataObj);
+
   // let valueSet = [];
   // let labelSet = [];
   // data?.forEach(item => {
@@ -95,7 +92,6 @@ function LineGraph(props) {
     valueSet = [];
     let graphData = [];
     data?.forEach(item => {
-      console.log('item', item);
       valueSet.push({y: item?.Value});
 
       labelSet.push({x: item.Date});
@@ -104,8 +100,7 @@ function LineGraph(props) {
         y: parseFloat(item?.Value),
       });
     });
-    console.log('graphDatagraphDatagraphData', graphData);
-    console.log('labelSet', labelSet);
+
     setXaxis({
       valueFormatter: labelSet,
       granularityEnabled: true,
