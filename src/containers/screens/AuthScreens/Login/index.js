@@ -53,13 +53,13 @@ const index = ({navigation}) => {
       ...{[key]: val, [`${key}Error`]: validate(key, val)},
     });
   };
-  React.useEffect(() => {
-    RNOtpVerify.getHash()
-      .then(hash => {
-        setHashCode(hash);
-      })
-      .catch(console.log);
-  }, []);
+  // React.useEffect(() => {
+  //   RNOtpVerify.getHash()
+  //     .then(hash => {
+  //       setHashCode(hash);
+  //     })
+  //     .catch(console.log);
+  // }, []);
 
   const onSubmit = async () => {
     let phoneNumberError = validate('phoneNumber', validateForm.phoneNumber);
@@ -78,7 +78,7 @@ const index = ({navigation}) => {
   const onApiLogin = async () => {
     let data = {
       phone_number: validateForm.phoneNumber,
-      hashCode: hashCode,
+      // hashCode: hashCode,
     };
     try {
       setLoader(true);

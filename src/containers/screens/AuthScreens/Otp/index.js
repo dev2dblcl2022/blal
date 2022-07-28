@@ -47,6 +47,7 @@ const index = ({navigation, route, props}) => {
   });
   const [timer, setTimer] = useState(60);
   const [handleConnectionState, setHandleConnectionState] = useState(false);
+  // const [otpValue, setOtpValue] = useState('');
   React.useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -102,19 +103,12 @@ const index = ({navigation, route, props}) => {
   // const onSmsListenerPressed = async () => {
   //   try {
   //     const registered = await SmsRetriever.startSmsRetriever();
-  //     console.log('hehehehe', registered);
   //     if (registered) {
   //       SmsRetriever.addSmsListener(event => {
-  //         console.log('hahahaha', event);
-  //         SmsRetriever.removeSmsListener();
   //         var messageFind = event.message;
-
   //         const regex = /\d+/g;
   //         messageFind = messageFind?.match(regex);
-  //         console.log('messageFind', messageFind);
-
-  //         console.log('heelo', messageFind[0]);
-  //         setOtp(messageFind[0]);
+  //         setOtpValue(messageFind[0]);
   //       });
   //     }
   //   } catch (error) {
@@ -123,6 +117,27 @@ const index = ({navigation, route, props}) => {
   // };
   // useEffect(() => {
   //   onSmsListenerPressed();
+  //   return () => {
+  //     SmsRetriever.removeSmsListener();
+  //   };
+  // }, []);
+  // useEffect(() => {
+  //   RNOtpVerify.getHash().then(console.log).catch(console.log);
+  //   RNOtpVerify.getOtp()
+  //     .then(p => RNOtpVerify.addListener(otpHandler))
+  //     .catch(p => console.log(p));
+
+  //   const otpHandler = message => {
+  //     console.log('mess', message);
+  //     const regex = /\d+/g;
+  //     const otpV = message?.match(regex);
+  //     console.log('otpV', otpV[0]);
+  //     setOtpValue(otpV[0]);
+  //   };
+
+  //   return () => {
+  //     RNOtpVerify.removeListener();
+  //   };
   // }, []);
   function useInterval(callback, delay) {
     const savedCallback = useRef();
@@ -166,7 +181,7 @@ const index = ({navigation, route, props}) => {
     let data = {
       phone_number: phone_number,
       otp: validateForm.otp,
-      hashCode: validateForm.hashCode,
+      // hashCode: validateForm.hashCode,
       device_token: await AsyncStorage.getItem('fcmToken'),
     };
 
@@ -291,18 +306,32 @@ const index = ({navigation, route, props}) => {
             title={`Otp is ${otpText}`}
           />
         </View> */}
-
+        {/* {console.log('otpValue', otpValue)} */}
         <View style={styles.otpInput}>
-          <OTPInputView
+          {/* <OTPInputView
             style={styles.otpInputView}
             pinCount={6}
             keyboardType={'number-pad'}
             // code={OTTP ? OTTP : ''}
             // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
+            // onCodeChanged={text => onChangeText('otp', text, 'required')}
+            code={otpValue}
+            onCodeChanged={code => setOtpValue(code)}
+            autoFocusOnLoad
+            codeInputFieldStyle={styles.underlineStyleBase}
+            codeInputHighlightStyle={styles.underlineStyleHighLighted}
+          /> */}
+          <OTPInputView
+            style={styles.otpInputView}
+            pinCount={6}
+            // code={otpValue ? otpValue : ''}
             onCodeChanged={text => onChangeText('otp', text, 'required')}
             autoFocusOnLoad
             codeInputFieldStyle={styles.underlineStyleBase}
             codeInputHighlightStyle={styles.underlineStyleHighLighted}
+            onCodeFilled={code => {
+              console.log(`Code is ${code}, you are good to go!`);
+            }}
           />
           {validateForm.otpError ? (
             <ErrorText style={styles.errorText} title={validateForm.otpError} />

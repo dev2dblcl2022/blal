@@ -375,6 +375,7 @@ const index = ({navigation, route}) => {
         data: {},
         url: url,
       };
+    
 
       // var config = {
       //   method: 'post',
