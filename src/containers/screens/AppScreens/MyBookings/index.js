@@ -209,8 +209,7 @@ const index1 = ({navigation, route}) => {
     const arr = [];
     bookingData.map(_data => {
       _data.bookingAmount = (
-        parseInt(_data.total_amount) +
-        (parseInt(_data.pickup_charge) || 0)
+        parseInt(_data.total_amount) + (parseInt(_data.pickup_charge) || 0)
       ).toFixed(2);
       // if (!arr.includes(_data.booking_hash)) {
       //   arr.push(_data.booking_hash);
@@ -223,23 +222,25 @@ const index1 = ({navigation, route}) => {
     return bookingData;
   };
 
-  const filterBookingData = (bookingNewData) => {
-    let filterData = []
+  const filterBookingData = bookingNewData => {
+    let filterData = [];
     let uniqueBookings = [];
     bookingNewData.map(item => {
       if (!uniqueBookings.includes(item.booking_hash)) {
         uniqueBookings.push(item.booking_hash);
         filterData.push({
-          "booking_hash": item.booking_hash,
-          "data": [item]
-        })
+          booking_hash: item.booking_hash,
+          data: [item],
+        });
       } else {
-        let index = filterData.findIndex(data => data.booking_hash === item.booking_hash)
+        let index = filterData.findIndex(
+          data => data.booking_hash === item.booking_hash,
+        );
         filterData[index].data.push(item);
       }
     });
     return filterData;
-  }
+  };
 
   const getAllBookings = async val => {
     setLoader(true);
@@ -707,9 +708,13 @@ const index1 = ({navigation, route}) => {
                           myBookingData: item.data,
                         })
                       }
-                      onPrescriptionPay={() => onInitiateTransaction(item.data[0])}
+                      onPrescriptionPay={() =>
+                        onInitiateTransaction(item.data[0])
+                      }
                       onPressRate={() =>
-                        navigation.navigate('Rating', {myBookingData: item.data[0]})
+                        navigation.navigate('Rating', {
+                          myBookingData: item.data[0],
+                        })
                       }
                       data={item.data[0]}
                     />

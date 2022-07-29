@@ -101,13 +101,13 @@ const apiClient = axios.create({
     'content-type': 'application/json',
   },
 });
-
+console.log('API_BASE_URL', API_BASE_URL);
 async function NetworkRequest(requestConfig) {
   try {
     const token = await AsyncStorage.getItem('userToken');
     apiClient.defaults.headers.common.Authorization = token;
     const response = await apiClient.request(requestConfig);
-
+    console.log('response', response);
     if (response) {
       const {status} = response;
 
