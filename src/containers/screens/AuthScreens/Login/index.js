@@ -89,14 +89,15 @@ const index = ({navigation}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
+      console.log('response', response);
       if (response) {
         const {success} = response;
         if (success) {
           setLoader(false);
-          navigation.navigate('Otp', {
-            phoneNumber: validateForm.phoneNumber,
-            otp: response.data.otp,
-          });
+          // navigation.navigate('Otp', {
+          //   phoneNumber: validateForm.phoneNumber,
+          //   otp: response.data.otp,
+          // });
           // Toast(response.message + ' ' + response.data.otp, 1);
           Toast(response.message, 1);
         } else {

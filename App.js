@@ -10,7 +10,17 @@ import {
   Image,
   StyleSheet,
   DeviceEventEmitter,
+  Platform,
+  Button,
 } from 'react-native';
+import SpInAppUpdates, {
+  UPDATE_TYPE,
+  NeedsUpdateResponseAndroid,
+  SemverVersion,
+  NeedsUpdateResponse,
+  IncomingStatusUpdateEvent,
+  IAUUpdateKind,
+} from 'sp-react-native-in-app-updates';
 import analytics from '@react-native-firebase/analytics';
 import {
   widthPercentageToDP as wp,
@@ -35,12 +45,19 @@ import {NavigationContainer} from '@react-navigation/native';
 import PushNotificationService from './src/services/PushNotificationService';
 import FlashMessage from 'react-native-flash-message';
 import 'react-native-gesture-handler';
-
+import DeviceInfo from 'react-native-device-info';
+const HIGH_PRIORITY_UPDATE = 5;
 let PNService = null;
+let version = DeviceInfo.getVersion();
+
 export default function App() {
   const [netConnected, setNetConnected] = React.useState(true);
+
+  const [needsUpdate, setNeedsUpdate] = React.useState(false);
+  const [otherData, setOtherData] = React.useState(null);
   const navigationRef = React.useRef();
   const routeNameRef = React.useRef();
+  let inAppUpdates = new SpInAppUpdates();
 
   useEffect(() => {
     getFcmToken();
@@ -55,7 +72,56 @@ export default function App() {
       // unsubscribe();
     };
   }, []);
+  const checkForUpdates = () => {
+    inAppUpdates
+      .checkNeedsUpdate({
+        curVersion: version,
+        toSemverConverter: ver => {
+          // i.e if 400401 is the Android version, and we want to convert it to 4.4.1
+          const androidVersionNo = parseInt(ver, 10);
 
+          const majorVer = Math.trunc(androidVersionNo / 10000);
+          const minorVerStarter = androidVersionNo - majorVer * 10000;
+          const minorVer = Math.trunc(minorVerStarter / 100);
+          const patchVersion = Math.trunc(minorVerStarter - minorVer * 100);
+          return `${majorVer}.${minorVer}.${patchVersion}`;
+        },
+      })
+      .then(result => {
+        setNeedsUpdate(result.shouldUpdate);
+        setOtherData(result);
+      });
+  };
+  useEffect(() => {
+    checkForUpdates();
+  }, []);
+  const startUpdating = () => {
+    if (needsUpdate) {
+      let updateType;
+      if (Platform.OS === 'android' && otherData) {
+        const otherDatas = otherData;
+        updateType =
+          otherDatas.updatePriority >= HIGH_PRIORITY_UPDATE
+            ? UPDATE_TYPE.IMMEDIATE
+            : UPDATE_TYPE.FLEXIBLE;
+      }
+      inAppUpdates.addStatusUpdateListener(onStatusUpdate);
+      inAppUpdates.startUpdate({
+        updateType, // android only, on iOS the user will be promped to go to your app store page
+      });
+    } else {
+      alert('doesnt look like we need an update');
+    }
+  };
+  const onStatusUpdate = status => {
+    const {
+      // status,
+      bytesDownloaded,
+      totalBytesToDownload,
+    } = status;
+    // do something
+    console.log('rrrr', `@@ ${JSON.stringify(status)}`);
+  };
   const handlePNRegister = async config => {
     // try {
     //   await AsyncStorage.setItem('fcmToken', config.token);
@@ -367,6 +433,24 @@ export default function App() {
       </AuthContext.Provider>
       {/* </NativeBaseProvider> */}
       <FlashMessage position="top" animated hideOnPress autoHide />
+
+      {needsUpdate ? (
+        <View style={styles.aButton}>
+          <Button
+            // disabled={!needsUpdate}
+            title="Start Updating"
+            color="black"
+            onPress={startUpdating}
+          />
+        </View>
+      ) : null}
+      {/* <View style={styles.aButton}>
+        <Button
+          title="Check for updates"
+          color="black"
+          onPress={checkForUpdates}
+        />
+      </View> */}
     </>
   );
 }
