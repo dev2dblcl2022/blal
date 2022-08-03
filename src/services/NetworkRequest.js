@@ -47,6 +47,7 @@ export const servicesPoints = {
     cartCount: 'bookings/api/my_cart_count',
     myreports: 'bookings/api/myreports',
     cancelBooking: 'bookings/api/cancelled_booking',
+    cancelFullCheckout: 'bookings/api/cancelled_checkout_booking',
     booking_time_slots: 'bookings/api/booking_time_slots',
 
     myNotifications: 'bookings/api/my_notifications',
@@ -100,7 +101,7 @@ const apiClient = axios.create({
     'content-type': 'application/json',
   },
 });
-
+console.log('API_BASE_URL', API_BASE_URL);
 async function NetworkRequest(requestConfig) {
   try {
     const token = await AsyncStorage.getItem('userToken');
@@ -110,7 +111,7 @@ async function NetworkRequest(requestConfig) {
       apiClient.defaults.headers.common.Authorization,
     );
     const response = await apiClient.request(requestConfig);
-
+    console.log('response', response);
     if (response) {
       const {status} = response;
 

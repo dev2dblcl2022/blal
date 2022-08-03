@@ -31,7 +31,8 @@ export default StyleSheet.create({
   },
   browseLabText: {
     flex: 1,
-    fontSize: hp('1.3%'),
+    fontSize: hp('1.4%'),
     marginLeft: hp('1%'),
+    fontWeight: 'bold',
   },
 });

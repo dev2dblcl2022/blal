@@ -830,10 +830,15 @@ const index = ({navigation, props}) => {
                       style={styles.headingText}
                     />
                     <TouchableOpacity
+                      // onPress={() =>
+                      //   navigation.navigate('AddNewAddress', {
+                      //     lat: latitude,
+                      //     long: longitude,
+                      //     screen: 'BookingDetail',
+                      //   })
+                      // }
                       onPress={() =>
-                        navigation.navigate('AddNewAddress', {
-                          lat: latitude,
-                          long: longitude,
+                        navigation.navigate('ChangeLocation', {
                           screen: 'BookingDetail',
                         })
                       }

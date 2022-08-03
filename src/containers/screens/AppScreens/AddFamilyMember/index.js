@@ -47,10 +47,12 @@ const index = ({navigation}) => {
   const {signOut} = React.useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState([]);
   const [fullDate, setFullDate] = useState('');
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(moment().subtract(18, 'years')),
+  );
   const [loader, setLoader] = useState(false);
   const [date, setDate] = useState('Date of Birth');
-  const [datePicker, setDatePicker] = useState(false);
+  const [datePicker, setDatePicker] = useState();
   const [male, setMale] = useState(true);
   const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
@@ -546,6 +548,7 @@ const index = ({navigation}) => {
               mode="date"
               display={'spinner'}
               maximumDate={new Date()}
+              // minDate={new Date()}
               onConfirm={handleDatePickerConfirm}
               onCancel={handleDatePickerCancel}
             />

@@ -115,6 +115,11 @@ const imagesConstants = {
   marker: require('../assets/images/marker.png'),
 
   tracking: require('../assets/images/trackingImg.png'),
+  feedback1: require('../assets/images/feedback1.png'),
+  feedback2: require('../assets/images/feedback2.png'),
+  feedback3: require('../assets/images/feedback3.png'),
+  feedback4: require('../assets/images/feedback4.png'),
+  feedback5: require('../assets/images/feedback5.png'),
 };
 
 export default imagesConstants;

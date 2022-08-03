@@ -547,11 +547,22 @@ const index = ({navigation, route}) => {
                         : 'Excellent'
                     }
                   />
+
                   <Image
                     style={{height: 48, width: 48, marginLeft: 10}}
-                    source={{
-                      uri: ratingNumbers[0]?.gif_icon,
-                    }}
+                    source={
+                      ratingCount === 1
+                        ? imagesConstants.feedback1
+                        : ratingCount === 2
+                        ? imagesConstants.feedback2
+                        : ratingCount === 3
+                        ? imagesConstants.feedback3
+                        : ratingCount === 4
+                        ? imagesConstants.feedback4
+                        : ratingCount === 5
+                        ? imagesConstants.feedback5
+                        : ''
+                    }
                   />
                 </View>
               ) : null}

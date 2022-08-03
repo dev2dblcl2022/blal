@@ -44,7 +44,7 @@ import colors from '../../../../constants/colors';
 import {SubmitButton} from '../../../components/Buttons';
 import {GoogleMapApiKey} from '../../../../config/Setting';
 <Image style={styles.profilePic} source={imagesConstants.flask} />;
-const index = ({navigation}) => {
+const index = ({navigation, route}) => {
   const [loader, setLoader] = useState(false);
   const [location, setLocation] = useState('');
   const [latitude, setLatitude] = useState(null);
@@ -60,6 +60,7 @@ const index = ({navigation}) => {
   const getZipCode = details => {
     setCity(details.address_components[1].short_name);
   };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <DefaultHeader
@@ -227,6 +228,7 @@ const index = ({navigation}) => {
                   navigation.navigate('AddNewAddress', {
                     lat: lat,
                     long: long,
+                    screen: 'BookingDetail',
                   });
                 }
               }}

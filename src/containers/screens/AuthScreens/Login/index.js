@@ -94,11 +94,10 @@ const index = ({navigation}) => {
         const {success} = response;
         if (success) {
           setLoader(false);
-          // navigation.navigate('Otp', {
-          //   phoneNumber: validateForm.phoneNumber,
-          //   otp: response.data.otp,
-          // });
-          // Toast(response.message + ' ' + response.data.otp, 1);
+          navigation.navigate('Otp', {
+            phoneNumber: validateForm.phoneNumber,
+            otp: response.data.otp,
+          });
           Toast(response.message, 1);
         } else {
           Toast(response.message, 0);

@@ -99,6 +99,7 @@ const index = ({navigation, route}) => {
   const [totalAmountCart, setTotalAmountCart] = useState('');
   const [handleConnectionState, setHandleConnectionState] = useState(false);
   const releaseEnvironment = getRelease();
+  const [cartItemData, setCartItemData] = useState({});
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -178,7 +179,7 @@ const index = ({navigation, route}) => {
           setFinalAmount(Number(response.data?.final_amount));
           setTotalDiscount(Number(response.data?.discounted_amount));
           setSubTotal(Number(response.data?.sub_total));
-
+          setCartItemData(response.data);
           if (response.data.outsource_test_amount > 0) {
             alert(response.data.outsource_tests);
           }
@@ -352,6 +353,11 @@ const index = ({navigation, route}) => {
           sub_total: sub_Total,
           pickup_charge: pickupCharge,
           total_amount: totalAmountCart,
+          testAmountsArr: cartItemData?.testAmountsArr || 0,
+          packageAmountArr: cartItemData?.packageAmountArr || 0,
+          testDiscountAmountArr: cartItemData?.testDiscountAmountArr || [],
+          packageDiscountAmountArr:
+            cartItemData?.packageDiscountAmountArr || [],
         };
       } else {
         data = {
@@ -387,6 +393,11 @@ const index = ({navigation, route}) => {
           discounted_amount: discountedAmount,
           sub_total: sub_Total,
           total_amount: totalAmountCart,
+          testAmountsArr: cartItemData?.testAmountsArr || 0,
+          packageAmountArr: cartItemData?.packageAmountArr || 0,
+          testDiscountAmountArr: cartItemData?.testDiscountAmountArr || [],
+          packageDiscountAmountArr:
+            cartItemData?.packageDiscountAmountArr || [],
         };
       }
 
@@ -397,6 +408,7 @@ const index = ({navigation, route}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
+      console.log('responseresponse', response);
       setBookingSuccessfulData(response.data);
       if (response) {
         const {success} = response;

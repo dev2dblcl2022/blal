@@ -23,7 +23,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  btnText: {fontSize: 12, color: colors.white},
+  btnText: {fontSize: 14, color: colors.white, fontWeight: 'bold'},
   arrowSection: {
     flex: 1.5,
     alignItems: 'center',

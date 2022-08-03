@@ -236,7 +236,7 @@ const index = ({navigation, route}) => {
           }
 
           if (screen === 'BookingDetail') {
-            navigation.goBack();
+            navigation.pop(2);
           } else {
             navigation.pop(3);
           }
