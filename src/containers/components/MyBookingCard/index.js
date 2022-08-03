@@ -226,7 +226,7 @@ export default props => {
           ) : null}
         </View>
       </View>
-      {status === 'Approved' ? (
+      {status === 'Confirmed' ? (
         <View
           hitSlop={{left: 15, right: 15, top: 15, bottom: 15}}
           style={{

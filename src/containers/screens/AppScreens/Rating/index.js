@@ -327,8 +327,10 @@ const index = ({navigation, route}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'row',
-                paddingVertical: hp('2%'),
+                // paddingVertical: hp('2%'),
                 paddingHorizontal: hp('2%'),
+                position: 'relative',
+                top: hp('3%'),
               }}>
               <BoldText
                 style={{
@@ -341,9 +343,19 @@ const index = ({navigation, route}) => {
               />
               <Image
                 style={{height: 48, width: 48, marginLeft: 10}}
-                source={{
-                  uri: ratingNumbers[0]?.gif_icon,
-                }}
+                source={
+                  bookingRating[0].ratings_number.title === 'VERY BAD'
+                    ? imagesConstants.feedback1
+                    : bookingRating[0].ratings_number.title === 'BAD'
+                    ? imagesConstants.feedback2
+                    : bookingRating[0].ratings_number.title === 'AVERAGE'
+                    ? imagesConstants.feedback3
+                    : bookingRating[0].ratings_number.title === 'GOOD'
+                    ? imagesConstants.feedback4
+                    : bookingRating[0].ratings_number.title === 'Excellent'
+                    ? imagesConstants.feedback5
+                    : ''
+                }
               />
             </View>
 
@@ -525,8 +537,10 @@ const index = ({navigation, route}) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     flexDirection: 'row',
-                    paddingVertical: hp('2%'),
+                    // paddingVertical: hp('2%'),
                     paddingHorizontal: hp('2%'),
+                    position: 'relative',
+                    top: hp('3%'),
                   }}>
                   <BoldText
                     style={{
@@ -582,7 +596,7 @@ const index = ({navigation, route}) => {
                   defaultRating={0}
                   onFinishRating={ratingCompleted}
                   starContainerStyle={{
-                    marginTop: hp('2%'),
+                    // marginTop: hp('33%'),
                     justifyContent: 'space-between',
 
                     width: '80%',
@@ -769,13 +783,13 @@ const index = ({navigation, route}) => {
           </ScrollView>
 
           <Loader display={loader} />
+          {!bookingRating.length ? (
+            <View style={styles.cancelBookingBtn}>
+              <SubmitButton onPress={submitRating} title={'Submit Rating'} />
+            </View>
+          ) : null}
         </MainContainer>
       )}
-      {!bookingRating.length ? (
-        <View style={styles.cancelBookingBtn}>
-          <SubmitButton onPress={submitRating} title={'Submit Rating'} />
-        </View>
-      ) : null}
     </SafeAreaView>
   );
 };

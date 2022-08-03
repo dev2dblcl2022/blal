@@ -408,7 +408,7 @@ const index = ({navigation, route}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-      console.log('responseresponse', response);
+
       setBookingSuccessfulData(response.data);
       if (response) {
         const {success} = response;

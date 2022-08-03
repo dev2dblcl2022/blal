@@ -172,7 +172,7 @@ const index = ({navigation, route}) => {
         data: data,
         url: `${servicesPoints.bookingServices.cancelBooking}`,
       };
-      console.log('requestConfig', requestConfig);
+
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
@@ -280,15 +280,14 @@ const index = ({navigation, route}) => {
   };
 
   const onDownloadInvoice = async () => {
-    console.log('bookingDetailData', bookingDetailData);
     const testType = bookingDetailData?.booking_member_tests?.map(test => {
       return test.test_type === 'Package' ? 'PACKAGE' : 'LAB';
     });
-    console.log('testType', testType);
+
     const fileUrl = getRelease(
       `/Design/Finanace/ReceiptBill.aspx?LedgerTransactionNo=${bookingDetailData.LedgerTransactionNo}&Status=0&TYPE=${testType[0]}`,
     );
-    console.log(fileUrl, 'fileUrl');
+
     checkPermission(fileUrl.reportUrl);
   };
 
@@ -817,8 +816,6 @@ const index = ({navigation, route}) => {
                           </View>
                         </View>
                       </View>
-
-                      {console.log('bookingDetailData', bookingDetailData)}
 
                       {bookingDetailData.collection_type === 'Lab' ? (
                         <View style={styles.PROSection}>

@@ -89,7 +89,7 @@ const index = ({navigation}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-      console.log('response', response);
+
       if (response) {
         const {success} = response;
         if (success) {

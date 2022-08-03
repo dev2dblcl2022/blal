@@ -56,9 +56,8 @@ const index = ({navigation, props}) => {
 
         url: `${servicesPoints.couponServices.couponApiOffers}`,
       };
-      console.log('requestConfigrequestConfig', requestConfig);
+
       const response = await NetworkRequest(requestConfig);
-      console.log('responseresponse', response);
       if (response) {
         const {success} = response;
         if (success) {
