@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 
 import {LightText, RegularText} from '../Common';
@@ -10,6 +10,7 @@ import {
 import colors from '../../../constants/colors';
 
 export default props => {
+  const [familMembers, setFamilyMembers] = React.useState([]);
   let {
     unique_booking_id,
     payment_mode,
@@ -28,7 +29,18 @@ export default props => {
     created_at,
     booking_date_time,
     pickup_charge,
-  } = props?.data;
+  } = props?.data[0];
+
+  useEffect(() => {
+    const arr = [];
+    if (props?.data && props?.data?.length) {
+      props.data.map(_child => {
+        arr.push(_child.user_family_member.fullname);
+      });
+    }
+
+    setFamilyMembers(arr);
+  }, [props.data]);
 
   let discount = Number(total_discount).toFixed(0);
   // const num1 = parseInt(total_member_amount);
@@ -65,15 +77,21 @@ export default props => {
           </View>
         </View>
       </View>
+
       <View style={styles.cardPartTwo}>
         <View style={{flex: 1}}>
-          <RegularText
-            style={[
-              styles.booingDateText,
-              {fontSize: hp('2.5%'), color: colors.app_theme_dark_green},
-            ]}
-            title={props?.data?.user_family_member?.fullname}
-          />
+          {familMembers.map(name => {
+            return (
+              <RegularText
+                style={[
+                  styles.booingDateText,
+                  {fontSize: hp('2%'), color: colors.app_theme_dark_green},
+                ]}
+                title={name}
+              />
+            );
+          })}
+
           {/* <View style={{marginTop: hp('1%')}}>
             <LightText style={styles.bookingIdLabel} title={'Date & Time'} />
           </View> */}
@@ -159,7 +177,7 @@ export default props => {
                   onPress={props.onCancelBooking}>
                   <LightText
                     style={styles.cancelBookingText}
-                    title={'Cancel Booking'}
+                    title={'Cancel Order'}
                   />
                 </TouchableOpacity>
               </View>
@@ -171,7 +189,7 @@ export default props => {
           {final_amount ? (
             <RegularText
               style={styles.bookingRateText}
-              title={`${'\u20B9'} ${props.data.total_amount}`}
+              title={`${'\u20B9'} ${props.data[0].total_amount}`}
             />
           ) : null}
           <View
@@ -225,7 +243,7 @@ export default props => {
           ) : null}
         </View>
       </View>
-      {status === 'Confirmed' ? (
+      {status === 'Approved' ? (
         <View
           hitSlop={{left: 15, right: 15, top: 15, bottom: 15}}
           style={{
@@ -235,16 +253,16 @@ export default props => {
           <TouchableOpacity onPress={props.onPressRate}>
             <LightText
               style={{
-                fontSize: hp('2.5%'),
+                fontSize: hp('2%'),
                 color: 'white',
                 backgroundColor: colors.app_theme_dark_green,
                 paddingRight: hp('2%'),
                 paddingLeft: hp('2%'),
-                paddingHorizontal: hp('2%'),
-                paddingVertical: hp('2%'),
+                paddingHorizontal: hp('1%'),
+                paddingVertical: hp('1%'),
                 borderRadius: 10,
               }}
-              title={'Rate Us'}
+              title={'Rate US'}
             />
           </TouchableOpacity>
         </View>

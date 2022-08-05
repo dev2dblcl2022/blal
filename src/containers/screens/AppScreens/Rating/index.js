@@ -404,11 +404,21 @@ const index = ({navigation, route}) => {
                 <View style={[styles.circleView]}>
                   <Image
                     style={{height: 48, width: 48}}
-                    source={{
-                      uri: ratingItemId.includes(ratingNumbers[0]?.id)
-                        ? ratingNumbers[0]?.gif_icon
-                        : ratingNumbers[0]?.icon,
-                    }}
+                    source={
+                      ratingItemId.includes(ratingNumbers[0]?.id) &&
+                      (bookingRating[0].ratings_number.title === 'VERY BAD' ||
+                        bookingRating[0].ratings_number.title === 'BAD')
+                        ? imagesConstants.feedback6
+                        : ratingItemId.includes(ratingNumbers[0]?.id) &&
+                          bookingRating[0].ratings_number.title === 'AVERAGE'
+                        ? imagesConstants.feedback7
+                        : ratingItemId.includes(ratingNumbers[0]?.id) &&
+                          (bookingRating[0].ratings_number.title === 'GOOD' ||
+                            bookingRating[0].ratings_number.title ===
+                              'Excellent')
+                        ? imagesConstants.feedback8
+                        : imagesConstants.feedback9
+                    }
                   />
                 </View>
                 <View style={styles.textSection}>
@@ -431,11 +441,21 @@ const index = ({navigation, route}) => {
                   ]}>
                   <Image
                     style={{height: 48, width: 48}}
-                    source={{
-                      uri: ratingItemId.includes(ratingNumbers[1]?.id)
-                        ? ratingNumbers[1]?.gif_icon
-                        : ratingNumbers[1]?.icon,
-                    }}
+                    source={
+                      ratingItemId.includes(ratingNumbers[1]?.id) &&
+                      (bookingRating[0].ratings_number.title === 'VERY BAD' ||
+                        bookingRating[0].ratings_number.title === 'BAD')
+                        ? imagesConstants.feedback6
+                        : ratingItemId.includes(ratingNumbers[1]?.id) &&
+                          bookingRating[0].ratings_number.title === 'AVERAGE'
+                        ? imagesConstants.feedback7
+                        : ratingItemId.includes(ratingNumbers[1]?.id) &&
+                          (bookingRating[0].ratings_number.title === 'GOOD' ||
+                            bookingRating[0].ratings_number.title ===
+                              'Excellent')
+                        ? imagesConstants.feedback8
+                        : imagesConstants.feedback9
+                    }
                   />
                 </View>
                 <View style={styles.textSection}>
@@ -457,11 +477,21 @@ const index = ({navigation, route}) => {
                   ]}>
                   <Image
                     style={{height: 48, width: 48}}
-                    source={{
-                      uri: ratingItemId.includes(ratingNumbers[2]?.id)
-                        ? ratingNumbers[2]?.gif_icon
-                        : ratingNumbers[2]?.icon,
-                    }}
+                    source={
+                      ratingItemId.includes(ratingNumbers[2]?.id) &&
+                      (bookingRating[0].ratings_number.title === 'VERY BAD' ||
+                        bookingRating[0].ratings_number.title === 'BAD')
+                        ? imagesConstants.feedback6
+                        : ratingItemId.includes(ratingNumbers[2]?.id) &&
+                          bookingRating[0].ratings_number.title === 'AVERAGE'
+                        ? imagesConstants.feedback7
+                        : ratingItemId.includes(ratingNumbers[2]?.id) &&
+                          (bookingRating[0].ratings_number.title === 'GOOD' ||
+                            bookingRating[0].ratings_number.title ===
+                              'Excellent')
+                        ? imagesConstants.feedback8
+                        : imagesConstants.feedback9
+                    }
                   />
                 </View>
                 <View style={styles.textSection}>
@@ -622,10 +652,7 @@ const index = ({navigation, route}) => {
                       title={subHeading}
                     />
                   </View>
-                  {console.log(
-                    'ratingNumbers[0]?.selected',
-                    ratingNumbers[0]?.selected,
-                  )}
+
                   <View style={{padding: hp('2%'), flexDirection: 'row'}}>
                     <TouchableOpacity
                       onPress={() => onSelectCircle(ratingNumbers[0])}
@@ -637,9 +664,10 @@ const index = ({navigation, route}) => {
                             ratingNumbers[0]?.selected &&
                             (ratingCount === 1 || ratingCount === 2)
                               ? imagesConstants.feedback6
-                              : ratingCount === 3
+                              : ratingNumbers[0]?.selected && ratingCount === 3
                               ? imagesConstants.feedback7
-                              : ratingCount === 4 || ratingCount === 5
+                              : ratingNumbers[0]?.selected &&
+                                (ratingCount === 4 || ratingCount === 5)
                               ? imagesConstants.feedback8
                               : imagesConstants.feedback9
                           }
@@ -667,11 +695,17 @@ const index = ({navigation, route}) => {
                         ]}>
                         <Image
                           style={{height: 48, width: 48}}
-                          source={{
-                            uri: ratingNumbers[1]?.selected
-                              ? ratingNumbers[1]?.gif_icon
-                              : ratingNumbers[1]?.icon,
-                          }}
+                          source={
+                            ratingNumbers[1]?.selected &&
+                            (ratingCount === 1 || ratingCount === 2)
+                              ? imagesConstants.feedback6
+                              : ratingNumbers[1]?.selected && ratingCount === 3
+                              ? imagesConstants.feedback7
+                              : ratingNumbers[1]?.selected &&
+                                (ratingCount === 4 || ratingCount === 5)
+                              ? imagesConstants.feedback8
+                              : imagesConstants.feedback9
+                          }
                         />
                       </View>
                       <View style={styles.textSection}>
@@ -695,11 +729,17 @@ const index = ({navigation, route}) => {
                         ]}>
                         <Image
                           style={{height: 48, width: 48}}
-                          source={{
-                            uri: ratingNumbers[2]?.selected
-                              ? ratingNumbers[2]?.gif_icon
-                              : ratingNumbers[2]?.icon,
-                          }}
+                          source={
+                            ratingNumbers[2]?.selected &&
+                            (ratingCount === 1 || ratingCount === 2)
+                              ? imagesConstants.feedback6
+                              : ratingNumbers[2]?.selected && ratingCount === 3
+                              ? imagesConstants.feedback7
+                              : ratingNumbers[2]?.selected &&
+                                (ratingCount === 4 || ratingCount === 5)
+                              ? imagesConstants.feedback8
+                              : imagesConstants.feedback9
+                          }
                         />
                       </View>
                       <View style={styles.textSection}>

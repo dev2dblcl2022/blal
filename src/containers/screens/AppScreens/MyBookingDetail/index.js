@@ -419,11 +419,22 @@ const index = ({navigation, route}) => {
 
     Linking.openURL(CallNumber);
   };
+
   let allMemberAmount = myBookingData.reduce(
     (total, currentObject) =>
-      total + parseInt(currentObject.booking_member_tests[0].test_price),
+      total + parseInt(currentObject.total_member_amount),
     0,
   );
+  let allMemberAmountCollection = myBookingData.reduce(
+    (total, currentObject) => total + parseInt(currentObject.pickup_charge),
+    0,
+  );
+  let allMemberDiscount = myBookingData.reduce(
+    (total, currentObject) =>
+      total + parseInt(currentObject.total_member_discounted),
+    0,
+  );
+
   return (
     <>
       {prescriptionShown ? (
@@ -1519,7 +1530,7 @@ const index = ({navigation, route}) => {
                           title={`${'\u20B9'} ${allMemberAmount}`}
                         />
                       </View>
-                      {console.log('allMemberAmount', allMemberAmount)}
+
                       {/* <View style={styles.testPriceSection}>
                         <RegularText
                           style={styles.testPrice}
@@ -1531,7 +1542,7 @@ const index = ({navigation, route}) => {
                         />
                         )
                       </View> */}
-                      {Number(myBookingData[0].total_member_discounted) ? (
+                      {Number(allMemberDiscount) ? (
                         <View style={styles.testPriceSection}>
                           <RegularText
                             style={styles.testPrice}
@@ -1539,14 +1550,11 @@ const index = ({navigation, route}) => {
                           />
                           <RegularText
                             style={styles.rateText}
-                            title={`(-) ${'\u20B9'} ${
-                              myBookingData[0].total_member_discounted
-                            }`}
+                            title={`(-) ${'\u20B9'} ${allMemberDiscount}`}
                           />
                         </View>
                       ) : null}
-
-                      {Number(myBookingData[0].pickup_charge) ? (
+                      {Number(allMemberAmountCollection) ? (
                         <View style={styles.testPriceSection}>
                           <RegularText
                             style={styles.testPrice}
@@ -1554,9 +1562,7 @@ const index = ({navigation, route}) => {
                           />
                           <RegularText
                             style={styles.rateText}
-                            title={`(+) ${'\u20B9'} ${
-                              myBookingData[0].pickup_charge
-                            }`}
+                            title={`(+) ${'\u20B9'} ${allMemberAmountCollection}`}
                           />
                         </View>
                       ) : null}
@@ -1569,13 +1575,11 @@ const index = ({navigation, route}) => {
                           style={styles.rateText}
                           title={`${'\u20B9'} ${
                             allMemberAmount +
-                            (myBookingData[0].pickup_charge
-                              ? parseFloat(myBookingData[0].pickup_charge)
+                            (allMemberAmountCollection
+                              ? parseFloat(allMemberAmountCollection)
                               : 0) -
-                            (myBookingData[0].total_member_discounted
-                              ? parseFloat(
-                                  myBookingData[0].total_member_discounted,
-                                )
+                            (allMemberDiscount
+                              ? parseFloat(allMemberDiscount)
                               : 0)
                           }`}
                         />
@@ -1594,13 +1598,11 @@ const index = ({navigation, route}) => {
                           style={styles.payableText}
                           title={`${'\u20B9'} ${
                             allMemberAmount +
-                            (myBookingData[0].pickup_charge
-                              ? parseFloat(myBookingData[0].pickup_charge)
+                            (allMemberAmountCollection
+                              ? parseFloat(allMemberAmountCollection)
                               : 0) -
-                            (myBookingData[0].total_member_discounted
-                              ? parseFloat(
-                                  myBookingData[0].total_member_discounted,
-                                )
+                            (allMemberDiscount
+                              ? parseFloat(allMemberDiscount)
                               : 0)
                           }`}
                         />
@@ -1630,7 +1632,7 @@ const index = ({navigation, route}) => {
                   <View style={styles.cancelBookingBtn}>
                     <CancelButton
                       onPress={cancelBooking}
-                      title={'Cancel Order Booking'}
+                      title={'Cancel Order'}
                     />
                   </View>
                 ) : route?.params?.myBookingData?.refundStatus ? (

@@ -754,7 +754,7 @@ const index1 = ({navigation, route}) => {
                           myBookingData: item.data[0],
                         })
                       }
-                      data={item.data[0]}
+                      data={item.data}
                     />
                   );
                 }}
