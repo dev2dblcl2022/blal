@@ -1519,7 +1519,7 @@ const index = ({navigation, route}) => {
                           title={`${'\u20B9'} ${allMemberAmount}`}
                         />
                       </View>
-
+                      {console.log('allMemberAmount', allMemberAmount)}
                       {/* <View style={styles.testPriceSection}>
                         <RegularText
                           style={styles.testPrice}
@@ -1568,7 +1568,7 @@ const index = ({navigation, route}) => {
                         <RegularText
                           style={styles.rateText}
                           title={`${'\u20B9'} ${
-                            parseFloat(myBookingData[0].total_amount) +
+                            allMemberAmount +
                             (myBookingData[0].pickup_charge
                               ? parseFloat(myBookingData[0].pickup_charge)
                               : 0) -
@@ -1589,10 +1589,11 @@ const index = ({navigation, route}) => {
                               : 'You Need to Pay'
                           })`}
                         />
+
                         <BoldText
                           style={styles.payableText}
                           title={`${'\u20B9'} ${
-                            parseFloat(myBookingData[0].total_amount) +
+                            allMemberAmount +
                             (myBookingData[0].pickup_charge
                               ? parseFloat(myBookingData[0].pickup_charge)
                               : 0) -

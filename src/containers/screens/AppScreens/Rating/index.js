@@ -622,6 +622,10 @@ const index = ({navigation, route}) => {
                       title={subHeading}
                     />
                   </View>
+                  {console.log(
+                    'ratingNumbers[0]?.selected',
+                    ratingNumbers[0]?.selected,
+                  )}
                   <View style={{padding: hp('2%'), flexDirection: 'row'}}>
                     <TouchableOpacity
                       onPress={() => onSelectCircle(ratingNumbers[0])}
@@ -629,11 +633,16 @@ const index = ({navigation, route}) => {
                       <View style={[styles.circleView]}>
                         <Image
                           style={{height: 48, width: 48}}
-                          source={{
-                            uri: ratingNumbers[0]?.selected
-                              ? ratingNumbers[0]?.gif_icon
-                              : ratingNumbers[0]?.icon,
-                          }}
+                          source={
+                            ratingNumbers[0]?.selected &&
+                            (ratingCount === 1 || ratingCount === 2)
+                              ? imagesConstants.feedback6
+                              : ratingCount === 3
+                              ? imagesConstants.feedback7
+                              : ratingCount === 4 || ratingCount === 5
+                              ? imagesConstants.feedback8
+                              : imagesConstants.feedback9
+                          }
                         />
                       </View>
                       <View style={styles.textSection}>
@@ -650,7 +659,7 @@ const index = ({navigation, route}) => {
                       <View
                         style={[
                           styles.circleView,
-                          // {
+                          // {+
                           //   backgroundColor: ratingNumbers[1]?.selected
                           //     ? colors.app_theme_light_green
                           //     : colors.purplishGrey,

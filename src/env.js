@@ -1,5 +1,5 @@
-const releaseName = 'prod';
-// const releaseName = 'staging';
+// const releaseName = 'prod';
+const releaseName = 'staging';
 
 export function getRelease(path) {
   if (releaseName === 'prod') {
@@ -24,7 +24,7 @@ export function getRelease(path) {
     }
     return {
       reportUrl: reportUrl,
-      DOMAIN: 'https://silverapi.blallab.com',
+      DOMAIN: 'https://silverapi.blallab.com/SecureAPI',
       Api_Local_Url: 'https://sapi.blal.hl1.in',
       Api_Live_Url: 'https://sapi.blal.hl1.in',
     };

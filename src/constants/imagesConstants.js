@@ -120,6 +120,10 @@ const imagesConstants = {
   feedback3: require('../assets/images/feedback3.png'),
   feedback4: require('../assets/images/feedback4.png'),
   feedback5: require('../assets/images/feedback5.png'),
+  feedback6: require('../assets/images/feedback6.png'),
+  feedback7: require('../assets/images/feedback7.png'),
+  feedback8: require('../assets/images/feedback8.png'),
+  feedback9: require('../assets/images/feedback9.png'),
 };
 
 export default imagesConstants;

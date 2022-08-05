@@ -166,13 +166,12 @@ export default props => {
             ) : null}
           </View>
         )}
+
         <View style={{flex: 1, alignItems: 'flex-end'}}>
           {final_amount ? (
             <RegularText
               style={styles.bookingRateText}
-              title={`${'\u20B9'} ${
-                props.data.bookingAmount - props.data.total_member_discounted
-              }`}
+              title={`${'\u20B9'} ${props.data.total_amount}`}
             />
           ) : null}
           <View
