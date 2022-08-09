@@ -63,6 +63,7 @@ export default (props, navigation) => {
           style={[styles.backContainer]}>
           {props.cartVisible ? <Image source={imagesConstants.cart} /> : null}
         </TouchableOpacity> */}
+        {console.log('props.cartCount', props.cartCount)}
         <TouchableOpacity
           style={styles.backContainer}
           hitSlop={{left: 15, right: 15, top: 15, bottom: 15}}

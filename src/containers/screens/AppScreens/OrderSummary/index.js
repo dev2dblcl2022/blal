@@ -363,9 +363,8 @@ const index = ({navigation, route}) => {
         data = {
           collection_type: lab === 0 ? 'Home' : 'Lab',
           booking_date_time:
-            lab === 0
-              ? `${bookingDate} 11:30:00`
-              : `${selectedLabDate} 11:30:00`,
+            lab === 0 ? `${bookingDate} ${bookingTime}` : `${selectedLabDate} `,
+
           address_id:
             lab === 0
               ? `${selectedAddress.number} ${selectedAddress.area1} ${selectedAddress.area2} ${selectedAddress.city} ${selectedAddress.state} ${selectedAddress.pincode}`

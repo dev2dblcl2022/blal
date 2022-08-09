@@ -551,6 +551,7 @@ const index = ({navigation, route}) => {
   };
 
   const renderSearchCard = item => {
+    console.log('gfggggfr', item);
     let testPackageData = {
       id: item.Id,
       type: item.TestType,
@@ -565,12 +566,19 @@ const index = ({navigation, route}) => {
           });
         }}
         data={item}
+        navigation={navigation}
         imageType={imageType}
+        onAddMember={onAddMember}
+        onOpenPatientModal={onOpenPatientModal}
+        onClickPlusAdd={onClickPlusAdd}
+        getCartCount={getCartCount}
+        moveAddToCart={moveAddToCart}
       />
     );
   };
 
   const onOpenPatientModal = item => {
+    console.log('itemmm', item);
     setPackageData(item);
     setTimeout(() => {
       setVisible(true);
@@ -579,15 +587,16 @@ const index = ({navigation, route}) => {
 
   const onAddMember = () => {
     setVisible(false);
+
     setTimeout(() => {
       navigation.navigate('AddFamilyMember');
     }, 200);
   };
-
+  console.log('packageData', packageData);
   const moveAddToCart = async patientsId => {
     setVisible(false);
 
-    // alert('hii');
+    alert('hello');
 
     try {
       setLoader(true);
@@ -606,6 +615,7 @@ const index = ({navigation, route}) => {
         method: method.post,
         url: servicesPoints.bookingServices.add,
       };
+      console.log('requestConfig', requestConfig);
       const response = await NetworkRequest(requestConfig);
 
       if (response) {

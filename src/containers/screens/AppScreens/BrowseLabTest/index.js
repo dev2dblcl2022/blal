@@ -319,13 +319,19 @@ const index = ({navigation, route}) => {
             comeFromMyCart: false,
           })
         }
+        navigation={navigation}
         data={item}
         imageType={imageType}
+        onAddMember={onAddMember}
+        onOpenPatientModal={onOpenPatientModal}
+        onClickPlusAdd={onClickPlusAdd}
+        getCartCount={getCartCount}
       />
     );
   };
 
   const onOpenPatientModal = item => {
+    console.log('itemm', item);
     setPackageData(item);
     setTimeout(() => {
       setVisible(true);
@@ -338,7 +344,7 @@ const index = ({navigation, route}) => {
       p;
     }, 200);
   };
-
+  console.log('packageData', packageData);
   const moveAddToCart = async patientsId => {
     setVisible(false);
 
@@ -361,6 +367,7 @@ const index = ({navigation, route}) => {
         method: method.post,
         url: servicesPoints.bookingServices.add,
       };
+
       const response = await NetworkRequest(requestConfig);
 
       if (response) {

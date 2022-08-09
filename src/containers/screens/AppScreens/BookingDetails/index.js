@@ -414,6 +414,7 @@ const index = ({navigation, props}) => {
             return {time: itn, selected: false};
           }
         });
+
         setBookingSlotsTime(data);
       } else {
         if (response === 'Network Error') {
@@ -476,7 +477,7 @@ const index = ({navigation, props}) => {
           let data = bookingSlotsTime;
 
           data = data.map((itn, index) => {
-            if (itn === item) {
+            if (itn.time === item.time) {
               itn.selected = !itn.selected;
             } else {
               itn.selected = false;
@@ -622,9 +623,9 @@ const index = ({navigation, props}) => {
   });
 
   const onPreviewBooking = () => {
-    const even = element => element.selected;
+    // const even = element => element.selected;
 
-    let selectedTimeSlot = bookingSlotsTime.some(even);
+    let selectedTimeSlot = bookingSlotsTime.some(element => element.selected);
     let arr = [];
     if (selectedTimeSlot) {
       bookingSlotsTime.map(item => {
