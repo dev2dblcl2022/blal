@@ -23,6 +23,7 @@ export const servicesPoints = {
     get_User_Address: 'users/api/get_address',
     upload_prescription: 'users/api/upload_prescription',
     add_uhid_primary: 'users/api/add_uhid_primary',
+    set_primary_member: 'users/api/set_primary_member',
     add_uhid_members: 'users/api/add_uhid_members',
     remove_uhid_members: 'users/api/remove_uhid_members',
     checkPinCode: 'users/api/check_pincode',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, View, TouchableOpacity, Alert} from 'react-native';
 import {Blal_City_Id, Blal_Panel_Id} from '../../../config/Setting';
 import colors from '../../../constants/colors';
@@ -18,33 +18,21 @@ import NetworkRequest, {
 import Toast from '../Toast';
 
 export default props => {
-  let {
-    NAME,
-    Rate,
-    DiscountPercentage,
-    ReportGenerationTime,
-    PreTestInfo,
-    TotalMRP,
-    TestType,
-    Id,
-  } = props?.data;
-  console.log('hjfhj', Id);
-  console.log('TestType', TestType);
-
   const [visible, setVisible] = React.useState(false);
   const [userToken, setUserToken] = React.useState('');
   const [loader, setLoader] = React.useState(true);
   const [panelId, setPanelId] = React.useState(Blal_Panel_Id);
   const [cityId, setCityId] = React.useState(Blal_City_Id);
+  const [itemData, setItemData] = React.useState(props.data);
 
   let type = props?.type;
   let imageType = props?.imageType;
 
   let testCountArray = [];
 
-  if (props?.data.TestType === 'Test') {
-    if (props?.data.ParameterName) {
-      let data = props?.data.ParameterName;
+  if (itemData.TestType === 'Test') {
+    if (itemData.ParameterName) {
+      let data = itemData.ParameterName;
       let testArray = data.split('#');
       if (data) {
         if (testArray.length) {
@@ -54,7 +42,7 @@ export default props => {
           testCountArray = newArr;
         } else {
           testCountArray = {
-            Investigation: props?.data.ParameterName,
+            Investigation: itemData.ParameterName,
             ParameterName: '',
           };
         }
@@ -67,18 +55,18 @@ export default props => {
       testCountArray = [];
     }
   }
+
   const moveAddToCart = async patientsId => {
-    console.log('patientsId', patientsId);
     setVisible(false);
 
     try {
       setLoader(true);
       let apiData = {
         is_booking: false,
-        test_type: TestType,
-        test_id: Id,
+        test_type: itemData.TestType,
+        test_id: itemData.Id,
         panel_id: panelId,
-        test_name: NAME,
+        test_name: itemData.NAME,
         city_id: cityId,
         booking_members: patientsId,
       };
@@ -88,7 +76,7 @@ export default props => {
         method: method.post,
         url: servicesPoints.bookingServices.add,
       };
-      console.log('requestConfigrequestConfigrequestConfig', requestConfig);
+
       const response = await NetworkRequest(requestConfig);
 
       if (response) {
@@ -123,20 +111,20 @@ export default props => {
         <Image
           style={styles.img}
           source={{
-            uri: props?.data.Image,
+            uri: itemData.Image,
           }}
         />
       </View>
 
       <View style={styles.dataSection}>
-        <BoldText style={styles.testNameText} title={NAME} />
-        {/* {props.data.TestType === 'Test' && testCountArray.length ? (
+        <BoldText style={styles.testNameText} title={itemData.NAME} />
+        {/* {props.data.itemData.TestType === 'Test' && testCountArray.length ? (
           <RegularText
             style={styles.addressText}
             title={`${testCountArray.length} test included`}
           />
         ) : null}
-        {props.data.TestType === 'Package' ? (
+        {props.data.itemData.TestType === 'Package' ? (
           <RegularText
             style={styles.addressText}
             title={`${testCountArray.length} test included`}
@@ -157,9 +145,12 @@ export default props => {
 
         <View style={styles.amountSection}>
           {/* <BoldText style={styles.timeText} title={'8-10 hours'} /> */}
-          <BoldText style={styles.timeText} title={ReportGenerationTime} />
+          <BoldText
+            style={styles.timeText}
+            title={itemData.ReportGenerationTime}
+          />
         </View>
-        {PreTestInfo ? (
+        {itemData.ReportGenerationTime ? (
           <View style={[styles.timeSection, {flexDirection: 'row'}]}>
             <Image
               style={{
@@ -172,28 +163,36 @@ export default props => {
             />
             <RegularText
               style={[styles.hrsText, {marginLeft: 5, marginTop: 4}]}
-              title={PreTestInfo}
+              title={itemData.PreTestInfo}
             />
           </View>
         ) : null}
       </View>
       <View style={styles.amountRightSection}>
-        <BoldText style={styles.testNameText} title={`${'\u20B9'} ${Rate}`} />
+        <BoldText
+          style={styles.testNameText}
+          title={`${'\u20B9'} ${itemData.Rate}`}
+        />
         <View style={styles.offSection}>
           <RegularText
             style={[styles.amountTextTwo, {textAlign: 'right'}]}
-            title={TotalMRP}
+            title={itemData.TotalMRP}
           />
-          {DiscountPercentage && DiscountPercentage !== '0' ? (
+          {itemData.DiscountPercentage &&
+          itemData.DiscountPercentage !== '0' ? (
             <RegularText
               style={styles.percentText}
-              title={`${'\u20B9'} ${DiscountPercentage}%off`}
+              title={`${'\u20B9'} ${itemData.DiscountPercentage}%off`}
             />
           ) : null}
         </View>
         <TouchableOpacity
           hitSlop={{left: 40, right: 40, top: 40, bottom: 40}}
-          onPress={props.onClickPlusAdd}
+          onPress={() =>
+            itemData.IsBestSeller
+              ? props.onClickPlusAdd(itemData)
+              : props.onDeleteTest(itemData)
+          }
           style={styles.searchedItemTwo}>
           <BoldText
             style={{
@@ -201,12 +200,12 @@ export default props => {
               fontSize: hp('3.5%'),
               fontWeight: 'bold',
             }}
-            title={props.IsBestSeller ? '-' : '+'}
+            title={itemData.IsBestSeller ? '+' : '-'}
           />
         </TouchableOpacity>
       </View>
       <View style={{position: 'absolute', top: -2, left: 0}}>
-        {TestType === 'Test' ? (
+        {itemData.TestType === 'Test' ? (
           <Image source={imagesConstants.testCorner} />
         ) : (
           <Image source={imagesConstants.packageCorner} />
@@ -218,10 +217,7 @@ export default props => {
           onAddMember={props.onAddMember}
           onRequestClose={() => setVisible(false)}
           onPressCancel={() => setVisible(false)}
-          onAddToCart={data => {
-            moveAddToCart(data);
-            console.log('fgfg', data);
-          }}
+          onAddToCart={data => moveAddToCart(data)}
           visible={visible}
         />
       )}

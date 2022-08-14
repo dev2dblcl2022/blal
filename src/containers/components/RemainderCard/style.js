@@ -43,4 +43,11 @@ export default StyleSheet.create({
     marginTop: hp('0.5%'),
     fontSize: hp('1.5%'),
   },
+  messageText1: {
+    color: colors.black,
+    marginTop: hp('0.5%'),
+    fontSize: hp('1.5%'),
+    position: 'relative',
+    left: hp('25%'),
+  },
 });

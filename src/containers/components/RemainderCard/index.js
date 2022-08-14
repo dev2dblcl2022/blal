@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import {Image, View, TouchableOpacity} from 'react-native';
 
@@ -7,6 +8,9 @@ import styles from './style';
 
 export default props => {
   let {title, body, is_readed} = props?.data;
+
+  const dateTimeAgo = moment(props.data.created_at).fromNow();
+  console.log('prrorprorp', dateTimeAgo);
   return (
     <TouchableOpacity
       onPress={props.onPress}
@@ -22,6 +26,7 @@ export default props => {
       <View style={styles.textSection}>
         <RegularText style={styles.headText} title={title} />
         <RegularText style={styles.messageText} title={body} />
+        <RegularText style={styles.messageText1} title={dateTimeAgo} />
       </View>
     </TouchableOpacity>
   );

@@ -82,6 +82,7 @@ const index = ({navigation, route}) => {
   const [idBodyParts, setIdBodyParts] = useState('');
   const [showTestList, setShowTestList] = useState(false);
   const [handleConnectionState, setHandleConnectionState] = useState(false);
+
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -128,13 +129,10 @@ const index = ({navigation, route}) => {
   // };
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getStorageData();
+    getStorageData();
 
-      getCartCount();
-    });
-    return unsubscribe;
-  }, [navigation]);
+    getCartCount();
+  }, []);
 
   useEffect(() => {
     getUserId();
@@ -253,7 +251,26 @@ const index = ({navigation, route}) => {
       if (response) {
         const {status_Code} = response;
         if (status_Code === 200) {
-          setTest(response.data.itemmodel);
+          const _cartData = await getMyCartData();
+          if (_cartData && _cartData.length) {
+            const finalData = response.data.itemmodel.map(item => {
+              const find = _cartData.find(itn => {
+                if (item.Id === itn.test_id) {
+                  item.memberTestId = itn.id;
+                  return item;
+                }
+              });
+              if (find) {
+                item.IsBestSeller = null;
+              } else {
+                item.IsBestSeller = true;
+              }
+              return item;
+            });
+            setTest(finalData);
+          } else {
+            setTest(response.data.itemmodel);
+          }
 
           filterBodyPartsKeys = null;
           filterConditionKeys = null;
@@ -304,6 +321,84 @@ const index = ({navigation, route}) => {
       onOpenPatientModal(item);
     }
   };
+  const onDeleteTest = async item => {
+    try {
+      setLoader(true);
+      let data = {
+        itemId: item.memberTestId.toString(),
+      };
+      const requestConfig = {
+        method: method.post,
+        data: data,
+        url: servicesPoints.bookingServices.remove_member_item_from_cart,
+      };
+
+      const response = await NetworkRequest(requestConfig);
+
+      if (response) {
+        const {success} = response;
+        if (success) {
+          item.IsBestSeller = true;
+          getCartCount();
+
+          getStorageData();
+          setLoader(false);
+        } else {
+          if (response === 'Network Error') {
+            Toast('Network Error', 0);
+            setHandleConnectionState(true);
+            setLoader(false);
+          } else if (response.status === 401) {
+            signOut();
+          } else {
+            null;
+          }
+          setLoader(false);
+        }
+      }
+    } catch (err) {
+      setLoader(false);
+    }
+  };
+  const getMyCartData = async (cit, pan) => {
+    try {
+      const requestConfig = {
+        method: method.get,
+        url: servicesPoints.bookingServices.myCart,
+      };
+
+      const response = await NetworkRequest(requestConfig);
+
+      if (response) {
+        const {success} = response;
+        if (success) {
+          let arr = [];
+          arr = response?.data?.bookings;
+          const _arr = [];
+
+          arr.forEach(item => {
+            _arr.push(...item.booking_member_tests);
+          });
+          // getLastSearched(cit, pan);
+          setLoader(false);
+          return _arr;
+        } else {
+          if (response === 'Network Error') {
+            Toast('Network Error', 0);
+            // setHandleConnectionState(true);
+            setLoader(false);
+          } else if (response.status === 401) {
+            // signOut();
+          } else {
+            null;
+          }
+          setLoader(false);
+        }
+      }
+    } catch (err) {
+      setLoader(false);
+    }
+  };
 
   const renderSearchCard = item => {
     let testPackageData = {
@@ -325,13 +420,14 @@ const index = ({navigation, route}) => {
         onAddMember={onAddMember}
         onOpenPatientModal={onOpenPatientModal}
         onClickPlusAdd={onClickPlusAdd}
+        onDeleteTest={onDeleteTest}
         getCartCount={getCartCount}
+        moveAddToCart={moveAddToCart}
       />
     );
   };
 
   const onOpenPatientModal = item => {
-    console.log('itemm', item);
     setPackageData(item);
     setTimeout(() => {
       setVisible(true);
@@ -344,11 +440,9 @@ const index = ({navigation, route}) => {
       p;
     }, 200);
   };
-  console.log('packageData', packageData);
+
   const moveAddToCart = async patientsId => {
     setVisible(false);
-
-    // alert('hii');
 
     try {
       setLoader(true);
@@ -375,7 +469,9 @@ const index = ({navigation, route}) => {
         if (success) {
           setLoader(false);
           Toast(response.message, 1);
+          packageData.IsBestSeller = null;
           getCartCount();
+          getStorageData();
         } else {
           Toast(response.message, 0);
 

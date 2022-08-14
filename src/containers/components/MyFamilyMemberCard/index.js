@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, View, TouchableOpacity} from 'react-native';
+import {Image, View, TouchableOpacity, Text} from 'react-native';
 import imagesConstants from '../../../constants/imagesConstants';
 import {BoldText, RegularText} from '../Common';
 import styles from './style';
@@ -16,6 +16,7 @@ export default props => {
   let uhid = props?.uhid;
 
   let selectView = props?.selectView;
+
   const startDate = moment(data.dob, 'YYYY-MM-DD');
   const endDate = moment(new Date(), 'YYYY-MM-DD');
   const finalAge = moment.duration(endDate.diff(startDate));
@@ -113,7 +114,7 @@ export default props => {
         </View> */}
 
           <View style={[styles.primaryUidView, {backgroundColor: 'white'}]}>
-            {data.uhid === uhid ? (
+            {data.uhid_link === 'primary' ? (
               <BoldText
                 style={[
                   styles.uhidText,
@@ -128,7 +129,7 @@ export default props => {
             ) : null}
           </View>
 
-          {data.uhid !== uhid ? (
+          {data.uhid_link !== 'primary' ? (
             <TouchableOpacity
               onPress={props.onPressDeactivate}
               style={[

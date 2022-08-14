@@ -47,6 +47,7 @@ const index = ({navigation}) => {
   const [selectionLinkMember, setSelectionLinkMember] = useState(false);
   const [showLinkedMembers, setShowLinkedMembers] = useState(false);
   const [handleConnectionState, setHandleConnectionState] = useState(false);
+  const [address, setAddresses] = useState([]);
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -57,28 +58,109 @@ const index = ({navigation}) => {
       <LinkUhidCard
         selection={selectionLinkMember && linkUHIDselection}
         data={item}
+        onSelectLinkedRemove={() => onRemoveLinkedMember(item)}
       />
     );
   };
 
   const renderAllMembers = item => {
     if (item.uhid_link === 'primary') {
-      return null;
-    } else if (item.uhid_link === 'linked') {
+      item.selected = true;
+    }
+    if (item.uhid_link === 'linked') {
       return null;
     } else {
       return (
         <MyFamilyMemberCard
-          selectView={false}
-          selection={!primaryUHID || selection}
+          selectView={true}
+          selection={!primaryUHID || !selection}
           data={item}
           emailIdShown={true}
           deActiveView={true}
           uhid={userData.user.uhid}
           onPressDeactivate={() => setMemberDeactivate(item)}
+          onSelectPrimary={() => onselectForPrimary(item)}
         />
       );
     }
+  };
+  const onselectForPrimary = item => {
+    let data = allMembersData;
+    data = data.map((itn, index) => {
+      if (itn.id == item.id) {
+        itn.selected = true;
+      } else {
+        itn.selected = false;
+      }
+      return itn;
+    });
+
+    setAllMembersData(data);
+    onSelectPrimaryAlert(item, data);
+  };
+  const onSelectPrimaryAlert = (item, data) => {
+    Alert.alert(
+      `Are you sure to set this uhid as primary uhid`,
+      ``,
+      [
+        {text: 'Yes', onPress: () => onApiAddressPrimary(item, data)},
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onApiAddressPrimary = async (item, filterData) => {
+    try {
+      setLoader(true);
+      let data = {
+        PatientId: item.uhid,
+      };
+      const requestConfig = {
+        method: method.post,
+        data: data,
+        url: servicesPoints.userServices.set_primary_member,
+      };
+
+      const response = await NetworkRequest(requestConfig);
+
+      if (response) {
+        const {success} = response;
+        if (success) {
+          setAddresses(filterData);
+          getMyFamilyMembers();
+          setLoader(false);
+          Toast(response.message, 1);
+        } else {
+          Toast(response.message, 0);
+          if (response === 'Network Error') {
+            Toast('Network Error', 0);
+            setHandleConnectionState(true);
+            setLoader(false);
+          } else if (response.status === 401) {
+            // signOut();
+          } else {
+            null;
+          }
+          setLoader(false);
+        }
+      }
+    } catch (err) {
+      setLoader(false);
+    }
+  };
+  const onRemoveLinkedMember = item => {
+    let data = allMembersData;
+    data = data.map((itn, index) => {
+      if (itn.id == item.id) {
+        itn.selected = !itn.selected;
+      }
+      return itn;
+    });
+    setAllMembersData(data);
   };
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -101,11 +183,11 @@ const index = ({navigation}) => {
     };
 
     const response = await NetworkRequest(requestConfig);
-
     if (response) {
       const {success} = response;
       if (success) {
         setAllMembersData(response.data);
+
         setMembersData(response.data);
 
         var primaryUhid = response.data.find(item => {

@@ -57,6 +57,22 @@ export default StyleSheet.create({
     marginTop: hp('0.5%'),
     color: colors.app_theme_light_green,
   },
+  typeUnSelect: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#125A2D',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 10,
+  },
+  typeSelect: {
+    height: 10,
+    width: 10,
+    borderRadius: 5,
+    backgroundColor: '#125A2D',
+  },
   membersText: {
     fontSize: hp('1.8%'),
     marginLeft: hp('0.5%'),
