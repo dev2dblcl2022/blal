@@ -91,12 +91,34 @@ const index = ({navigation, route}) => {
   //   }
 
   // };
-  const getMyBookingDetailStatus = async () => {
+  // const getMyBookingDetailStatus = async () => {
+  //   try {
+  //     const requestConfig = {
+  //       method: blalMethod.post,
+
+  //       url: `${blalServicesPoints.blalUserServices.GetBookingStatus}?LabNo=${bookingDetailData?.LedgerTransactionNo}`,
+  //     };
+
+  //     const response = await NetworkRequestBlal(requestConfig);
+
+  //     if (response) {
+  //       const {status_Code} = response;
+  //       if (status_Code === 200) {
+  //         setBookingStatus(response.data);
+  //       }
+  //     } else {
+  //       setLoader(false);
+  //     }
+  //   } catch (err) {
+  //     console.log('err', err);
+  //   }
+  // };
+  const getMyBookingDetailStatus = async lisBookingid => {
     try {
       const requestConfig = {
         method: blalMethod.post,
 
-        url: `${blalServicesPoints.blalUserServices.GetBookingStatus}?LabNo=${bookingDetailData?.LedgerTransactionNo}`,
+        url: `${blalServicesPoints.blalUserServices.GetMultipleBookingStatus}?BookingId=${lisBookingid}`,
       };
 
       const response = await NetworkRequestBlal(requestConfig);
@@ -114,10 +136,16 @@ const index = ({navigation, route}) => {
     }
   };
   useEffect(() => {
-    if (bookingDetailData.LedgerTransactionNo) {
-      getMyBookingDetailStatus();
+    const lisBookingid = [];
+    myBookingData.map(item => {
+      if (item.LedgerTransactionNo) {
+        lisBookingid.push(item.LisBookId);
+      }
+    });
+    if (lisBookingid.length === myBookingData.length) {
+      getMyBookingDetailStatus(lisBookingid.join(','));
     }
-  }, [bookingDetailData]);
+  }, [myBookingData]);
 
   const cancelBooking = async val => {
     setLoader(true);
@@ -512,6 +540,7 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
+
                 {myBookingData[0].collection_type === 'Home' ? (
                   <View style={styles.bookingStatus}>
                     <Image
@@ -528,7 +557,7 @@ const index = ({navigation, route}) => {
                           ? imagesConstants.collectionDone
                           : bookingStatus === 'Sample reached at lab'
                           ? imagesConstants.sampleAtLab
-                          : myBookingData[0].status === 'Approved'
+                          : bookingStatus === 'Approved'
                           ? imagesConstants.reportApproved
                           : imagesConstants.bookingConfirmed
                       }
@@ -539,9 +568,9 @@ const index = ({navigation, route}) => {
                         style={
                           bookingStatus === 'Sample reached at lab'
                             ? styles.section11
-                            : bookingDetailData.status === 'Accepted'
+                            : myBookingData[0].status === 'Accepted'
                             ? styles.section12
-                            : bookingDetailData.status === 'Approved'
+                            : bookingStatus === 'Approved'
                             ? styles.section01
                             : styles.section1
                         }>
@@ -558,9 +587,9 @@ const index = ({navigation, route}) => {
                         style={
                           bookingStatus === 'Sample reached at lab'
                             ? styles.section22
-                            : bookingDetailData.status === 'Accepted'
+                            : myBookingData[0].status === 'Accepted'
                             ? styles.section12
-                            : bookingDetailData.status === 'Approved'
+                            : bookingStatus === 'Approved'
                             ? styles.section02
                             : styles.section2
                         }>
@@ -573,9 +602,9 @@ const index = ({navigation, route}) => {
                         style={
                           bookingStatus === 'Sample reached at lab'
                             ? styles.section33
-                            : bookingDetailData.status === 'Accepted'
+                            : myBookingData[0].status === 'Accepted'
                             ? styles.section13
-                            : bookingDetailData.status === 'Approved'
+                            : bookingStatus === 'Approved'
                             ? styles.section03
                             : styles.section3
                         }>
@@ -588,9 +617,9 @@ const index = ({navigation, route}) => {
                         style={
                           bookingStatus === 'Sample reached at lab'
                             ? styles.section44
-                            : bookingDetailData.status === 'Accepted'
+                            : myBookingData[0].status === 'Accepted'
                             ? styles.section14
-                            : bookingDetailData.status === 'Approved'
+                            : bookingStatus === 'Approved'
                             ? styles.section04
                             : styles.section4
                         }>
@@ -603,7 +632,7 @@ const index = ({navigation, route}) => {
                         style={
                           bookingStatus === 'Sample reached at lab'
                             ? styles.section55
-                            : bookingDetailData.status === 'Accepted'
+                            : myBookingData[0].status === 'Accepted'
                             ? styles.section15
                             : styles.section5
                         }>
@@ -630,7 +659,7 @@ const index = ({navigation, route}) => {
                       <View style={styles.emptyView}>
                         <Image
                           source={
-                            bookingDetailData.status === 'Upcoming'
+                            myBookingData[0].status === 'Upcoming'
                               ? imagesConstants.marker
                               : imagesConstants.point
                           }
@@ -655,7 +684,7 @@ const index = ({navigation, route}) => {
                       <View style={styles.emptyView}>
                         <Image
                           source={
-                            bookingDetailData.status === 'Approved'
+                            bookingStatus === 'Approved'
                               ? imagesConstants.marker
                               : imagesConstants.point
                           }
@@ -685,7 +714,6 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 )}
-
                 {myBookingData.map(bookingDetailData => {
                   return (
                     <ScrollView style={styles.scroll}>
@@ -1139,7 +1167,6 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 </View>
-
                 {myBookingData[0].collection_type === 'Home' ? (
                   <View style={styles.pickupAddress}>
                     <RegularText
@@ -1154,9 +1181,9 @@ const index = ({navigation, route}) => {
                               <Image
                                 style={styles.profilePic}
                                 source={
-                                  bookingDetailData.address_type === 'Home'
+                                  myBookingData[0].address_type === 'Home'
                                     ? imagesConstants.house
-                                    : bookingDetailData === 'Office'
+                                    : myBookingData[0] === 'Office'
                                     ? imagesConstants.office
                                     : imagesConstants.other
                                 }
@@ -1199,7 +1226,6 @@ const index = ({navigation, route}) => {
                     </View>
                   </View>
                 ) : null}
-
                 {myBookingData[0].collection_type === 'Home' ? (
                   <View>
                     {myBookingData[0].status === 'Accepted' ||
@@ -1253,7 +1279,7 @@ const index = ({navigation, route}) => {
                                 }}>
                                 <LightText
                                   style={[styles.addressText, {marginTop: 0}]}
-                                  title={bookingDetailData.fleet_name}
+                                  title={myBookingData[0].fleet_name}
                                 />
                               </View>
                               <View

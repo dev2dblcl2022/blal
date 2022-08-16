@@ -47,7 +47,7 @@ const index = ({navigation}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
-      console.log('hdgf', response.data);
+
       if (response) {
         const {success} = response;
         if (success) {

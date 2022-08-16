@@ -144,6 +144,25 @@ export default StyleSheet.create({
     fontSize: hp('1%'),
     marginLeft: hp('0.5%'),
   },
+  addButton: {
+    borderRadius: 5,
+    padding: hp('0.7%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.app_theme_dark_green,
+    marginTop: hp('5%'),
+  },
+  removeButton: {
+    borderRadius: 5,
+    padding: hp('0.7%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.red,
+    marginTop: hp('5%'),
+  },
+  btnViewText: {
+    color: colors.white,
+  },
   amountTextTwo: {fontSize: hp('1%'), color: colors.purplishGrey},
   offSection: {flexDirection: 'row', marginTop: hp('0.5%')},
 });

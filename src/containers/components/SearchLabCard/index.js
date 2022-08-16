@@ -194,14 +194,25 @@ export default props => {
               : props.onDeleteTest(itemData)
           }
           style={styles.searchedItemTwo}>
-          <BoldText
-            style={{
-              color: colors.app_theme_dark_green,
-              fontSize: hp('3.5%'),
-              fontWeight: 'bold',
-            }}
-            title={itemData.IsBestSeller ? '+' : '-'}
-          />
+          {/* <View>
+            <RegularText
+              style={{
+                color: colors.app_theme_dark_green,
+                fontSize: hp('3.5%'),
+                fontWeight: 'bold',
+              }}
+              title={itemData.IsBestSeller ? '+' : '-'}
+            />
+          </View> */}
+          <View
+            style={
+              itemData.IsBestSeller ? styles.addButton : styles.removeButton
+            }>
+            <RegularText
+              style={styles.btnViewText}
+              title={itemData.IsBestSeller ? 'Add' : 'Remove'}
+            />
+          </View>
         </TouchableOpacity>
       </View>
       <View style={{position: 'absolute', top: -2, left: 0}}>

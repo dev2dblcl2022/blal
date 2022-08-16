@@ -93,7 +93,7 @@ export default StyleSheet.create({
   },
   membersSection: {flexDirection: 'row', alignItems: 'center'},
   primaryUidView: {
-    backgroundColor: colors.app_theme_light_green,
+    // backgroundColor: colors.app_theme_light_green,
     borderRadius: 15,
     justifyContent: 'center',
     padding: hp('1%'),

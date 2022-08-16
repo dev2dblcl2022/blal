@@ -43,7 +43,7 @@ import colors from '../../../../constants/colors';
 let age = 'Age';
 
 let selectImage = 0;
-const index = ({navigation}) => {
+const index = ({navigation, route}) => {
   const {signOut} = React.useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState([]);
   const [fullDate, setFullDate] = useState('');
@@ -88,6 +88,8 @@ const index = ({navigation}) => {
       navigation.navigate('ConnectionHandle');
     }
   }, [handleConnectionState]);
+  let memberData = route?.params?.data;
+
   const onChangeText = (key, val) => {
     setValidateForm({
       ...validateForm,
@@ -123,11 +125,48 @@ const index = ({navigation}) => {
       //   Toast('Please Select Profile Image', 0);
       // }
       else {
-        await onApiLogin();
+        memberData ? await editApiLogin() : await onApiLogin();
       }
     }
   };
+  const editApiLogin = async () => {
+    try {
+      setLoader(true);
+      let data = {
+        email: validateForm.email,
+        relation: value,
+      };
+      const requestConfig = {
+        method: method.put,
+        data: data,
+        url: `${servicesPoints.userServices.editFamilyMember}/${memberData.id}`,
+      };
 
+      const response = await NetworkRequest(requestConfig);
+
+      if (response) {
+        const {success} = response;
+        if (success) {
+          setLoader(false);
+          Toast(response.message, 1);
+          navigation.pop(1);
+        } else {
+          Toast(response.message, 0);
+          if (response === 'Network Error') {
+            Toast('Network Error', 0);
+            setLoader(false);
+          } else if (response.status === 401) {
+            // signOut();
+          } else {
+            null;
+          }
+          setLoader(false);
+        }
+      }
+    } catch (err) {
+      setLoader(false);
+    }
+  };
   const onApiLogin = async () => {
     try {
       let formData = new FormData();
@@ -391,6 +430,20 @@ const index = ({navigation}) => {
       }
     });
   };
+  useEffect(() => {
+    if (memberData) {
+      setValidateForm(preValue => ({
+        ...preValue,
+        name: memberData.fullname,
+        email: memberData.email,
+        relation: memberData.relation,
+        age: memberData.age,
+        gender: memberData.gender,
+      }));
+      setDate(memberData.dob);
+      setValue(memberData.relation);
+    }
+  }, [memberData]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -419,7 +472,9 @@ const index = ({navigation}) => {
                 )}
               </View>
 
-              <TouchableOpacity onPress={onAlert} style={styles.addProfile}>
+              <TouchableOpacity
+                onPress={memberData ? null : onAlert}
+                style={styles.addProfile}>
                 <Image source={imagesConstants.camera} />
               </TouchableOpacity>
             </View>
@@ -455,6 +510,7 @@ const index = ({navigation}) => {
                 onChangeText={text => onChangeText('name', text, 'name')}
                 style={styles.input}
                 placeholder={'Full Name'}
+                editable={memberData?.fullname ? false : true}
               />
             </View>
             <View style={styles.mobileNumberInput}>
@@ -470,10 +526,16 @@ const index = ({navigation}) => {
             </View>
 
             <TouchableOpacity
-              onPress={() => setDatePicker(true)}
+              onPress={() =>
+                !memberData ? setDatePicker(true) : setDatePicker(false)
+              }
               style={styles.dateBirthContainer}>
               <View style={styles.dateView}>
-                <RegularText style={styles.dateText} title={date} />
+                <RegularText
+                  style={styles.dateText}
+                  title={date}
+                  editable={memberData?.dob ? false : true}
+                />
               </View>
               <View style={styles.calendarView}>
                 <Image
@@ -508,7 +570,7 @@ const index = ({navigation}) => {
               <RegularText style={styles.genderText} title={'Gender'} />
               <View style={styles.radioContent}>
                 <TouchableOpacity
-                  onPress={onChooseGender}
+                  onPress={!memberData ? onChooseGender : null}
                   style={styles.radioGroup}>
                   <View style={styles.radioView}>
                     {male ? <View style={styles.radioInnerView} /> : null}
@@ -517,7 +579,7 @@ const index = ({navigation}) => {
                   <RegularText style={styles.female} title={'Male'} />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={onChooseGender}
+                  onPress={!memberData ? onChooseGender : null}
                   style={[styles.radioGroup, {marginLeft: hp('2%')}]}>
                   <View style={styles.radioView}>
                     {!male ? <View style={styles.radioInnerView} /> : null}
@@ -537,7 +599,11 @@ const index = ({navigation}) => {
               <SubmitButton
                 style={styles.submitBtn}
                 onPress={onSubmit}
-                title={textConstants.btnText.addMember}
+                title={
+                  memberData
+                    ? textConstants.btnText.editMember
+                    : textConstants.btnText.addMember
+                }
               />
             </View>
           </View>

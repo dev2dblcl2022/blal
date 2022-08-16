@@ -115,6 +115,7 @@ export default props => {
         selectView={true}
         data={item}
         emailIdShown={false}
+        editMember={false}
       />
     );
   };

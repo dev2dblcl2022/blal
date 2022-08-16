@@ -33,6 +33,7 @@ export const textConstants = {
     update: 'Update',
     sendRequest: 'Send Request',
     addMember: 'Add Member',
+    editMember: 'Edit Member',
     cancel: 'Cancel',
     back: 'Back',
     accept: 'Accept',

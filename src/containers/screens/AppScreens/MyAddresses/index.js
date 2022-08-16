@@ -241,7 +241,6 @@ const index = ({navigation, props, route}) => {
   };
 
   const renderCard = item => {
-    console.log('gfgfgfgf', item);
     return (
       <MyAddressCard
         onDelete={() => onDeleAddress(item)}

@@ -25,6 +25,7 @@ export const blalServicesPoints = {
     getCity: 'api/City',
     getFacility: 'GetFacility',
     GetBookingStatus: 'GetBookingStatus',
+    GetMultipleBookingStatus: 'GetMultipleBookingStatus',
   },
 };
 // Api call Methods

@@ -84,6 +84,7 @@ const index = ({navigation, route}) => {
           onSelectPrimary={() => onselectForPrimary(item)}
           data={item}
           emailIdShown={true}
+          editMember={true}
         />
       );
     }

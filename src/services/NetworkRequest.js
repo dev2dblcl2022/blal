@@ -37,6 +37,7 @@ export const servicesPoints = {
     editAddress: 'users/api/update_address',
     my_prescriptions: 'users/api/my_prescriptions',
     membership_card: 'users/api/membershipcard_leadsequared',
+    editFamilyMember: 'users/api/edit_family_mamber',
   },
   bookingServices: {
     add: 'bookings/api/add',

@@ -10,7 +10,7 @@ export default props => {
   let {title, body, is_readed} = props?.data;
 
   const dateTimeAgo = moment(props.data.created_at).fromNow();
-  console.log('prrorprorp', dateTimeAgo);
+
   return (
     <TouchableOpacity
       onPress={props.onPress}

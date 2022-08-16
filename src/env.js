@@ -24,7 +24,7 @@ export function getRelease(path) {
     }
     return {
       reportUrl: reportUrl,
-      DOMAIN: 'https://silverapi.blallab.com/SecureAPI',
+      DOMAIN: 'https://silverapi.blallab.com',
       Api_Local_Url: 'https://sapi.blal.hl1.in',
       Api_Live_Url: 'https://sapi.blal.hl1.in',
     };

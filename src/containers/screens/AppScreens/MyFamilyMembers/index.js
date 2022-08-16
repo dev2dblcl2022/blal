@@ -80,6 +80,8 @@ const index = ({navigation}) => {
           uhid={userData.user.uhid}
           onPressDeactivate={() => setMemberDeactivate(item)}
           onSelectPrimary={() => onselectForPrimary(item)}
+          onEditFamily={() => onEditFamily(item)}
+          editMember={true}
         />
       );
     }
@@ -169,7 +171,9 @@ const index = ({navigation}) => {
     });
     return unsubscribe;
   }, [navigation]);
-
+  const onEditFamily = async item => {
+    navigation.navigate('AddFamilyMember', {data: item});
+  };
   const getUserData = async () => {
     let userData = await AsyncStorage.getItem('userData');
     let parseData = JSON.parse(userData);

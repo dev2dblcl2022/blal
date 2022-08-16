@@ -11,7 +11,7 @@ import colors from '../../../constants/colors';
 import moment from 'moment';
 
 export default props => {
-  let {data, deActiveView, selection, emailIdShown} = props;
+  let {data, deActiveView, selection, emailIdShown, editMember} = props;
 
   let uhid = props?.uhid;
 
@@ -31,6 +31,30 @@ export default props => {
               : 'white',
         },
       ]}>
+      {editMember ? (
+        <View
+          style={{
+            flex: 0.2,
+            paddingHorizontal: hp('2%'),
+
+            justifyContent: 'space-between',
+
+            alignItems: 'flex-end',
+          }}>
+          <View>
+            <TouchableOpacity onPress={() => props.onEditFamily()}>
+              <Image
+                style={{
+                  height: 20,
+                  width: 20,
+                  tintColor: colors.app_theme_light_green,
+                }}
+                source={imagesConstants.eid}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : null}
       <View style={styles.innerSection}>
         <View style={styles.profilePicSection}>
           <View style={styles.profilePicView}>
@@ -62,6 +86,7 @@ export default props => {
             }`}
           />
         </View>
+
         <View style={styles.relationSection}>
           <RegularText style={styles.relationText} title={data?.relation} />
 
@@ -113,7 +138,7 @@ export default props => {
           <RegularText style={styles.membersText} title={'Members'} />
         </View> */}
 
-          <View style={[styles.primaryUidView, {backgroundColor: 'white'}]}>
+          <View style={[styles.primaryUidView]}>
             {data.uhid_link === 'primary' ? (
               <BoldText
                 style={[
