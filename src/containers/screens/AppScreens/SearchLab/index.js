@@ -411,7 +411,6 @@ const index = ({navigation, route}) => {
   };
 
   const getTest = async (val, value) => {
-    console.log('hdhdhdhdhdh', val, value);
     let testIdBodyParts = await AsyncStorage.getItem('filterDataBodyParts');
     let testIdConditions = await AsyncStorage.getItem('filterDataConditions');
     if (
@@ -524,7 +523,7 @@ const index = ({navigation, route}) => {
       null;
     }
 
-    // getTest(val);
+    getTest(val);
   };
 
   const onClickPlusAdd = async item => {

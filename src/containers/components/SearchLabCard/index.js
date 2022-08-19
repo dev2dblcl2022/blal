@@ -55,7 +55,9 @@ export default props => {
       testCountArray = [];
     }
   }
-
+  useEffect(() => {
+    setItemData(props.data);
+  }, [props.data]);
   const moveAddToCart = async patientsId => {
     setVisible(false);
 
