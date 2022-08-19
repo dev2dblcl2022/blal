@@ -43,6 +43,7 @@ import NetworkRequest, {
 import {AuthContext} from '../../../../../context/context';
 import axios from 'axios';
 import {getSilverapiURL} from '../../../../apis/env';
+import {cardMediaClasses} from '@mui/material';
 const index = ({navigation, route}) => {
   let type = '';
   let filterConditionKeys = '';
@@ -243,7 +244,11 @@ const index = ({navigation, route}) => {
       getTest('', page);
     }
   }, [page]);
-
+  // useEffect(item => {
+  //   if (item) {
+  //     getTest();
+  //   }
+  // }, []);
   const getLastSearched = async val => {
     if (Platform.OS === 'ios') {
       try {
@@ -356,11 +361,21 @@ const index = ({navigation, route}) => {
   };
 
   const onDeleteTest = async item => {
+    const data1 = await getMyCartData();
+
+    data1.forEach(cartId => {
+      if (cartId.test_id === item.Id) {
+        item.memberTestId = cartId.id;
+      }
+    });
+
     try {
       setLoader(true);
+
       let data = {
-        itemId: item.memberTestId.toString(),
+        itemId: item?.memberTestId.toString(),
       };
+
       const requestConfig = {
         method: method.post,
         data: data,
@@ -372,11 +387,10 @@ const index = ({navigation, route}) => {
       if (response) {
         const {success} = response;
         if (success) {
-          item.IsBestSeller = true;
           getCartCount();
           getStorageData();
           getLastSearched();
-
+          item.IsBestSeller = true;
           setLoader(false);
         } else {
           if (response === 'Network Error') {
@@ -397,6 +411,7 @@ const index = ({navigation, route}) => {
   };
 
   const getTest = async (val, value) => {
+    console.log('hdhdhdhdhdh', val, value);
     let testIdBodyParts = await AsyncStorage.getItem('filterDataBodyParts');
     let testIdConditions = await AsyncStorage.getItem('filterDataConditions');
     if (
@@ -463,6 +478,7 @@ const index = ({navigation, route}) => {
         const {status_Code} = response;
         if (status_Code === 200) {
           const _cartData = await getMyCartData();
+
           if (_cartData && _cartData.length) {
             const finalData = response.data.itemmodel.map(item => {
               const find = _cartData.find(itn => {
@@ -684,6 +700,7 @@ const index = ({navigation, route}) => {
           getCartCount();
           getLastSearched();
           getStorageData();
+          getTest();
         } else {
           Toast(response.message, 0);
 

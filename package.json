@@ -73,7 +73,7 @@
     "react-native-multiselect-dropdown-picker": "^1.0.2",
     "react-native-otp-auto-fill": "^0.1.17",
     "react-native-otp-textinput": "^0.0.9",
-    "react-native-otp-verify": "^1.0.3",
+    "react-native-otp-verify": "^1.0.5",
     "react-native-pager-view": "^5.4.7",
     "react-native-permissions": "^3.3.1",
     "react-native-push-notification": "^8.1.1",

@@ -322,6 +322,13 @@ const index = ({navigation, route}) => {
     }
   };
   const onDeleteTest = async item => {
+    const data1 = await getMyCartData();
+
+    data1.forEach(cartId => {
+      if (cartId.test_id === item.Id) {
+        item.memberTestId = cartId.id;
+      }
+    });
     try {
       setLoader(true);
       let data = {
@@ -338,10 +345,10 @@ const index = ({navigation, route}) => {
       if (response) {
         const {success} = response;
         if (success) {
-          item.IsBestSeller = true;
           getCartCount();
 
           getStorageData();
+          item.IsBestSeller = true;
           setLoader(false);
         } else {
           if (response === 'Network Error') {
@@ -472,6 +479,7 @@ const index = ({navigation, route}) => {
           packageData.IsBestSeller = null;
           getCartCount();
           getStorageData();
+          getTest();
         } else {
           Toast(response.message, 0);
 

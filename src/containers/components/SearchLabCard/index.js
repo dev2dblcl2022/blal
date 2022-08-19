@@ -194,16 +194,6 @@ export default props => {
               : props.onDeleteTest(itemData)
           }
           style={styles.searchedItemTwo}>
-          {/* <View>
-            <RegularText
-              style={{
-                color: colors.app_theme_dark_green,
-                fontSize: hp('3.5%'),
-                fontWeight: 'bold',
-              }}
-              title={itemData.IsBestSeller ? '+' : '-'}
-            />
-          </View> */}
           <View
             style={
               itemData.IsBestSeller ? styles.addButton : styles.removeButton

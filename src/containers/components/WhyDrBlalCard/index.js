@@ -7,7 +7,7 @@ import style from './style';
 import styles from './style';
 
 export default props => {
-  let {image, title} = props?.data;
+  let {image, title, subtitle} = props?.data;
   return (
     // <TouchableOpacity style={styles.itemContainer}>
     //   <View style={styles.imgSection}>
@@ -26,7 +26,11 @@ export default props => {
         <Image style={styles.img} source={{uri: image}} />
       </View>
       <View style={style.titleSection}>
-        <RegularText numberOfLines={3} style={styles.cardTitle} title={title} />
+        <RegularText
+          numberOfLines={3}
+          style={styles.cardTitle}
+          title={`${title} ${subtitle}`}
+        />
       </View>
     </View>
   );
