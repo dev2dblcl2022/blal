@@ -296,7 +296,7 @@ const index = ({navigation, route}) => {
       null;
     }
 
-    // getTest(val);
+    getTest(val);
   };
 
   const onClickPlusAdd = async item => {

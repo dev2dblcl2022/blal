@@ -38,7 +38,7 @@ export default props => {
             paddingHorizontal: hp('2%'),
 
             justifyContent: 'space-between',
-
+            zIndex: 999,
             alignItems: 'flex-end',
           }}>
           <View>

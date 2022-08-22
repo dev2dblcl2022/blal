@@ -85,10 +85,10 @@ const index = ({navigation}) => {
   const getCityPanelId = async () => {
     let cityID = await AsyncStorage.getItem('cityId');
     let panelID = await AsyncStorage.getItem('panelId');
-    // setCityId(city);
-    city = cityID;
-    panel = panelID;
-    // setPanelId(panel);
+    setCityId(cityID);
+    // city = cityID;
+    // panel = panelID;
+    setPanelId(panelID);
     getMyCartData(cityID, panelID);
     getLastSearched(cityID, panelID);
     if (Platform.OS === 'ios') {

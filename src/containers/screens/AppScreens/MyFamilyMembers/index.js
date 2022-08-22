@@ -48,6 +48,7 @@ const index = ({navigation}) => {
   const [showLinkedMembers, setShowLinkedMembers] = useState(false);
   const [handleConnectionState, setHandleConnectionState] = useState(false);
   const [address, setAddresses] = useState([]);
+  const [update, setUpdate] = useState(false);
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -108,7 +109,10 @@ const index = ({navigation}) => {
         {text: 'Yes', onPress: () => onApiAddressPrimary(item, data)},
         {
           text: 'Cancel',
-          onPress: () => null,
+          onPress: () => {
+            item.selected = false;
+            setUpdate(!update);
+          },
           style: 'cancel',
         },
       ],

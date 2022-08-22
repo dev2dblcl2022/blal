@@ -241,7 +241,7 @@ const index = ({navigation, route}) => {
 
   useEffect(() => {
     if (pageData.TotalItems >= page) {
-      getTest('', page);
+      getTest(searchText, page);
     }
   }, [page]);
   // useEffect(item => {
@@ -740,7 +740,7 @@ const index = ({navigation, route}) => {
 
   const renderFooter = () => (
     <View style={styles.loaderArea}>
-      {pageData.TotalItems >= page ? <Text>Loading...</Text> : null}
+      {pageData.TotalItems > page ? <Text>Loading...</Text> : null}
     </View>
   );
 
