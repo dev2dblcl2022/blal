@@ -11,6 +11,7 @@ import colors from '../../../constants/colors';
 
 export default props => {
   const [familMembers, setFamilyMembers] = React.useState([]);
+  const [bookingStatus, setBookingStatus] = React.useState([]);
   let {
     unique_booking_id,
     payment_mode,
@@ -41,6 +42,13 @@ export default props => {
 
     setFamilyMembers(arr);
   }, [props.data]);
+  useEffect(() => {
+    if (props?.data && props?.data?.length) {
+      props.data.map(_child => {
+        return setBookingStatus(_child.status);
+      });
+    }
+  }, [props.data]);
 
   let discount = Number(total_discount).toFixed(0);
   // const num1 = parseInt(total_member_amount);
@@ -67,13 +75,13 @@ export default props => {
         <View style={{flex: 1}}>
           <View
             style={
-              status === 'Successful'
+              bookingStatus === 'Successful'
                 ? styles.btnView
-                : status === 'Cancelled'
+                : bookingStatus === 'Cancelled'
                 ? styles.grayBtnView
                 : styles.btnView
             }>
-            <RegularText style={styles.btnViewText} title={status} />
+            <RegularText style={styles.btnViewText} title={bookingStatus} />
           </View>
         </View>
       </View>
@@ -243,7 +251,7 @@ export default props => {
           ) : null}
         </View>
       </View>
-      {status === 'Approved' ? (
+      {status === 'Confirmed' ? (
         <View
           hitSlop={{left: 15, right: 15, top: 15, bottom: 15}}
           style={{

@@ -117,6 +117,11 @@ export default StyleSheet.create({
     fontSize: hp('1.8%'),
     textDecorationLine: 'underline',
   },
+  bookingStatusIdLabel: {
+    color: colors.purplishGrey,
+    fontSize: hp('1.8%'),
+    textDecorationLine: 'none',
+  },
   uploadedFile: {
     color: colors.app_theme_dark_green,
     fontSize: hp('1.6%'),
@@ -150,13 +155,19 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.app_theme_dark_green,
-    width: 200,
-    marginLeft: hp('15%'),
+    width: 150,
+    // marginLeft: hp('15%'),
+  },
+
+  btnIdViewText: {
+    fontSize: hp('1.9%'),
+    color: colors.app_theme_dark_green,
   },
   btnViewText: {
     fontSize: hp('1.5%'),
     color: colors.white,
   },
+
   cardPartTwo: {
     flexDirection: 'row',
     margin: hp('2%'),

@@ -692,6 +692,7 @@ const index1 = ({navigation, route}) => {
                 </View>
               </View>
             </View>
+
             <View
               style={[
                 styles.listSectionTwo,

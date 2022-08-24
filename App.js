@@ -46,6 +46,7 @@ import PushNotificationService from './src/services/PushNotificationService';
 import FlashMessage from 'react-native-flash-message';
 import 'react-native-gesture-handler';
 import DeviceInfo from 'react-native-device-info';
+import InAppUpdate from './InAppUpdate';
 const HIGH_PRIORITY_UPDATE = 5;
 let PNService = null;
 let version = DeviceInfo.getVersion();
@@ -94,6 +95,10 @@ export default function App() {
   };
   useEffect(() => {
     checkForUpdates();
+  }, []);
+
+  useEffect(() => {
+    InAppUpdate.checkUpdate(); // this is how you check for update
   }, []);
   const startUpdating = () => {
     if (needsUpdate) {

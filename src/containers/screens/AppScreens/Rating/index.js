@@ -128,7 +128,7 @@ const index = ({navigation, route}) => {
           setBookingRating(response.data);
 
           let newRatingArray = [];
-          response.data[0].user_rating_number_items.map(item => {
+          response?.data[0]?.user_rating_number_items?.map(item => {
             newRatingArray.push(item.item_id);
           });
           setRatingItemId(newRatingArray);
@@ -790,6 +790,8 @@ const index = ({navigation, route}) => {
                                     item.ans_value === 'Yes'
                                       ? colors.app_theme_dark_green
                                       : colors.black,
+                                  fontWeight:
+                                    item.ans_value === 'Yes' ? 'bold' : '',
                                 }}
                                 title={'Yes'}
                               />
@@ -802,6 +804,8 @@ const index = ({navigation, route}) => {
                                     item.ans_value === 'No'
                                       ? colors.app_theme_dark_green
                                       : colors.black,
+                                  fontWeight:
+                                    item.ans_value === 'No' ? 'bold' : '',
                                 }}
                                 title={'No'}
                               />

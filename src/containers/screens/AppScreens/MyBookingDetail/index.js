@@ -458,11 +458,11 @@ const index = ({navigation, route}) => {
     0,
   );
   let allMemberDiscount = myBookingData.reduce(
-    (total, currentObject) =>
-      total + parseInt(currentObject.total_member_discounted),
+    (total, currentObject) => 0 + currentObject.total_member_discounted,
     0,
   );
-
+  console.log('myBookingData', myBookingData);
+  console.log('allMemberDiscount', allMemberDiscount);
   return (
     <>
       {prescriptionShown ? (
@@ -724,12 +724,31 @@ const index = ({navigation, route}) => {
                               <View>
                                 <View style={styles.parentSection}>
                                   <View style={styles.selfTestList}>
-                                    <View style={{width: '100%'}}>
-                                      <View style={styles.btnView}>
-                                        <RegularText
-                                          style={styles.btnViewText}
-                                          title={bookingDetailData.status}
-                                        />
+                                    <View style={styles.bookingCardPartOne}>
+                                      <View style={{flex: 1}}>
+                                        <>
+                                          <RegularText
+                                            style={styles.btnIdViewText}
+                                            title={bookingDetailData.LisBookId}
+                                          />
+                                          <View style={{marginTop: hp('1%')}}>
+                                            <LightText
+                                              style={
+                                                styles.bookingStatusIdLabel
+                                              }
+                                              title={'Booking ID'}
+                                            />
+                                          </View>
+                                        </>
+                                      </View>
+
+                                      <View style={{flex: 1}}>
+                                        <View style={styles.btnView}>
+                                          <RegularText
+                                            style={styles.btnViewText}
+                                            title={bookingDetailData.status}
+                                          />
+                                        </View>
                                       </View>
                                     </View>
                                     <FlatList
@@ -1556,7 +1575,6 @@ const index = ({navigation, route}) => {
                           title={`${'\u20B9'} ${allMemberAmount}`}
                         />
                       </View>
-
                       {/* <View style={styles.testPriceSection}>
                         <RegularText
                           style={styles.testPrice}
@@ -1568,7 +1586,8 @@ const index = ({navigation, route}) => {
                         />
                         )
                       </View> */}
-                      {Number(allMemberDiscount) ? (
+
+                      {allMemberDiscount ? (
                         <View style={styles.testPriceSection}>
                           <RegularText
                             style={styles.testPrice}
@@ -1580,7 +1599,7 @@ const index = ({navigation, route}) => {
                           />
                         </View>
                       ) : null}
-                      {Number(allMemberAmountCollection) ? (
+                      {allMemberAmountCollection ? (
                         <View style={styles.testPriceSection}>
                           <RegularText
                             style={styles.testPrice}

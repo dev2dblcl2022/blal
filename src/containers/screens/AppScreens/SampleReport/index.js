@@ -381,7 +381,7 @@ const index = ({navigation, route}) => {
       };
 
       const response = await NetworkRequestBlal(requestConfig);
-
+      console.log('fhghrbhjre', response);
       if (response) {
         const {status_Code} = response;
 
