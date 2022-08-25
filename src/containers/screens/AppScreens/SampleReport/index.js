@@ -79,10 +79,10 @@ const index = ({navigation, route}) => {
   const [membersSubTest, setMemberSubTest] = useState([]);
 
   const [times, setTimes] = useState([
-    {label: 'Day', value: '1'},
-    {label: 'Weekly', value: '2'},
-    {label: 'Monthly', value: '3'},
-    {label: 'Yearly', value: '4'},
+    {label: 'Today', value: '1'},
+    {label: 'Last 7 days', value: '2'},
+    {label: 'Last 30 days', value: '3'},
+    {label: 'Last 365 days', value: '4'},
     {label: 'Custom', value: '5'},
   ]);
 
@@ -156,7 +156,9 @@ const index = ({navigation, route}) => {
   }, [navigation]);
 
   useEffect(() => {
-    calculateDateDifference();
+    if (timeValues) {
+      calculateDateDifference();
+    }
   }, [timeValues]);
 
   // useEffect(() => {
@@ -164,12 +166,12 @@ const index = ({navigation, route}) => {
   // }, [apiStartDate, apiEndDate]);
 
   useEffect(() => {
-    if (timeValues && patientSubTestValues) {
+    if (apiStartDate && apiEndDate && patientSubTestValues) {
       onGetSmartReport();
     } else {
       null;
     }
-  }, [timeValues, patientSubTestValues]);
+  }, [apiStartDate, apiEndDate, patientSubTestValues]);
 
   useEffect(() => {
     if (patientTestValues) {
@@ -312,6 +314,7 @@ const index = ({navigation, route}) => {
       // getMyReports(3);
     } else if (timeValues === '2') {
       const WEEK_START = moment().subtract(1, 'week').format(Date_Format);
+
       setApiStartDate(WEEK_START);
       setApiEndDate(currentDate);
       // getMyReports(3);
@@ -360,7 +363,7 @@ const index = ({navigation, route}) => {
   };
 
   const onGetSmartReport = async val => {
-    setLoader(true);
+    // setLoader(true);
     // let splitString = patientTestValues.split(',');
 
     try {
@@ -370,8 +373,8 @@ const index = ({navigation, route}) => {
         Patient_ID: memberId,
         Investigation_ID: patientTestValues,
         ObservationId: patientSubTestValues,
-        FromDate: MONTH_START,
-        ToDate: currentDate,
+        FromDate: apiStartDate,
+        ToDate: apiEndDate,
       };
 
       const requestConfig = {
@@ -381,7 +384,7 @@ const index = ({navigation, route}) => {
       };
 
       const response = await NetworkRequestBlal(requestConfig);
-      console.log('fhghrbhjre', response);
+
       if (response) {
         const {status_Code} = response;
 

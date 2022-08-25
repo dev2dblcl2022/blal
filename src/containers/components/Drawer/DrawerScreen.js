@@ -88,7 +88,23 @@ const DrawerScreen = ({navigation}) => {
     {id: 11, screenName: 'About Dr. B Lal Lab', screen: 'AboutDrBlal'},
     {id: 12, screenName: 'Logout', screen: 'xyz'},
   ]);
-
+  const signOut1 = async item => {
+    Alert.alert(
+      'Are you sure want to logout ?',
+      ``,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Ok',
+          onPress: () => signOut(item),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
   const onNext = async item => {
     let user = await AsyncStorage.getItem('userToken');
     if (user === 'GuestUser') {
@@ -111,7 +127,7 @@ const DrawerScreen = ({navigation}) => {
       if (item.id === 12) {
         await AsyncStorage.removeItem('LocationStatus');
         addressLabel('');
-        signOut();
+        signOut1(item);
 
         // Logout();
       } else if (item.id === 10) {

@@ -44,13 +44,18 @@ export default props => {
   }, [props.data]);
   useEffect(() => {
     if (props?.data && props?.data?.length) {
+      let bookinggStatus = 'Cancelled';
       props.data.map(_child => {
-        return setBookingStatus(_child.status);
+        if (_child.status !== 'Cancelled') {
+          bookinggStatus = _child.status;
+        }
       });
+      setBookingStatus(bookinggStatus);
     }
   }, [props.data]);
 
   let discount = Number(total_discount).toFixed(0);
+
   // const num1 = parseInt(total_member_amount);
   // const num2 = parseInt(pickup_charge);
   // const totalAmount = num1 + num2;
@@ -251,7 +256,7 @@ export default props => {
           ) : null}
         </View>
       </View>
-      {status === 'Confirmed' ? (
+      {status === 'Approved' ? (
         <View
           hitSlop={{left: 15, right: 15, top: 15, bottom: 15}}
           style={{

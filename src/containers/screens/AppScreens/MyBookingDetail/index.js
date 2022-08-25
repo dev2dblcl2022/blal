@@ -71,6 +71,9 @@ const index = ({navigation, route}) => {
   const [labAddress, setLabAddress] = useState('');
   const [labName, setLabName] = useState('');
   const [handleConnectionState, setHandleConnectionState] = useState(false);
+  const [cancelStatus, setcancelState] = useState('');
+  const [cancelAmonut, setcancelAmount] = useState('');
+
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -146,8 +149,24 @@ const index = ({navigation, route}) => {
       getMyBookingDetailStatus(lisBookingid.join(','));
     }
   }, [myBookingData]);
-
   const cancelBooking = async val => {
+    Alert.alert(
+      'Are you sure want to cancel this booking',
+      ``,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Ok',
+          onPress: () => onCancel1(val),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onCancel1 = async val => {
     setLoader(true);
     try {
       let data = {
@@ -189,6 +208,23 @@ const index = ({navigation, route}) => {
     }
   };
   const cancelIdBooking = async id => {
+    Alert.alert(
+      'Are you sure want to cancel this booking',
+      ``,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Ok',
+          onPress: () => onCancel(id),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onCancel = async id => {
     setLoader(true);
     try {
       let data = {
@@ -458,11 +494,22 @@ const index = ({navigation, route}) => {
     0,
   );
   let allMemberDiscount = myBookingData.reduce(
-    (total, currentObject) => 0 + currentObject.total_member_discounted,
+    (total, currentObject) => 0 + currentObject.discounted_amount,
     0,
   );
-  console.log('myBookingData', myBookingData);
-  console.log('allMemberDiscount', allMemberDiscount);
+  let allMemberAmount1 = myBookingData.reduce(
+    (total, currentObject) =>
+      total +
+      parseInt(
+        currentObject.status === 'Cancelled'
+          ? currentObject.total_member_amount
+          : 0,
+      ),
+    0,
+  );
+
+  console.log('allMemberAmount1', allMemberAmount1);
+  console.log('allMemberAmount', allMemberAmount);
   return (
     <>
       {prescriptionShown ? (
@@ -715,6 +762,10 @@ const index = ({navigation, route}) => {
                   </View>
                 )}
                 {myBookingData.map(bookingDetailData => {
+                  console.log(
+                    'bookingDetailDatabookingDetailData',
+                    bookingDetailData,
+                  );
                   return (
                     <ScrollView style={styles.scroll}>
                       <View style={styles.BookingCard}>
@@ -741,7 +792,10 @@ const index = ({navigation, route}) => {
                                           </View>
                                         </>
                                       </View>
-
+                                      {console.log(
+                                        'bookingDetailData.status',
+                                        bookingDetailData.status,
+                                      )}
                                       <View style={{flex: 1}}>
                                         <View style={styles.btnView}>
                                           <RegularText
@@ -1572,7 +1626,9 @@ const index = ({navigation, route}) => {
                         />
                         <RegularText
                           style={styles.rateText}
-                          title={`${'\u20B9'} ${allMemberAmount}`}
+                          title={`${'\u20B9'} ${
+                            allMemberAmount - allMemberAmount1
+                          }`}
                         />
                       </View>
                       {/* <View style={styles.testPriceSection}>
@@ -1586,46 +1642,56 @@ const index = ({navigation, route}) => {
                         />
                         )
                       </View> */}
+                      {allMemberAmount - allMemberAmount1 !== 0 ? (
+                        allMemberDiscount ? (
+                          <View style={styles.testPriceSection}>
+                            <RegularText
+                              style={styles.testPrice}
+                              title={'Coupon Discount'}
+                            />
+                            <RegularText
+                              style={styles.rateText}
+                              title={`(-) ${'\u20B9'} ${allMemberDiscount}`}
+                            />
+                          </View>
+                        ) : null
+                      ) : null}
+                      {allMemberAmount - allMemberAmount1 !== 0 ? (
+                        allMemberAmountCollection ? (
+                          <View style={styles.testPriceSection}>
+                            <RegularText
+                              style={styles.testPrice}
+                              title={'Home Collection Charges'}
+                            />
+                            <RegularText
+                              style={styles.rateText}
+                              title={`(+) ${'\u20B9'} ${allMemberAmountCollection}`}
+                            />
+                          </View>
+                        ) : null
+                      ) : null}
 
-                      {allMemberDiscount ? (
-                        <View style={styles.testPriceSection}>
-                          <RegularText
-                            style={styles.testPrice}
-                            title={'Coupon Discount'}
-                          />
-                          <RegularText
-                            style={styles.rateText}
-                            title={`(-) ${'\u20B9'} ${allMemberDiscount}`}
-                          />
-                        </View>
-                      ) : null}
-                      {allMemberAmountCollection ? (
-                        <View style={styles.testPriceSection}>
-                          <RegularText
-                            style={styles.testPrice}
-                            title={'Home Collection Charges'}
-                          />
-                          <RegularText
-                            style={styles.rateText}
-                            title={`(+) ${'\u20B9'} ${allMemberAmountCollection}`}
-                          />
-                        </View>
-                      ) : null}
                       <View style={styles.testPriceSection}>
                         <RegularText
                           style={styles.testPrice}
                           title={'Total (Amount)'}
                         />
+
                         <RegularText
                           style={styles.rateText}
                           title={`${'\u20B9'} ${
                             allMemberAmount +
-                            (allMemberAmountCollection
-                              ? parseFloat(allMemberAmountCollection)
+                            (allMemberAmount - allMemberAmount1 !== 0
+                              ? allMemberAmountCollection
+                                ? parseFloat(allMemberAmountCollection)
+                                : 0
                               : 0) -
-                            (allMemberDiscount
-                              ? parseFloat(allMemberDiscount)
-                              : 0)
+                            (allMemberAmount - allMemberAmount1 !== 0
+                              ? allMemberDiscount
+                                ? parseFloat(allMemberDiscount)
+                                : 0
+                              : 0) -
+                            allMemberAmount1
                           }`}
                         />
                       </View>
@@ -1643,12 +1709,17 @@ const index = ({navigation, route}) => {
                           style={styles.payableText}
                           title={`${'\u20B9'} ${
                             allMemberAmount +
-                            (allMemberAmountCollection
-                              ? parseFloat(allMemberAmountCollection)
+                            (allMemberAmount - allMemberAmount1 !== 0
+                              ? allMemberAmountCollection
+                                ? parseFloat(allMemberAmountCollection)
+                                : 0
                               : 0) -
-                            (allMemberDiscount
-                              ? parseFloat(allMemberDiscount)
-                              : 0)
+                            (allMemberAmount - allMemberAmount1 !== 0
+                              ? allMemberDiscount
+                                ? parseFloat(allMemberDiscount)
+                                : 0
+                              : 0) -
+                            allMemberAmount1
                           }`}
                         />
                       </View>

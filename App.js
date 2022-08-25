@@ -366,9 +366,9 @@ export default function App() {
       },
 
       signOut: async data => {
-        await AsyncStorage.removeItem('userToken'),
-          // await AsyncStorage.removeItem('userData'),
-          dispatch({type: 'SIGN_OUT'});
+        await AsyncStorage.removeItem('userToken');
+        // await AsyncStorage.removeItem('userData'),
+        dispatch({type: 'SIGN_OUT'});
       },
       signUp: async data => {
         // await AsyncStorage.setItem('userToken',temp)
