@@ -508,8 +508,6 @@ const index = ({navigation, route}) => {
     0,
   );
 
-  console.log('allMemberAmount1', allMemberAmount1);
-  console.log('allMemberAmount', allMemberAmount);
   return (
     <>
       {prescriptionShown ? (
@@ -762,10 +760,6 @@ const index = ({navigation, route}) => {
                   </View>
                 )}
                 {myBookingData.map(bookingDetailData => {
-                  console.log(
-                    'bookingDetailDatabookingDetailData',
-                    bookingDetailData,
-                  );
                   return (
                     <ScrollView style={styles.scroll}>
                       <View style={styles.BookingCard}>
@@ -792,10 +786,7 @@ const index = ({navigation, route}) => {
                                           </View>
                                         </>
                                       </View>
-                                      {console.log(
-                                        'bookingDetailData.status',
-                                        bookingDetailData.status,
-                                      )}
+
                                       <View style={{flex: 1}}>
                                         <View style={styles.btnView}>
                                           <RegularText

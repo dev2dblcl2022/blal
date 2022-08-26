@@ -530,7 +530,7 @@ const index1 = ({navigation, route}) => {
       routes: [{name: 'Home'}],
     });
   };
-  console.log('bookingsbookings', bookings);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <DefaultHeader
