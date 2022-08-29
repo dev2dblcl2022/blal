@@ -1,5 +1,5 @@
-// const releaseName = 'prod';
-const releaseName = 'staging';
+const releaseName = 'prod';
+// const releaseName = 'staging';
 
 export function getRelease(path) {
   if (releaseName === 'prod') {
@@ -12,8 +12,8 @@ export function getRelease(path) {
     return {
       reportUrl: reportUrl,
       DOMAIN: 'https://api.blallab.com',
-      Api_Local_Url: 'https://gold-ca-api.blallab.com/',
-      Api_Live_Url: 'https://gold-ca-api.blallab.com/',
+      Api_Local_Url: 'https://gold-ca-api.blallab.com/v1',
+      Api_Live_Url: 'https://gold-ca-api.blallab.com/v1',
     };
   } else {
     let reportUrl = '';
