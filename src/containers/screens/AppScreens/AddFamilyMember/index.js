@@ -82,6 +82,9 @@ const index = ({navigation, route}) => {
     age: '',
     ageError: '',
   });
+  const screen = route?.params?.screen;
+
+  const memberShipCardData = route?.params?.data1;
   const [handleConnectionState, setHandleConnectionState] = useState(false);
   useEffect(() => {
     if (handleConnectionState) {
@@ -149,6 +152,7 @@ const index = ({navigation, route}) => {
         if (success) {
           setLoader(false);
           Toast(response.message, 1);
+
           navigation.pop(1);
         } else {
           Toast(response.message, 0);
@@ -156,7 +160,7 @@ const index = ({navigation, route}) => {
             Toast('Network Error', 0);
             setLoader(false);
           } else if (response.status === 401) {
-            // signOut();
+            signOut();
           } else {
             null;
           }
@@ -167,6 +171,7 @@ const index = ({navigation, route}) => {
       setLoader(false);
     }
   };
+
   const onApiLogin = async () => {
     try {
       let formData = new FormData();
@@ -199,6 +204,7 @@ const index = ({navigation, route}) => {
       };
 
       const response = await NetworkRequest(requestConfig);
+
       if (response) {
         const {success} = response;
         if (success) {
@@ -206,7 +212,11 @@ const index = ({navigation, route}) => {
 
           Toast(response.message, 1);
           age = 'Age';
-          navigation.goBack();
+          if (screen === 'AddCard') {
+            navigation.navigate('AddCard', {data: memberShipCardData});
+          } else {
+            navigation.goBack();
+          }
         } else if (response === 'Network Error') {
           Toast('Network Error', 0);
           setHandleConnectionState(true);

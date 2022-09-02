@@ -139,6 +139,7 @@ export default StyleSheet.create({
     fontSize: hp('1.8%'),
     color: colors.app_theme_dark_green,
   },
+
   submitBtn: {
     marginTop: hp('3%'),
   },

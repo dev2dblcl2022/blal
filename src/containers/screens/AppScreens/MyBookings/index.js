@@ -44,7 +44,6 @@ import {getRelease} from '../../../../env';
 const merchantId = Pay_tmMerchantId;
 const index1 = ({navigation, route}) => {
   const screen = route?.params?.screen;
-  5;
   const [loader, setLoader] = useState(false);
   const [footerLoader, setFooterLoader] = useState(false);
   const navigationOrder = useNavigation();

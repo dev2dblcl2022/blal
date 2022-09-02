@@ -63,7 +63,7 @@ const merchantId = Pay_tmMerchantId;
 const txnToken = '19d8f9353a83437a9c2c8abb360deaf31638774945508';
 const releaseEnvironment = getRelease();
 const index = ({navigation, route}) => {
-  let membershipCardData = route.params.data;
+  let membershipCardData = route?.params?.data;
 
   const [profilesData, setProfilesData] = useState([1, 2, 3, 4, 5, 6]);
   const {signIn, signOut} = React.useContext(AuthContext);
@@ -375,7 +375,6 @@ const index = ({navigation, route}) => {
         data: {},
         url: url,
       };
-    
 
       // var config = {
       //   method: 'post',
@@ -563,11 +562,27 @@ const index = ({navigation, route}) => {
                 />
               )}
             </View>
+            <View style={{marginTop: patientsOpens ? hp('20%') : 0}}>
+              <View style={styles.addMemberSection}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('AddFamilyMember', {
+                      screen: 'AddCard',
+                      data1: membershipCardData,
+                    })
+                  }>
+                  <BoldText
+                    style={styles.addMemberText}
+                    title={'+ Add New Members'}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
             {membershipCardData.No_of_dependant >= '2' ? (
               <View
                 style={[
                   styles.dropDownView,
-                  {marginTop: patientsOpens ? hp('30%') : 20},
+                  // {marginTop: patientsOpens ? hp('30%') : 20},
                 ]}>
                 {/* <DropDownPicker
                   open={dependentPatientsOpen}
