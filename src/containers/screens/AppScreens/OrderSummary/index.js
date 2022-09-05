@@ -358,6 +358,7 @@ const index = ({navigation, route}) => {
           testDiscountAmountArr: cartItemData?.testDiscountAmountArr || [],
           packageDiscountAmountArr:
             cartItemData?.packageDiscountAmountArr || [],
+          alternatePhoneNumber: selectedAddress.phone_number,
         };
       } else {
         data = {
@@ -397,6 +398,7 @@ const index = ({navigation, route}) => {
           testDiscountAmountArr: cartItemData?.testDiscountAmountArr || [],
           packageDiscountAmountArr:
             cartItemData?.packageDiscountAmountArr || [],
+          alternatePhoneNumber: selectedAddress.phone_number,
         };
       }
 
