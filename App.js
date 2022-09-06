@@ -73,60 +73,60 @@ export default function App() {
       // unsubscribe();
     };
   }, []);
-  const checkForUpdates = () => {
-    inAppUpdates
-      .checkNeedsUpdate({
-        curVersion: version,
-        toSemverConverter: ver => {
-          // i.e if 400401 is the Android version, and we want to convert it to 4.4.1
-          const androidVersionNo = parseInt(ver, 10);
+  // const checkForUpdates = () => {
+  //   inAppUpdates
+  //     .checkNeedsUpdate({
+  //       curVersion: version,
+  //       toSemverConverter: ver => {
+  //         // i.e if 400401 is the Android version, and we want to convert it to 4.4.1
+  //         const androidVersionNo = parseInt(ver, 10);
 
-          const majorVer = Math.trunc(androidVersionNo / 10000);
-          const minorVerStarter = androidVersionNo - majorVer * 10000;
-          const minorVer = Math.trunc(minorVerStarter / 100);
-          const patchVersion = Math.trunc(minorVerStarter - minorVer * 100);
-          return `${majorVer}.${minorVer}.${patchVersion}`;
-        },
-      })
-      .then(result => {
-        setNeedsUpdate(result.shouldUpdate);
-        setOtherData(result);
-      });
-  };
-  useEffect(() => {
-    checkForUpdates();
-  }, []);
+  //         const majorVer = Math.trunc(androidVersionNo / 10000);
+  //         const minorVerStarter = androidVersionNo - majorVer * 10000;
+  //         const minorVer = Math.trunc(minorVerStarter / 100);
+  //         const patchVersion = Math.trunc(minorVerStarter - minorVer * 100);
+  //         return `${majorVer}.${minorVer}.${patchVersion}`;
+  //       },
+  //     })
+  //     .then(result => {
+  //       setNeedsUpdate(result.shouldUpdate);
+  //       setOtherData(result);
+  //     });
+  // };
+  // useEffect(() => {
+  //   checkForUpdates();
+  // }, []);
 
   useEffect(() => {
     InAppUpdate.checkUpdate(); // this is how you check for update
   }, []);
-  const startUpdating = () => {
-    if (needsUpdate) {
-      let updateType;
-      if (Platform.OS === 'android' && otherData) {
-        const otherDatas = otherData;
-        updateType =
-          otherDatas.updatePriority >= HIGH_PRIORITY_UPDATE
-            ? UPDATE_TYPE.IMMEDIATE
-            : UPDATE_TYPE.FLEXIBLE;
-      }
-      inAppUpdates.addStatusUpdateListener(onStatusUpdate);
-      inAppUpdates.startUpdate({
-        updateType, // android only, on iOS the user will be promped to go to your app store page
-      });
-    } else {
-      alert('doesnt look like we need an update');
-    }
-  };
-  const onStatusUpdate = status => {
-    const {
-      // status,
-      bytesDownloaded,
-      totalBytesToDownload,
-    } = status;
-    // do something
-    console.log('rrrr', `@@ ${JSON.stringify(status)}`);
-  };
+  // const startUpdating = () => {
+  //   if (needsUpdate) {
+  //     let updateType;
+  //     if (Platform.OS === 'android' && otherData) {
+  //       const otherDatas = otherData;
+  //       updateType =
+  //         otherDatas.updatePriority >= HIGH_PRIORITY_UPDATE
+  //           ? UPDATE_TYPE.IMMEDIATE
+  //           : UPDATE_TYPE.FLEXIBLE;
+  //     }
+  //     inAppUpdates.addStatusUpdateListener(onStatusUpdate);
+  //     inAppUpdates.startUpdate({
+  //       updateType, // android only, on iOS the user will be promped to go to your app store page
+  //     });
+  //   } else {
+  //     alert('doesnt look like we need an update');
+  //   }
+  // };
+  // const onStatusUpdate = status => {
+  //   const {
+  //     // status,
+  //     bytesDownloaded,
+  //     totalBytesToDownload,
+  //   } = status;
+  //   // do something
+  //   console.log('rrrr', `@@ ${JSON.stringify(status)}`);
+  // };
   const handlePNRegister = async config => {
     // try {
     //   await AsyncStorage.setItem('fcmToken', config.token);
@@ -439,7 +439,7 @@ export default function App() {
       {/* </NativeBaseProvider> */}
       <FlashMessage position="top" animated hideOnPress autoHide />
 
-      {needsUpdate ? (
+      {/* {needsUpdate ? (
         <View style={styles.aButton}>
           <Button
             // disabled={!needsUpdate}
@@ -448,7 +448,7 @@ export default function App() {
             onPress={startUpdating}
           />
         </View>
-      ) : null}
+      ) : null} */}
       {/* <View style={styles.aButton}>
         <Button
           title="Check for updates"

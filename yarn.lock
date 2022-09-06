@@ -2219,9 +2219,9 @@
     "picomatch" "^2.0.4"
 
 "apisauce@^2.1.1":
-  "integrity" "sha512-bkMlz0ZUnyS8vDigej9UBYo5dne9/bQrkgIiIkGaiDHF6e5OxhYRLJDYu65V/Ox86tmWVwepIntAoTmk4Db0Hg=="
-  "resolved" "https://registry.npmjs.org/apisauce/-/apisauce-2.1.5.tgz"
-  "version" "2.1.5"
+  "integrity" "sha512-MdxR391op/FucS2YQRfB/NMRyCnHEPDd4h17LRIuVYi0BpGmMhpxc0shbOpfs5ahABuBEffNCGal5EcsydbBWg=="
+  "resolved" "https://registry.npmjs.org/apisauce/-/apisauce-2.1.6.tgz"
+  "version" "2.1.6"
   dependencies:
     "axios" "^0.21.4"
 
@@ -6940,10 +6940,10 @@
   dependencies:
     "prop-types" "^15.6.2"
 
-"react-native-otp-verify@^1.0.3":
-  "integrity" "sha512-BIKP89H5a6ItAcRXJBxQkc2uzA4jazaEHTRWZxqnUUb6njHKHOevKrtzfhUOoAXQGq3evCRldEot5EaNWTDq9g=="
-  "resolved" "https://registry.npmjs.org/react-native-otp-verify/-/react-native-otp-verify-1.0.3.tgz"
-  "version" "1.0.3"
+"react-native-otp-verify@^1.0.5":
+  "integrity" "sha512-CCOdORCxKF3qTGk6JPdULFP8egvBnRjy6Bm8G8/OaCxDUpwUC9IQdyVY3wK7OCPRD+B/I0H93VPXPD3OI8Q65w=="
+  "resolved" "https://registry.npmjs.org/react-native-otp-verify/-/react-native-otp-verify-1.0.5.tgz"
+  "version" "1.0.5"
 
 "react-native-pager-view@*", "react-native-pager-view@^5.4.7":
   "integrity" "sha512-5NssD840wFCuOL4B1ZRiRADvt+Vx2Dgify4SmAUqHXCx03yiGPnRWmFjYXyQeK6gq/8VY+gPGE4bTy9ahzBbDw=="
@@ -7078,7 +7078,7 @@
   "resolved" "https://registry.npmjs.org/react-native-zendesk-chat/-/react-native-zendesk-chat-0.4.1.tgz"
   "version" "0.4.1"
 
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.68 || 1000.0.0", "react-native@^0.57.3", "react-native@>= 0.50.0", "react-native@>= 0.51", "react-native@>= 0.59", "react-native@>=0.20.0", "react-native@>=0.33", "react-native@>=0.35", "react-native@>=0.40.0", "react-native@>=0.42.0", "react-native@>=0.46", "react-native@>=0.47", "react-native@>=0.48.4", "react-native@>=0.50.0", "react-native@>=0.57.0", "react-native@>=0.58.4", "react-native@>=0.59", "react-native@>=0.60", "react-native@>=0.61.5", "react-native@>=0.63.3", "react-native@>=0.65.1", "react-native@>0.57.0", "react-native@0.60.x | 0.61.x | 0.62.x | 0.63.x", "react-native@0.65.1":
+"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.68 || 1000.0.0", "react-native@>= 0.50.0", "react-native@>= 0.51", "react-native@>= 0.59", "react-native@>=0.20.0", "react-native@>=0.33", "react-native@>=0.35", "react-native@>=0.40.0", "react-native@>=0.42.0", "react-native@>=0.46", "react-native@>=0.47", "react-native@>=0.48.4", "react-native@>=0.50.0", "react-native@>=0.57.0", "react-native@>=0.58.4", "react-native@>=0.59", "react-native@>=0.60", "react-native@>=0.61.5", "react-native@>=0.63.3", "react-native@>=0.65.1", "react-native@>0.57.0", "react-native@0.60.x | 0.61.x | 0.62.x | 0.63.x", "react-native@0.65.1":
   "integrity" "sha512-0UOVSnlssweQZjuaUtzViCifE/4tXm8oRbxwakopc8GavPu9vLulde145GOw6QVYiOy4iL50f+2XXRdX9NmMeQ=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.65.1.tgz"
   "version" "0.65.1"
