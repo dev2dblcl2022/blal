@@ -61,7 +61,8 @@ const FirstRoute = () => <Morning />;
 
 const SecondRoute = () => <Afternoon />;
 const ThirdRoute = () => <Evening />;
-const index = ({navigation, props}) => {
+const index = ({navigation, props, route}) => {
+  let collectionType = route?.params.collectionLabType;
   const [packageTestData, setPackageTestData] = useState({});
   let lat = 0;
   let long = 0;
@@ -94,7 +95,9 @@ const index = ({navigation, props}) => {
   const [longitude, setLongitude] = useState(null);
   const [bookForLab, setBookForLab] = useState(true);
   const [currentLocation, setCurrentLocation] = useState(false);
-  const [selectedType, setSelectedType] = useState(0);
+  const [selectedType, setSelectedType] = useState(
+    collectionType === '0' ? 1 : 0,
+  );
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [radioBookingType, setRadioBookingType] = useState([
@@ -105,6 +108,8 @@ const index = ({navigation, props}) => {
   const [maximumDate, setMaximumDate] = useState('');
   const [labSearchValue, setLabSearchValue] = useState('');
   const [handleConnectionState, setHandleConnectionState] = useState(false);
+
+  console.log('collectionTypecollectionType', collectionType);
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -738,6 +743,9 @@ const index = ({navigation, props}) => {
                   <View key={index} style={styles.sampleSection}>
                     <TouchableOpacity
                       key={index}
+                      disabled={
+                        collectionType === '0' && data.id === 0 ? true : false
+                      }
                       onPress={() =>
                         bookForLab
                           ? radioItemSelected(data)

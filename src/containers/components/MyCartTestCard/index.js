@@ -2,6 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Image, View, TouchableOpacity, FlatList} from 'react-native';
 import colors from '../../../constants/colors';
 import imagesConstants from '../../../constants/imagesConstants';
+import {method} from '../../../services/NetworkRequest';
+import NetworkRequestBlal, {
+  blalServicesPoints,
+} from '../../../services/NetworkRequestBlal';
 
 import {BoldText, RegularText} from '../Common';
 // import TestCard from '../TestCard';
@@ -17,6 +21,31 @@ export default props => {
   let bookingUser = user_family_member;
   let bookingTest = booking_member_tests;
 
+  useEffect(() => {
+    if (booking_member_tests) {
+      getCartCollection(booking_member_tests[0]);
+    }
+  }, [booking_member_tests]);
+  const getCartCollection = async data => {
+    try {
+      const requestConfig = {
+        method: method.post,
+        url: `${blalServicesPoints.blalUserServices.GetTestPackageDetails}?PanelId=${data.panel_id}&CityId=${data.city_id}&Id=${data.test_id}&Type=${data.test_type}`,
+      };
+
+      const response = await NetworkRequestBlal(requestConfig);
+      console.log('rererererere', response.data.HomeCollection);
+      if (response) {
+        const {success_message, status_Code} = response;
+
+        if (success_message && status_Code === 200) {
+          props.setCollectionType(response.data.HomeCollection);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View
       style={[

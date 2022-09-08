@@ -62,6 +62,8 @@ const index = ({navigation}) => {
   const [cartTestPackageIds, setCartTestPackageIds] = useState([]);
   const [refresh, setRefresh] = useState('');
   const [handleConnectionState, setHandleConnectionState] = useState(false);
+  const [collectionLabType, setCollectionType] = useState('');
+
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -316,7 +318,10 @@ const index = ({navigation}) => {
     let collectionType = cartDataBookings.map((item, key) => {
       return item.collection_type;
     });
-    navigation.navigate('BookingDetails', {collectionType: collectionType});
+    navigation.navigate('BookingDetails', {
+      collectionType: collectionType,
+      collectionLabType: collectionLabType,
+    });
   };
   const renderSelfTextCard = (item, index) => {
     let length = cartData.bookings.length - 1;
@@ -328,6 +333,7 @@ const index = ({navigation}) => {
         index={index}
         onDeleteTest={data => onConfirmationDelete(data)}
         data={item}
+        setCollectionType={setCollectionType}
         onPressItem={data => {
           navigation.navigate('FullBodyCheckup', {
             comeFromMyCart: true,
