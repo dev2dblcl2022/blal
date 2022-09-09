@@ -34,7 +34,7 @@ export default props => {
       };
 
       const response = await NetworkRequestBlal(requestConfig);
-      console.log('rererererere', response.data.HomeCollection);
+
       if (response) {
         const {success_message, status_Code} = response;
 

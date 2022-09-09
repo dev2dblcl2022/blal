@@ -109,7 +109,6 @@ const index = ({navigation, props, route}) => {
   const [labSearchValue, setLabSearchValue] = useState('');
   const [handleConnectionState, setHandleConnectionState] = useState(false);
 
-  console.log('collectionTypecollectionType', collectionType);
   useEffect(() => {
     if (handleConnectionState) {
       navigation.navigate('ConnectionHandle');
@@ -394,8 +393,6 @@ const index = ({navigation, props, route}) => {
     }
   };
   const getTimeSlots = async () => {
-    // console.log('date is 1', date);
-    // console.log('date is 2', fullDate);
     let data = {
       booking_date: date,
     };
@@ -404,9 +401,9 @@ const index = ({navigation, props, route}) => {
 
       url: `${servicesPoints.bookingServices.booking_time_slots}?booking_date=${date}`,
     };
-    // console.log('slots req', requestConfig);
+
     const response = await NetworkRequest(requestConfig);
-    // console.log('slots res', response);
+
     if (response) {
       const {success} = response;
       if (success) {
@@ -440,7 +437,7 @@ const index = ({navigation, props, route}) => {
     };
 
     const response = await NetworkRequest(requestConfig);
-    // console.log('slots res', response);
+
     if (response) {
       const {success} = response;
       if (success) {
