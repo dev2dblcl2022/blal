@@ -149,6 +149,16 @@ export default StyleSheet.create({
     color: colors.red,
     fontSize: hp('2%'),
   },
+  cancelBookingText1: {
+    color: colors.red,
+    borderRadius: 30,
+    fontSize: hp('2%'),
+    borderColor: colors.app_theme_dark_green,
+    borderWidth: 1,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   btnView: {
     borderRadius: 30,
     height: hp('4%'),

@@ -39,7 +39,7 @@ export default props => {
         const {success_message, status_Code} = response;
 
         if (success_message && status_Code === 200) {
-          props.setCollectionType(response.data.HomeCollection);
+          props?.setCollectionType(response.data.HomeCollection);
         }
       }
     } catch (error) {

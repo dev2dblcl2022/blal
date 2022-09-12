@@ -879,12 +879,21 @@ const index = ({navigation, route}) => {
                                     left: 20,
                                   },
                                 ]}>
-                                <CancelButton
+                                <TouchableOpacity
+                                  hitSlop={{
+                                    top: 10,
+                                    left: 10,
+                                    right: 10,
+                                    bottom: 10,
+                                  }}
                                   onPress={() =>
                                     cancelIdBooking(bookingDetailData.id)
-                                  }
-                                  title={'Cancel Patient Booking'}
-                                />
+                                  }>
+                                  <LightText
+                                    style={styles.cancelBookingText1}
+                                    title={'Cancel Patient Booking'}
+                                  />
+                                </TouchableOpacity>
                               </View>
                             ) : null}
                             {/* <View
