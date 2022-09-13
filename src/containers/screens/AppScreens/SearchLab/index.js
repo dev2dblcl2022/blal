@@ -388,7 +388,7 @@ const index = ({navigation, route}) => {
         const {success} = response;
         if (success) {
           getCartCount();
-          getStorageData();
+          // getStorageData();
           getLastSearched();
           item.IsBestSeller = true;
           setLoader(false);
@@ -519,11 +519,11 @@ const index = ({navigation, route}) => {
 
     if (val.length >= 3) {
       getTest(val);
+    } else if (val.length <= 0) {
+      getTest(val);
     } else {
       null;
     }
-
-    getTest(val);
   };
 
   const onClickPlusAdd = async item => {
@@ -697,9 +697,9 @@ const index = ({navigation, route}) => {
           Toast(response.message, 1);
           packageData.IsBestSeller = null;
           getCartCount();
-          getLastSearched();
-          getStorageData();
-          getTest();
+          // getLastSearched();
+          // getStorageData();
+          // getTest();
         } else {
           Toast(response.message, 0);
 

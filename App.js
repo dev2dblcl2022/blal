@@ -13,14 +13,14 @@ import {
   Platform,
   Button,
 } from 'react-native';
-import SpInAppUpdates, {
-  UPDATE_TYPE,
-  NeedsUpdateResponseAndroid,
-  SemverVersion,
-  NeedsUpdateResponse,
-  IncomingStatusUpdateEvent,
-  IAUUpdateKind,
-} from 'sp-react-native-in-app-updates';
+// import SpInAppUpdates, {
+//   UPDATE_TYPE,
+//   NeedsUpdateResponseAndroid,
+//   SemverVersion,
+//   NeedsUpdateResponse,
+//   IncomingStatusUpdateEvent,
+//   IAUUpdateKind,
+// } from 'sp-react-native-in-app-updates';
 import analytics from '@react-native-firebase/analytics';
 import {
   widthPercentageToDP as wp,
@@ -58,7 +58,7 @@ export default function App() {
   const [otherData, setOtherData] = React.useState(null);
   const navigationRef = React.useRef();
   const routeNameRef = React.useRef();
-  let inAppUpdates = new SpInAppUpdates();
+  // let inAppUpdates = new SpInAppUpdates();
 
   useEffect(() => {
     getFcmToken();

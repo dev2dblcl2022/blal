@@ -292,11 +292,11 @@ const index = ({navigation, route}) => {
 
     if (val.length >= 3) {
       getTest(val);
+    } else if (val.length <= 0) {
+      getTest(val);
     } else {
       null;
     }
-
-    getTest(val);
   };
 
   const onClickPlusAdd = async item => {
@@ -347,7 +347,7 @@ const index = ({navigation, route}) => {
         if (success) {
           getCartCount();
 
-          getStorageData();
+          // getStorageData();
           item.IsBestSeller = true;
           setLoader(false);
         } else {
@@ -479,7 +479,7 @@ const index = ({navigation, route}) => {
           packageData.IsBestSeller = null;
           getCartCount();
           getStorageData();
-          getTest();
+          // getTest();
         } else {
           Toast(response.message, 0);
 
